@@ -57,21 +57,21 @@
                                                             <state key="normal" title="2"/>
                                                         </button>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hp1-lA-Z7H">
-                                                            <rect key="frame" x="257" y="18" width="72" height="30"/>
+                                                            <rect key="frame" x="257" y="18" width="37.5" height="30"/>
                                                             <color key="backgroundColor" red="0.37472832680000001" green="0.40003967460000001" blue="0.40781933069999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sHM-ef-Gji">
-                                                            <rect key="frame" x="257" y="54" width="72" height="30"/>
+                                                            <rect key="frame" x="257" y="54" width="37.5" height="30"/>
                                                             <color key="backgroundColor" red="0.73752302240000001" green="0.23039262129999999" blue="0.23503518030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DkA-vd-LMo">
-                                                            <rect key="frame" x="257" y="92" width="72" height="30"/>
+                                                            <rect key="frame" x="257" y="92" width="37.5" height="30"/>
                                                             <color key="backgroundColor" red="0.40781933069999998" green="0.36776169720000002" blue="0.31091433819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
@@ -87,7 +87,7 @@
                                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="qmn-As-lrf">
                                                             <rect key="frame" x="8" y="162" width="240" height="105"/>
                                                             <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
-                                                            <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                                            <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                         </textView>
@@ -133,7 +133,7 @@
                                                         <constraint firstAttribute="trailing" secondItem="WsP-ns-fp4" secondAttribute="trailing" constant="8" id="sj1-Oh-pG2"/>
                                                         <constraint firstItem="DkA-vd-LMo" firstAttribute="width" secondItem="sHM-ef-Gji" secondAttribute="width" id="t72-TE-Bye"/>
                                                         <constraint firstItem="Hp1-lA-Z7H" firstAttribute="height" secondItem="mkc-8i-FAm" secondAttribute="height" id="tmi-YT-bIr"/>
-                                                        <constraint firstItem="Hp1-lA-Z7H" firstAttribute="width" secondItem="vbj-ak-yBj" secondAttribute="width" multiplier="0.192" id="tnQ-ws-cWZ"/>
+                                                        <constraint firstItem="Hp1-lA-Z7H" firstAttribute="width" secondItem="vbj-ak-yBj" secondAttribute="width" multiplier="0.1" id="tnQ-ws-cWZ"/>
                                                         <constraint firstItem="WsP-ns-fp4" firstAttribute="width" secondItem="gHe-8C-8rD" secondAttribute="width" id="vJU-hk-ddX"/>
                                                         <constraint firstItem="DkA-vd-LMo" firstAttribute="leading" secondItem="Ize-RV-zwo" secondAttribute="trailing" constant="9" id="wmp-mF-WBc"/>
                                                         <constraint firstItem="DkA-vd-LMo" firstAttribute="height" secondItem="sHM-ef-Gji" secondAttribute="height" id="wx5-6y-Zjr"/>
