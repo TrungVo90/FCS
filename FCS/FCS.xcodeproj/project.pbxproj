@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		35204A07210B956200A2894A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35204A06210B956200A2894A /* LoginViewController.swift */; };
+		35204A09210B957100A2894A /* PreviewChecklistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35204A08210B957100A2894A /* PreviewChecklistsViewController.swift */; };
+		35204A0B210B958C00A2894A /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35204A0A210B958C00A2894A /* UserInfoViewController.swift */; };
 		35F6DE942109B37D00CE6101 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F6DE932109B37D00CE6101 /* AppDelegate.swift */; };
-		35F6DE962109B37D00CE6101 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F6DE952109B37D00CE6101 /* ViewController.swift */; };
+		35F6DE962109B37D00CE6101 /* ChecklistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F6DE952109B37D00CE6101 /* ChecklistsViewController.swift */; };
 		35F6DE992109B37D00CE6101 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35F6DE972109B37D00CE6101 /* Main.storyboard */; };
 		35F6DE9C2109B37D00CE6101 /* FCS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 35F6DE9A2109B37D00CE6101 /* FCS.xcdatamodeld */; };
 		35F6DE9E2109B37D00CE6101 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35F6DE9D2109B37D00CE6101 /* Assets.xcassets */; };
@@ -35,9 +38,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		35204A06210B956200A2894A /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		35204A08210B957100A2894A /* PreviewChecklistsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewChecklistsViewController.swift; sourceTree = "<group>"; };
+		35204A0A210B958C00A2894A /* UserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewController.swift; sourceTree = "<group>"; };
 		35F6DE902109B37D00CE6101 /* FCS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FCS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35F6DE932109B37D00CE6101 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		35F6DE952109B37D00CE6101 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		35F6DE952109B37D00CE6101 /* ChecklistsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistsViewController.swift; sourceTree = "<group>"; };
 		35F6DE982109B37D00CE6101 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		35F6DE9B2109B37D00CE6101 /* FCS.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FCS.xcdatamodel; sourceTree = "<group>"; };
 		35F6DE9D2109B37D00CE6101 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -100,12 +106,15 @@
 			isa = PBXGroup;
 			children = (
 				35F6DE932109B37D00CE6101 /* AppDelegate.swift */,
-				35F6DE952109B37D00CE6101 /* ViewController.swift */,
+				35F6DE952109B37D00CE6101 /* ChecklistsViewController.swift */,
 				35F6DE972109B37D00CE6101 /* Main.storyboard */,
 				35F6DE9D2109B37D00CE6101 /* Assets.xcassets */,
 				35F6DE9F2109B37D00CE6101 /* LaunchScreen.storyboard */,
 				35F6DEA22109B37D00CE6101 /* Info.plist */,
 				35F6DE9A2109B37D00CE6101 /* FCS.xcdatamodeld */,
+				35204A06210B956200A2894A /* LoginViewController.swift */,
+				35204A08210B957100A2894A /* PreviewChecklistsViewController.swift */,
+				35204A0A210B958C00A2894A /* UserInfoViewController.swift */,
 			);
 			path = FCS;
 			sourceTree = "<group>";
@@ -262,8 +271,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35204A09210B957100A2894A /* PreviewChecklistsViewController.swift in Sources */,
+				35204A0B210B958C00A2894A /* UserInfoViewController.swift in Sources */,
 				35F6DE9C2109B37D00CE6101 /* FCS.xcdatamodeld in Sources */,
-				35F6DE962109B37D00CE6101 /* ViewController.swift in Sources */,
+				35F6DE962109B37D00CE6101 /* ChecklistsViewController.swift in Sources */,
+				35204A07210B956200A2894A /* LoginViewController.swift in Sources */,
 				35F6DE942109B37D00CE6101 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
