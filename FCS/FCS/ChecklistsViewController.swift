@@ -81,9 +81,36 @@ class ChecklistsViewController: UIViewController, UITableViewDelegate, UITableVi
         cell.reviewTextView?.text = "User's review"
         
         cell.fisrtChoiceButtonTapped = {
-            print("First choice"+String(indexPath.item))
-            cell.firstChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
-            cell.firstChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(5,5,5,5)
+            cell.firstChoiceButton.setImage(UIImage(named:"icon_check"), for: .normal)
+            cell.firstChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
+
+            cell.secondChoiceButton.setImage(UIImage(named:"user_menu"), for: .normal)
+            cell.secondChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
+
+            cell.thirdChoiceButton.setImage(UIImage(named:"user_menu"), for: .normal)
+            cell.thirdChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
+        }
+        
+        cell.secondChoiceButtonTapped = {
+            cell.secondChoiceButton.setImage(UIImage(named:"icon_check"), for: .normal)
+            cell.secondChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
+            
+            cell.firstChoiceButton.setImage(UIImage(named:"user_menu"), for: .normal)
+            cell.firstChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
+            
+            cell.thirdChoiceButton.setImage(UIImage(named:"user_menu"), for: .normal)
+            cell.thirdChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
+        }
+        
+        cell.thirdChoiceButtonTapped = {
+            cell.thirdChoiceButton.setImage(UIImage(named:"icon_check"), for: .normal)
+            cell.thirdChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
+            
+            cell.firstChoiceButton.setImage(UIImage(named:"user_menu"), for: .normal)
+            cell.firstChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
+            
+            cell.secondChoiceButton.setImage(UIImage(named:"user_menu"), for: .normal)
+            cell.secondChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
         }
         
         
