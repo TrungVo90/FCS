@@ -56,9 +56,15 @@ class CompanyListViewController: UIViewController, UITableViewDelegate, UITableV
         
         self.present(vc!, animated: true, completion: nil)
     }
+    
     @IBAction func userInfoButtonOnClick(_ sender: Any) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "UserInfoViewController")
         
         self.present(vc!, animated: true, completion: nil)
     }
+    
+    @IBAction func backButtonOnClick(_ sender: Any) {
+         self.dismiss(animated: true, completion: nil)
+    }
+    
 }

@@ -17,4 +17,11 @@ class LoginViewController: UIViewController {
 
         self.present(vc!, animated: true, completion: nil)
     }
+    
+    @IBAction func userProfileButtonOnClick(_ sender: Any) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "UserInfoViewController")
+        
+        self.present(vc!, animated: true, completion: nil)
+    }
+    
 }
