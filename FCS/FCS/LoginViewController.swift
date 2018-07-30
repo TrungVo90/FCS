@@ -11,4 +11,10 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
+    @IBAction func loginButtonOnClick(_ sender: Any) {
+        //let vc = CompanyListViewController()
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "CompanyListViewController")
+
+        self.present(vc!, animated: true, completion: nil)
+    }
 }

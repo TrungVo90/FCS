@@ -65,6 +65,10 @@ struct Question {
 
 class ChecklistsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    @IBOutlet weak var backButon: UIButton!
+    
+    @IBOutlet weak var userInfoButton: UIButton!
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 235
     }
@@ -136,6 +140,22 @@ class ChecklistsViewController: UIViewController, UITableViewDelegate, UITableVi
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func completedButtonOnClick(_ sender: Any) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "PreviewChecklistsViewController")
+        
+        self.present(vc!, animated: true, completion: nil)
+    }
+    
+    
+    @IBAction func backButtonOnClick(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func userInfoButtonOnClick(_ sender: Any) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "UserInfoViewController")
+        
+        self.present(vc!, animated: true, completion: nil)
+    }
     
 }
 
