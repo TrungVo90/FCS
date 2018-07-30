@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cF4-cM-Vgu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cF4-cM-Vgu">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -202,10 +202,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YE3-ck-MAn">
-                                <rect key="frame" x="354" y="0.0" width="60" height="60"/>
+                                <rect key="frame" x="374" y="10" width="40" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="ge0-5G-LXn"/>
-                                    <constraint firstAttribute="height" constant="60" id="sSx-OF-g6k"/>
+                                    <constraint firstAttribute="width" constant="40" id="ge0-5G-LXn"/>
+                                    <constraint firstAttribute="height" constant="40" id="sSx-OF-g6k"/>
                                 </constraints>
                                 <state key="normal" image="ic_user"/>
                                 <connections>
@@ -219,7 +219,7 @@
                             <constraint firstItem="MVi-c4-wa3" firstAttribute="top" secondItem="5rf-Jn-7ub" secondAttribute="top" constant="60" id="4eI-1c-qr3"/>
                             <constraint firstItem="MVi-c4-wa3" firstAttribute="trailing" secondItem="f1b-05-CHm" secondAttribute="trailing" id="5Es-Pc-N6d"/>
                             <constraint firstItem="MVi-c4-wa3" firstAttribute="leading" secondItem="f1b-05-CHm" secondAttribute="leading" id="MY4-ZA-Qcg"/>
-                            <constraint firstItem="YE3-ck-MAn" firstAttribute="top" secondItem="5rf-Jn-7ub" secondAttribute="top" id="Qfm-Zy-bCT"/>
+                            <constraint firstItem="YE3-ck-MAn" firstAttribute="top" secondItem="5rf-Jn-7ub" secondAttribute="top" constant="10" id="Qfm-Zy-bCT"/>
                             <constraint firstItem="iIx-R8-x2D" firstAttribute="top" secondItem="MVi-c4-wa3" secondAttribute="bottom" constant="18" id="WTz-sG-F7p"/>
                             <constraint firstItem="iIx-R8-x2D" firstAttribute="bottom" secondItem="5rf-Jn-7ub" secondAttribute="bottomMargin" id="hdV-K9-E8l"/>
                             <constraint firstItem="YE3-ck-MAn" firstAttribute="trailing" secondItem="f1b-05-CHm" secondAttribute="trailing" id="rDJ-wj-xRS"/>
@@ -686,14 +686,13 @@
         <!--Company List View Controller-->
         <scene sceneID="Oca-2U-aS5">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="FAU-HX-ptt" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="CompanyListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="KvZ-R1-Spo" customClass="CompanyListViewController" customModule="FCS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YIj-Tq-O31">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Kxg-3x-8zH">
-                                <rect key="frame" x="0.0" y="60" width="414" height="676"/>
+                                <rect key="frame" x="0.0" y="40" width="414" height="696"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="companyListTableViewCell" rowHeight="50" id="kHQ-5M-P9U" customClass="CompanyListTableViewCell" customModule="FCS" customModuleProvider="target">
@@ -736,10 +735,10 @@
                                 </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aVS-mi-oZ2">
-                                <rect key="frame" x="354" y="0.0" width="60" height="60"/>
+                                <rect key="frame" x="374" y="0.0" width="40" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="Xg1-9j-bx0"/>
-                                    <constraint firstAttribute="height" constant="60" id="ua1-YC-9gY"/>
+                                    <constraint firstAttribute="width" constant="40" id="Xg1-9j-bx0"/>
+                                    <constraint firstAttribute="height" constant="40" id="ua1-YC-9gY"/>
                                 </constraints>
                                 <state key="normal" image="ic_user"/>
                                 <connections>
@@ -763,13 +762,13 @@
                         <outlet property="userInfoButton" destination="aVS-mi-oZ2" id="BzV-pu-osS"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FAU-HX-ptt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2677" y="132"/>
         </scene>
         <!--Store List View Controller-->
         <scene sceneID="54n-w1-ZX7">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="5nB-L0-IHc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="StoreListViewController" id="YPW-dL-Mo3" customClass="StoreListViewController" customModule="FCS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hnc-LK-ePc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
@@ -830,10 +829,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mJb-SP-doe">
-                                <rect key="frame" x="354" y="0.0" width="60" height="60"/>
+                                <rect key="frame" x="372" y="11" width="40" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="Jcg-2U-Fpy"/>
-                                    <constraint firstAttribute="height" constant="60" id="Q3R-Zh-F51"/>
+                                    <constraint firstAttribute="width" constant="40" id="Jcg-2U-Fpy"/>
+                                    <constraint firstAttribute="height" constant="40" id="Q3R-Zh-F51"/>
                                 </constraints>
                                 <state key="normal" image="ic_user"/>
                                 <connections>
@@ -845,10 +844,10 @@
                         <constraints>
                             <constraint firstItem="Yeb-UD-iYi" firstAttribute="trailing" secondItem="PbM-Hd-siT" secondAttribute="trailing" id="751-5o-6Ol"/>
                             <constraint firstItem="Yeb-UD-iYi" firstAttribute="top" secondItem="H1k-Z7-8fh" secondAttribute="bottom" id="Oj6-Fh-duB"/>
-                            <constraint firstItem="mJb-SP-doe" firstAttribute="top" secondItem="hnc-LK-ePc" secondAttribute="top" id="bqb-g2-5nX"/>
+                            <constraint firstItem="mJb-SP-doe" firstAttribute="top" secondItem="hnc-LK-ePc" secondAttribute="top" constant="11" id="bqb-g2-5nX"/>
                             <constraint firstItem="Yeb-UD-iYi" firstAttribute="bottom" secondItem="PbM-Hd-siT" secondAttribute="bottom" id="iDy-hw-T9w"/>
                             <constraint firstItem="H1k-Z7-8fh" firstAttribute="leading" secondItem="PbM-Hd-siT" secondAttribute="leading" id="lZr-VW-t4m"/>
-                            <constraint firstItem="mJb-SP-doe" firstAttribute="trailing" secondItem="PbM-Hd-siT" secondAttribute="trailing" id="tP5-Wh-ydh"/>
+                            <constraint firstItem="mJb-SP-doe" firstAttribute="trailing" secondItem="PbM-Hd-siT" secondAttribute="trailing" constant="-2" id="tP5-Wh-ydh"/>
                             <constraint firstItem="H1k-Z7-8fh" firstAttribute="top" secondItem="hnc-LK-ePc" secondAttribute="top" id="w4t-SQ-cdt"/>
                             <constraint firstItem="Yeb-UD-iYi" firstAttribute="leading" secondItem="PbM-Hd-siT" secondAttribute="leading" id="xey-0y-bXp"/>
                         </constraints>
@@ -858,6 +857,7 @@
                         <outlet property="storeTableView" destination="Yeb-UD-iYi" id="d9w-tX-EIm"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5nB-L0-IHc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3432" y="131"/>
         </scene>
