@@ -11,4 +11,7 @@ import UIKit
 
 class UserInfoViewController: UIViewController {
     
+    @IBAction func backButtonOnClick(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }
