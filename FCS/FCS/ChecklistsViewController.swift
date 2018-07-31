@@ -86,13 +86,13 @@ class ChecklistsViewController: UIViewController, UITableViewDelegate, UITableVi
         
         cell.fisrtChoiceButtonTapped = {
             cell.firstChoiceButton.setImage(UIImage(named:"icon_check"), for: .normal)
-            cell.firstChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
+            //cell.firstChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
 
             cell.secondChoiceButton.setImage(UIImage(named:"user_menu"), for: .normal)
-            cell.secondChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
+            //cell.secondChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
 
             cell.thirdChoiceButton.setImage(UIImage(named:"user_menu"), for: .normal)
-            cell.thirdChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
+            //cell.thirdChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
         }
         
         cell.secondChoiceButtonTapped = {
