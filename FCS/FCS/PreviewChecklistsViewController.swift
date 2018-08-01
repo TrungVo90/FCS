@@ -39,6 +39,11 @@ class PreviewChecklistsViewController: UIViewController, UITableViewDelegate, UI
         // Do any additional setup after loading the view, typically from a nib.
         self.previewChecklistTableView.delegate = self
         self.previewChecklistTableView.dataSource = self
+        
+        submitButton.layer.masksToBounds = true
+        submitButton.layer.borderColor = UIColor.black.cgColor
+        submitButton.layer.borderWidth = 2
+        submitButton.layer.cornerRadius = 10
     }
     
     @IBAction func backButtonOnClick(_ sender: Any) {
@@ -64,7 +69,7 @@ class PreviewChecklistsViewController: UIViewController, UITableViewDelegate, UI
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "previewChecklistTableViewCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customTableViewCell", for: indexPath)
             as! PreviewChecklistTableViewCell
         
         cell.questionTextView?.text = "This is a question"

@@ -27,6 +27,7 @@ class ChecklistTableViewCell: UITableViewCell {
     
     @IBOutlet weak var imageButton: UIButton!
     
+   
     @IBAction func imageButtonOnClick(_ sender: Any) {
         if let imageButtonTapped = self.imageButtonTapped {
             imageButtonTapped()
@@ -85,35 +86,35 @@ class ChecklistsViewController: UIViewController, UITableViewDelegate, UITableVi
         cell.reviewTextView?.text = "User's review"
         
         cell.fisrtChoiceButtonTapped = {
-            cell.firstChoiceButton.setImage(UIImage(named:"icon_check"), for: .normal)
+            cell.firstChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
             //cell.firstChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
 
-            cell.secondChoiceButton.setImage(UIImage(named:"user_menu"), for: .normal)
+            cell.secondChoiceButton.setImage(UIImage(named:"ic_uncheck"), for: .normal)
             //cell.secondChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
 
-            cell.thirdChoiceButton.setImage(UIImage(named:"user_menu"), for: .normal)
+            cell.thirdChoiceButton.setImage(UIImage(named:"ic_uncheck"), for: .normal)
             //cell.thirdChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
         }
         
         cell.secondChoiceButtonTapped = {
-            cell.secondChoiceButton.setImage(UIImage(named:"icon_check"), for: .normal)
+            cell.secondChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
             cell.secondChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
             
-            cell.firstChoiceButton.setImage(UIImage(named:"user_menu"), for: .normal)
+            cell.firstChoiceButton.setImage(UIImage(named:"ic_uncheck"), for: .normal)
             cell.firstChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
             
-            cell.thirdChoiceButton.setImage(UIImage(named:"user_menu"), for: .normal)
+            cell.thirdChoiceButton.setImage(UIImage(named:"ic_uncheck"), for: .normal)
             cell.thirdChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
         }
         
         cell.thirdChoiceButtonTapped = {
-            cell.thirdChoiceButton.setImage(UIImage(named:"icon_check"), for: .normal)
+            cell.thirdChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
             cell.thirdChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
             
-            cell.firstChoiceButton.setImage(UIImage(named:"user_menu"), for: .normal)
+            cell.firstChoiceButton.setImage(UIImage(named:"ic_uncheck"), for: .normal)
             cell.firstChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
             
-            cell.secondChoiceButton.setImage(UIImage(named:"user_menu"), for: .normal)
+            cell.secondChoiceButton.setImage(UIImage(named:"ic_uncheck"), for: .normal)
             cell.secondChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
         }
         
@@ -133,6 +134,12 @@ class ChecklistsViewController: UIViewController, UITableViewDelegate, UITableVi
         // Do any additional setup after loading the view, typically from a nib.
         self.checklistTableView.delegate = self
         self.checklistTableView.dataSource = self
+        
+        completedButton.layer.masksToBounds = true
+        completedButton.layer.borderColor = UIColor.black.cgColor
+        completedButton.layer.borderWidth = 2
+        completedButton.layer.cornerRadius = 10
+        
     }
     
     override func didReceiveMemoryWarning() {
