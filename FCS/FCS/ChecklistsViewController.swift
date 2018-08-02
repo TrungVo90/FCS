@@ -23,7 +23,7 @@ class ChecklistTableViewCell: UITableViewCell {
     
     @IBOutlet weak var thirdChoiceButton: UIButton!
     
-    @IBOutlet weak var reviewTextView: UITextView!
+    @IBOutlet weak var reviewButton: UIButton!
     
     @IBOutlet weak var imageButton: UIButton!
     
@@ -71,7 +71,7 @@ class ChecklistsViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var userInfoButton: UIButton!
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 235
+        return 333
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -83,7 +83,7 @@ class ChecklistsViewController: UIViewController, UITableViewDelegate, UITableVi
             as! ChecklistTableViewCell
         
         cell.questionTextView?.text = "This is a question"
-        cell.reviewTextView?.text = "User's review"
+    
         
         cell.fisrtChoiceButtonTapped = {
             cell.firstChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
