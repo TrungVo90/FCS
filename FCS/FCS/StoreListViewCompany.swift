@@ -13,6 +13,15 @@ class StoreListTableViewCell: UITableViewCell {
     @IBOutlet weak var storeImageView: UIImageView!
     
     @IBOutlet weak var storeNameLabel: UILabel!
+    @IBOutlet weak var storeDescription: UILabel!
+    
+    override func awakeFromNib() {
+        storeImageView.layer.borderWidth = 1
+        storeImageView.layer.masksToBounds = false
+        storeImageView.layer.borderColor = UIColor.white.cgColor
+        storeImageView.layer.cornerRadius = storeImageView.frame.height/2
+        storeImageView.clipsToBounds = true
+    }
 }
 
 class StoreListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -23,6 +32,7 @@ class StoreListViewController: UIViewController, UITableViewDelegate, UITableVie
         // Do any additional setup after loading the view, typically from a nib.
         self.storeTableView.delegate = self
         self.storeTableView.dataSource = self
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -31,7 +41,7 @@ class StoreListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90
+        return 70
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -41,7 +51,8 @@ class StoreListViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "storeListTableViewCell", for: indexPath)
             as! StoreListTableViewCell
-        cell.storeNameLabel.text = "123 Trần Hưng Đạo"
+       cell.storeNameLabel.text = "BBC Company"
+        cell.storeDescription.text = "108 Trần Minh Quyền, P11, Q10"
         return cell
     }
     

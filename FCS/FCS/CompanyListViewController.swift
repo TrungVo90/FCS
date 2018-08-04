@@ -13,6 +13,15 @@ class CompanyListTableViewCell: UITableViewCell {
     @IBOutlet weak var companyImageView: UIImageView!
     
     @IBOutlet weak var companyNameLabel: UILabel!
+    @IBOutlet weak var companyDescription: UILabel!
+    
+    override func awakeFromNib() {
+        companyImageView.layer.borderWidth = 1
+        companyImageView.layer.masksToBounds = false
+        companyImageView.layer.borderColor = UIColor.white.cgColor
+        companyImageView.layer.cornerRadius = companyImageView.frame.height/2
+        companyImageView.clipsToBounds = true
+    }
 }
 
 class CompanyListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -37,7 +46,7 @@ class CompanyListViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90
+        return 70
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -47,7 +56,9 @@ class CompanyListViewController: UIViewController, UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "companyListTableViewCell", for: indexPath)
             as! CompanyListTableViewCell
-        cell.companyNameLabel.text = "Lotteria"
+        cell.companyNameLabel.text = "HighLand Coffee"
+        cell.companyDescription.text = "Highlands Coffee® được sinh ra từ niềm đam mê bất tận với hạt cà phê Việt Nam"
+        
         return cell
     }
     

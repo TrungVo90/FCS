@@ -11,15 +11,15 @@ import UIKit
 
 class UserInfoViewController: UIViewController {
     
-    @IBOutlet weak var profileView: UIView!
+    @IBOutlet weak var userName: UILabel!
+    @IBOutlet weak var email: UILabel!
+    @IBOutlet weak var phoneNumber: UILabel!
+    @IBOutlet weak var address: UILabel!
+    
     @IBAction func backButtonOnClick(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        profileView.layer.masksToBounds = true
-        profileView.layer.borderColor = UIColor.black.cgColor
-        profileView.layer.borderWidth = 2
-        profileView.layer.cornerRadius = 5
     }
 }
