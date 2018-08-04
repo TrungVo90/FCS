@@ -12,27 +12,33 @@ import UIKit
 class PreviewChecklistTableViewCell: UITableViewCell {
     
     
-    @IBOutlet weak var questionTextView: UITextView!
+    var questionTextView: UITextView = UITextView()
     
-    @IBOutlet weak var firstChoiceButton: UIButton!
+    var firstChoiceLabel: UILabel = UILabel()
     
-    @IBOutlet weak var secondChoiceButton: UIButton!
+    var secondChoiceLabel: UILabel = UILabel()
     
-    @IBOutlet weak var thirdChoiceButton: UIButton!
+    var thirdChoiceLabel: UILabel = UILabel()
     
-    @IBOutlet weak var reviewTextView: UITextView!
+    var firstChoiceButton: UIButton = UIButton()
     
-    @IBOutlet weak var imageButton: UIButton!
+    var secondChoiceButton: UIButton = UIButton()
+    
+    var thirdChoiceButton: UIButton = UIButton()
+    
+    var reviewTextView: UITextView = UITextView()
+    
+    var imageButton: UIButton = UIButton()
 }
 
 class PreviewChecklistsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    @IBOutlet weak var backButon: UIButton!
+    var backButon: UIButton = UIButton()
     
-    @IBOutlet weak var userInfoButton: UIButton!
+    var userInfoButton: UIButton = UIButton()
     
-    @IBOutlet weak var submitButton: UIButton!
+    var submitButton: UIButton = UIButton()
     
-    @IBOutlet weak var previewChecklistTableView: UITableView!
+    var previewChecklistTableView: UITableView = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,10 +46,16 @@ class PreviewChecklistsViewController: UIViewController, UITableViewDelegate, UI
         self.previewChecklistTableView.delegate = self
         self.previewChecklistTableView.dataSource = self
         
-        submitButton.layer.masksToBounds = true
-        submitButton.layer.borderColor = UIColor.black.cgColor
-        submitButton.layer.borderWidth = 2
-        submitButton.layer.cornerRadius = 10
+        self.submitButton.layer.masksToBounds = true
+        self.submitButton.layer.borderColor = UIColor.black.cgColor
+        self.submitButton.layer.borderWidth = 2
+        self.submitButton.layer.cornerRadius = 10
+        
+        /// add event for submit button
+        
+        /// add event for back button
+        
+        
     }
     
     @IBAction func backButtonOnClick(_ sender: Any) {
@@ -72,8 +84,8 @@ class PreviewChecklistsViewController: UIViewController, UITableViewDelegate, UI
         let cell = tableView.dequeueReusableCell(withIdentifier: "customTableViewCell", for: indexPath)
             as! PreviewChecklistTableViewCell
         
-        cell.questionTextView?.text = "This is a question"
-        cell.reviewTextView?.text = "User's review"
+        cell.questionTextView.text = "This is a question"
+        cell.reviewTextView.text = "User's review"
         return cell
     }
 }
