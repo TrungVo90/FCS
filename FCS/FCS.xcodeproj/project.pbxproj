@@ -11,6 +11,7 @@
 		35204A07210B956200A2894A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35204A06210B956200A2894A /* LoginViewController.swift */; };
 		35204A09210B957100A2894A /* PreviewChecklistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35204A08210B957100A2894A /* PreviewChecklistsViewController.swift */; };
 		35204A0B210B958C00A2894A /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35204A0A210B958C00A2894A /* UserInfoViewController.swift */; };
+		35C5D4F22116940900AA5CFA /* ChecklistsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C5D4F12116940900AA5CFA /* ChecklistsTableViewController.swift */; };
 		35F366B7210E2892003A057E /* CompanyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F366B6210E2892003A057E /* CompanyListViewController.swift */; };
 		35F366B9210E9946003A057E /* StoreListViewCompany.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F366B8210E9946003A057E /* StoreListViewCompany.swift */; };
 		35F6DE942109B37D00CE6101 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F6DE932109B37D00CE6101 /* AppDelegate.swift */; };
@@ -50,6 +51,7 @@
 		35204A06210B956200A2894A /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		35204A08210B957100A2894A /* PreviewChecklistsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewChecklistsViewController.swift; sourceTree = "<group>"; };
 		35204A0A210B958C00A2894A /* UserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewController.swift; sourceTree = "<group>"; };
+		35C5D4F12116940900AA5CFA /* ChecklistsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistsTableViewController.swift; sourceTree = "<group>"; };
 		35F366B6210E2892003A057E /* CompanyListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyListViewController.swift; sourceTree = "<group>"; };
 		35F366B8210E9946003A057E /* StoreListViewCompany.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreListViewCompany.swift; sourceTree = "<group>"; };
 		35F6DE902109B37D00CE6101 /* FCS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FCS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -138,6 +140,7 @@
 				35204A0A210B958C00A2894A /* UserInfoViewController.swift */,
 				35F366B6210E2892003A057E /* CompanyListViewController.swift */,
 				35F366B8210E9946003A057E /* StoreListViewCompany.swift */,
+				35C5D4F12116940900AA5CFA /* ChecklistsTableViewController.swift */,
 			);
 			path = FCS;
 			sourceTree = "<group>";
@@ -399,6 +402,7 @@
 				35F366B9210E9946003A057E /* StoreListViewCompany.swift in Sources */,
 				35204A09210B957100A2894A /* PreviewChecklistsViewController.swift in Sources */,
 				35F366B7210E2892003A057E /* CompanyListViewController.swift in Sources */,
+				35C5D4F22116940900AA5CFA /* ChecklistsTableViewController.swift in Sources */,
 				35204A0B210B958C00A2894A /* UserInfoViewController.swift in Sources */,
 				35F6DE9C2109B37D00CE6101 /* FCS.xcdatamodeld in Sources */,
 				35F6DE962109B37D00CE6101 /* ChecklistsViewController.swift in Sources */,

@@ -57,7 +57,7 @@ class StoreListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChecklistsViewController")
+        let vc = ChecklistsTableViewController()
         
         self.present(vc!, animated: true, completion: nil)
     }
