@@ -117,37 +117,36 @@ class NewChecklistTableViewCell: UITableViewCell {
         
         self.dashedLineView.backgroundColor = .lightGray
         
-        self.questionTextView.backgroundColor = .lightGray
-        self.questionTextView.text = "This is a question"
+        self.questionTextView.text = "Chồng có thương em nhiều không?"
         
         self.firstChoiceLabel.text = "1"
         self.firstChoiceLabel.textAlignment = .center
-        self.firstChoiceLabel.backgroundColor = .red
+        self.firstChoiceLabel.font = UIFont(name:"Georgia Bold", size: 20.0)
+        self.firstChoiceLabel.font = UIFont.systemFont(ofSize: 20.0)
         
         self.secondChoiceLabel.text = "2"
         self.secondChoiceLabel.textAlignment = .center
-        self.secondChoiceLabel.backgroundColor = .green
+        self.secondChoiceLabel.font = UIFont(name:"Georgia Bold", size: 20.0)
+        self.secondChoiceLabel.font = UIFont.systemFont(ofSize: 20.0)
         
         self.thirdChoiceLabel.text = "3"
         self.thirdChoiceLabel.textAlignment = .center
-        self.thirdChoiceLabel.backgroundColor = .blue
+        self.thirdChoiceLabel.font = UIFont(name:"Georgia Bold", size: 20.0)
+        self.thirdChoiceLabel.font = UIFont.systemFont(ofSize: 20.0)
         
-        self.firstChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
-        self.secondChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
-        self.thirdChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
+        self.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+        self.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+        self.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
         
-        self.reviewButton.backgroundColor = .blue
         self.reviewButton.setImage(UIImage(named:"ic_review"), for: .normal)
         
-        self.imageButton.backgroundColor = .blue
         self.imageButton.setImage(UIImage(named:"ic_camera"), for: .normal)
         
-        self.firstImageView.backgroundColor = .red
-        self.secondImageView.backgroundColor = .green
-        self.thirdImageView.backgroundColor = .blue
+        self.firstImageView.image = UIImage.init(named: "ic_image")
+        self.secondImageView.image = UIImage.init(named: "ic_image")
+        self.thirdImageView.image = UIImage.init(named: "ic_image")
         
-        self.reviewTextView.text = "This is a review"
-        self.reviewTextView.backgroundColor = .lightGray
+        self.reviewTextView.text = "Chồng trả lời vào đây nha chồng.. ^_^"
     }
     
     func setupLayout() {
@@ -214,16 +213,16 @@ class NewChecklistTableViewCell: UITableViewCell {
         
         self.reviewButton.snp.remakeConstraints { (make) in
             make.leading.equalToSuperview().offset(10)
-            make.width.equalTo(35)
-            make.height.equalTo(35)
+            make.width.equalTo(45)
+            make.height.equalTo(45)
             make.top.equalTo(self.firstChoiceButton.snp.bottom).offset(10)
         }
         
         self.imageButton.snp.remakeConstraints { (make) in
             make.leading.equalToSuperview().offset(10)
-            make.top.equalTo(self.reviewButton.snp.bottom).offset(10)
-            make.height.equalTo(35)
-            make.width.equalTo(35)
+            make.top.equalTo(self.reviewButton.snp.bottom).offset(0)
+            make.height.equalTo(45)
+            make.width.equalTo(45)
         }
         
         self.thirdImageView.snp.remakeConstraints { (make) in
@@ -259,7 +258,7 @@ class NewChecklistTableViewCell: UITableViewCell {
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalToSuperview().offset(-10)
             make.top.equalTo(self.imageButton.snp.bottom).offset(10)
-            make.height.equalTo(250)
+            make.height.equalTo(245)
         }
     }
 }
@@ -292,7 +291,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewChecklistTableViewCell", for: indexPath)
             as! NewChecklistTableViewCell
         
-        cell.questionTextView.text = "This is a question"
+        cell.questionTextView.text = "Chồng có thương em nhiều không?"
         
         if question[indexPath.row].review != "" {
             cell.reviewTextView.text = question[indexPath.row].review
@@ -349,11 +348,12 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.checklistTableView.dataSource = self
         
         completedButton.layer.masksToBounds = true
-        completedButton.layer.borderColor = UIColor.black.cgColor
+        completedButton.layer.borderColor = UIColor.white.cgColor
         completedButton.layer.borderWidth = 2
         completedButton.layer.cornerRadius = 10
-        
-        completedButton.backgroundColor = .blue
+    
+        completedButton.backgroundColor = UIColor.init(red: 78/255, green: 181/255, blue: 251/255, alpha: 1.0)
+
         completedButton.setTitle("Completed", for: .normal)
         
         self.checklistTableView.backgroundColor = UIColor.clear
@@ -361,11 +361,11 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.checklistTableView.showsVerticalScrollIndicator = false
         self.checklistTableView.register(NewChecklistTableViewCell.self, forCellReuseIdentifier: NewChecklistTableViewCell.CELL_IDENTIFIER)
         
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "123", imgCaptured: NSData()))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "Chồng trả lời vào đây nha", imgCaptured: NSData()))
         question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: NSData()))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "123", imgCaptured: NSData()))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "Chồng trả lời vào đây nha", imgCaptured: NSData()))
         question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: NSData()))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "123", imgCaptured: NSData()))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "Chồng trả lời vào đây nha", imgCaptured: NSData()))
         
     }
     
@@ -393,14 +393,14 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.view.addSubview(self.completedButton)
         self.view.addSubview(self.customView)
         self.customView.addSubview(self.backButton)
-        self.customView.addSubview(self.userInfoButton)
-        self.customView.backgroundColor = .blue
+//        self.customView.addSubview(self.userInfoButton)
+        self.customView.backgroundColor = UIColor.init(red: 78/255, green: 181/255, blue: 251/255, alpha: 1.0)
         
-        self.backButton.setImage(UIImage(named: "ic_back"), for: .normal)
-        self.userInfoButton.setImage(UIImage(named: "ic_user"), for: .normal)
+        self.backButton.setImage(UIImage(named: "ic_back_white"), for: .normal)
+//        self.userInfoButton.setImage(UIImage(named: "ic_user"), for: .normal)
         
         self.backButton.addTarget(self, action: #selector(backButtonOnClick), for: .touchUpInside)
-        self.userInfoButton.addTarget(self, action: #selector(userInfoButtonOnClick), for: .touchUpInside)
+//        self.userInfoButton.addTarget(self, action: #selector(userInfoButtonOnClick), for: .touchUpInside)
     }
     
     func setupLayout() {
@@ -417,13 +417,13 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             make.height.equalToSuperview()
             make.width.equalTo(44)
         }
-        
-        self.userInfoButton.snp.remakeConstraints { (make) in
-            make.top.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.height.equalToSuperview()
-            make.width.equalTo(44)
-        }
+//
+//        self.userInfoButton.snp.remakeConstraints { (make) in
+//            make.top.equalToSuperview()
+//            make.trailing.equalToSuperview()
+//            make.height.equalToSuperview()
+//            make.width.equalTo(44)
+//        }
         
         self.completedButton.snp.remakeConstraints { (make) in
             make.bottom.equalToSuperview().offset(-10)
