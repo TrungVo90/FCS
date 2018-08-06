@@ -400,6 +400,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.titleLabel.font = UIFont(name: "Georgia-Bold", size: 22)
         self.titleLabel.textColor = .white
         self.titleLabel.text = "Check lists"
+        self.titleLabel.textAlignment = .center
     }
     
     func setupLayout() {
