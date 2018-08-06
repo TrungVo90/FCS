@@ -393,7 +393,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
 //        self.userInfoButton.setImage(UIImage(named: "ic_user"), for: .normal)
         
         self.backButton.addTarget(self, action: #selector(backButtonOnClick), for: .touchUpInside)
-        
+        self.completedButton.addTarget(self, action: #selector(completedButtonOnClick), for: .touchUpInside)
 //        self.userInfoButton.addTarget(self, action: #selector(userInfoButtonOnClick), for: .touchUpInside)
         
         self.customView.addSubview(self.titleLabel)
@@ -451,10 +451,11 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         // Dispose of any resources that can be recreated.
     }
 
-    func completedButtonOnClick() {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "PreviewChecklistsViewController")
+    @objc func completedButtonOnClick() {
+        let vc = PreviewChecklistsTableViewController()
+        vc.modalPresentationCapturesStatusBarAppearance = true
         
-        self.present(vc!, animated: true, completion: nil)
+        self.present(vc, animated: true, completion: nil)
     }
     
     @objc func backButtonOnClick() {
