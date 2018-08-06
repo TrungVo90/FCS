@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cF4-cM-Vgu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cF4-cM-Vgu">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="GeorgiaBold.ttf">
-            <string>Georgia-Bold</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Checklists View Controller-->
         <scene sceneID="lHz-KU-H3n">
@@ -749,7 +744,7 @@
                                 </items>
                             </navigationBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Rg0-Q0-aYz">
-                                <rect key="frame" x="0.0" y="75" width="375" height="693"/>
+                                <rect key="frame" x="0.0" y="131" width="375" height="637"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="separatorColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -819,16 +814,26 @@
                                     <outlet property="delegate" destination="YPW-dL-Mo3" id="tmN-ec-yf5"/>
                                 </connections>
                             </tableView>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="pxN-SM-g0e">
+                                <rect key="frame" x="0.0" y="75" width="375" height="56"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="56" id="IbN-mv-WKD"/>
+                                </constraints>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="fe1-Fv-chr" firstAttribute="top" secondItem="hnc-LK-ePc" secondAttribute="top" constant="31" id="Ddb-fZ-ieA"/>
                             <constraint firstItem="fe1-Fv-chr" firstAttribute="leading" secondItem="PbM-Hd-siT" secondAttribute="leading" id="LZB-gL-KuW"/>
                             <constraint firstItem="PbM-Hd-siT" firstAttribute="trailing" secondItem="Rg0-Q0-aYz" secondAttribute="trailing" id="MQ5-zG-Yi8"/>
+                            <constraint firstItem="pxN-SM-g0e" firstAttribute="leading" secondItem="PbM-Hd-siT" secondAttribute="leading" id="QVe-rr-NKa"/>
+                            <constraint firstItem="pxN-SM-g0e" firstAttribute="trailing" secondItem="PbM-Hd-siT" secondAttribute="trailing" id="R6A-hc-cmS"/>
                             <constraint firstItem="Rg0-Q0-aYz" firstAttribute="leading" secondItem="PbM-Hd-siT" secondAttribute="leading" id="Uh0-go-qjl"/>
+                            <constraint firstItem="Rg0-Q0-aYz" firstAttribute="top" secondItem="pxN-SM-g0e" secondAttribute="bottom" id="W6v-5G-A1p"/>
                             <constraint firstItem="PbM-Hd-siT" firstAttribute="bottom" secondItem="Rg0-Q0-aYz" secondAttribute="bottom" constant="10" id="bGz-SK-KV8"/>
-                            <constraint firstItem="Rg0-Q0-aYz" firstAttribute="top" secondItem="fe1-Fv-chr" secondAttribute="bottom" id="h4V-MF-Nww"/>
                             <constraint firstItem="fe1-Fv-chr" firstAttribute="trailing" secondItem="PbM-Hd-siT" secondAttribute="trailing" id="oPo-qo-nLV"/>
+                            <constraint firstItem="pxN-SM-g0e" firstAttribute="top" secondItem="fe1-Fv-chr" secondAttribute="bottom" id="tDc-oS-HMW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PbM-Hd-siT"/>
                     </view>
@@ -871,7 +876,7 @@
                                 </items>
                             </navigationBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WJ7-H1-oRC">
-                                <rect key="frame" x="0.0" y="75" width="375" height="693"/>
+                                <rect key="frame" x="0.0" y="131" width="375" height="637"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="separatorColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -941,15 +946,22 @@
                                     <outlet property="delegate" destination="GpO-Kn-D8N" id="RJ7-Ei-7Hh"/>
                                 </connections>
                             </tableView>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="Jch-7E-yk6">
+                                <rect key="frame" x="0.0" y="75" width="375" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="WJ7-H1-oRC" firstAttribute="leading" secondItem="YQd-Ok-GkN" secondAttribute="leading" id="10i-Jd-qGn"/>
                             <constraint firstItem="YQd-Ok-GkN" firstAttribute="trailing" secondItem="WJ7-H1-oRC" secondAttribute="trailing" id="2N9-HA-C6K"/>
+                            <constraint firstItem="Jch-7E-yk6" firstAttribute="top" secondItem="8Fo-8t-m3u" secondAttribute="bottom" id="4p6-Qh-Ssa"/>
                             <constraint firstItem="8Fo-8t-m3u" firstAttribute="leading" secondItem="YQd-Ok-GkN" secondAttribute="leading" id="59W-BC-73b"/>
                             <constraint firstItem="8Fo-8t-m3u" firstAttribute="trailing" secondItem="YQd-Ok-GkN" secondAttribute="trailing" id="6mX-i8-yEu"/>
+                            <constraint firstItem="WJ7-H1-oRC" firstAttribute="top" secondItem="Jch-7E-yk6" secondAttribute="bottom" id="8ai-t4-ho2"/>
+                            <constraint firstItem="Jch-7E-yk6" firstAttribute="leading" secondItem="YQd-Ok-GkN" secondAttribute="leading" id="HzL-CV-zYj"/>
                             <constraint firstItem="8Fo-8t-m3u" firstAttribute="top" secondItem="C6s-f7-sco" secondAttribute="top" constant="31" id="LLN-Me-kqs"/>
-                            <constraint firstItem="WJ7-H1-oRC" firstAttribute="top" secondItem="8Fo-8t-m3u" secondAttribute="bottom" id="ULY-pW-LzO"/>
+                            <constraint firstItem="Jch-7E-yk6" firstAttribute="trailing" secondItem="YQd-Ok-GkN" secondAttribute="trailing" id="T5T-Yw-QoF"/>
                             <constraint firstItem="YQd-Ok-GkN" firstAttribute="bottom" secondItem="WJ7-H1-oRC" secondAttribute="bottom" constant="10" id="zcl-nw-swj"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="YQd-Ok-GkN"/>
@@ -960,7 +972,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Ju-XP-eBh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="882" y="100"/>
+            <point key="canvasLocation" x="880.79999999999995" y="99.753694581280797"/>
         </scene>
     </scenes>
     <resources>
