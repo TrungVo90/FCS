@@ -109,8 +109,8 @@ class NewChecklistTableViewCell: UITableViewCell {
         //// Set events
         
         self.firstChoiceButton.addTarget(self, action: #selector(firstChoiceButtonOnClick), for: .touchUpInside)
-        self.secondChoiceButton.addTarget(self, action: #selector(firstChoiceButtonOnClick), for: .touchUpInside)
-        self.thirdChoiceButton.addTarget(self, action: #selector(firstChoiceButtonOnClick), for: .touchUpInside)
+        self.secondChoiceButton.addTarget(self, action: #selector(secondChoiceButtonOnClick), for: .touchUpInside)
+        self.thirdChoiceButton.addTarget(self, action: #selector(thirdChoiceButtonOnClick), for: .touchUpInside)
         self.imageButton.addTarget(self, action: #selector(imageButtonOnClick), for: .touchUpInside)
 
         //// Set color
@@ -134,7 +134,7 @@ class NewChecklistTableViewCell: UITableViewCell {
         self.thirdChoiceLabel.font = UIFont(name:"Georgia Bold", size: 20.0)
         self.thirdChoiceLabel.font = UIFont.systemFont(ofSize: 20.0)
         
-        self.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+        self.firstChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
         self.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
         self.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
         
@@ -147,6 +147,12 @@ class NewChecklistTableViewCell: UITableViewCell {
         self.thirdImageView.image = UIImage.init(named: "ic_image")
         
         self.reviewTextView.text = "Chồng trả lời vào đây nha chồng.. ^_^"
+        
+        /// COnfigure cell
+        self.questionTextView.isUserInteractionEnabled = false
+        self.questionTextView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
+        self.reviewTextView.isUserInteractionEnabled = false
+        self.reviewTextView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
     }
     
     func setupLayout() {
@@ -270,6 +276,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     var userInfoButton: UIButton = UIButton()
     
+    var titleLabel: UILabel = UILabel()
+    
     var customView: UIView = UIView()
     
     var question: [Question] = [Question]()
@@ -300,35 +308,20 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         
         cell.fisrtChoiceButtonTapped = {
             cell.firstChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
-            //cell.firstChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
-            
-            cell.secondChoiceButton.setImage(UIImage(named:"ic_uncheck"), for: .normal)
-            //cell.secondChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
-            
-            cell.thirdChoiceButton.setImage(UIImage(named:"ic_uncheck"), for: .normal)
-            //cell.thirdChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
+            cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+            cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
         }
         
         cell.secondChoiceButtonTapped = {
             cell.secondChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
-            cell.secondChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
-            
-            cell.firstChoiceButton.setImage(UIImage(named:"ic_uncheck"), for: .normal)
-            cell.firstChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
-            
-            cell.thirdChoiceButton.setImage(UIImage(named:"ic_uncheck"), for: .normal)
-            cell.thirdChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
+            cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+            cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
         }
         
         cell.thirdChoiceButtonTapped = {
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
-            cell.thirdChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
-            
-            cell.firstChoiceButton.setImage(UIImage(named:"ic_uncheck"), for: .normal)
-            cell.firstChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
-            
-            cell.secondChoiceButton.setImage(UIImage(named:"ic_uncheck"), for: .normal)
-            cell.secondChoiceButton.imageEdgeInsets = UIEdgeInsetsMake(1,1,1,1)
+            cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+            cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
         }
         return cell
     }
@@ -361,11 +354,11 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.checklistTableView.showsVerticalScrollIndicator = false
         self.checklistTableView.register(NewChecklistTableViewCell.self, forCellReuseIdentifier: NewChecklistTableViewCell.CELL_IDENTIFIER)
         
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "Chồng trả lời vào đây nha", imgCaptured: NSData()))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "Có nha vợ yêu", imgCaptured: NSData()))
         question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: NSData()))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "Chồng trả lời vào đây nha", imgCaptured: NSData()))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "Có nha cục cưng", imgCaptured: NSData()))
         question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: NSData()))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "Chồng trả lời vào đây nha", imgCaptured: NSData()))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: ":D", imgCaptured: NSData()))
         
     }
     
@@ -400,7 +393,13 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
 //        self.userInfoButton.setImage(UIImage(named: "ic_user"), for: .normal)
         
         self.backButton.addTarget(self, action: #selector(backButtonOnClick), for: .touchUpInside)
+        
 //        self.userInfoButton.addTarget(self, action: #selector(userInfoButtonOnClick), for: .touchUpInside)
+        
+        self.customView.addSubview(self.titleLabel)
+        self.titleLabel.font = UIFont(name: "Georgia-Bold", size: 22)
+        self.titleLabel.textColor = .white
+        self.titleLabel.text = "Check lists"
     }
     
     func setupLayout() {
@@ -417,6 +416,12 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             make.height.equalToSuperview()
             make.width.equalTo(44)
         }
+        
+        self.titleLabel.snp.remakeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.4)
+            make.height.equalToSuperview()
+        }
 //
 //        self.userInfoButton.snp.remakeConstraints { (make) in
 //            make.top.equalToSuperview()
@@ -426,7 +431,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
 //        }
         
         self.completedButton.snp.remakeConstraints { (make) in
-            make.bottom.equalToSuperview().offset(-10)
+            make.bottom.equalToSuperview().offset(-15)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.33)
             make.height.equalTo(70)
