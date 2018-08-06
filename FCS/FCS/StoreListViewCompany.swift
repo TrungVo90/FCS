@@ -58,8 +58,9 @@ class StoreListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = ChecklistsTableViewController()
-        
-        self.present(vc!, animated: true, completion: nil)
+        vc.modalPresentationCapturesStatusBarAppearance = true
+
+        self.present(vc, animated: true, completion: nil)
     }
     
     @IBAction func userInfoButtonOnClick(_ sender: Any) {

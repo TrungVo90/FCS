@@ -271,6 +271,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     var userInfoButton: UIButton = UIButton()
     
+    var customView: UIView = UIView()
+    
     var question: [Question] = [Question]()
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -367,30 +369,60 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    fileprivate var _isStatusBarHidden = false
+
+    override var prefersStatusBarHidden: Bool {
+        return self._isStatusBarHidden
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self._isStatusBarHidden = false
+        self.setNeedsStatusBarAppearanceUpdate()
+        
+        
     }
     
     func setupView() {
+        self.view.backgroundColor = .white
         self.view.addSubview(self.checklistTableView)
         self.view.addSubview(self.completedButton)
-        self.view.addSubview(self.backButton)
-        self.view.addSubview(self.userInfoButton)
+        self.view.addSubview(self.customView)
+        self.customView.addSubview(self.backButton)
+        self.customView.addSubview(self.userInfoButton)
+        self.customView.backgroundColor = .blue
+        
+        self.backButton.setImage(UIImage(named: "ic_back"), for: .normal)
+        self.userInfoButton.setImage(UIImage(named: "ic_user"), for: .normal)
+        
+        self.backButton.addTarget(self, action: #selector(backButtonOnClick), for: .touchUpInside)
+        self.userInfoButton.addTarget(self, action: #selector(userInfoButtonOnClick), for: .touchUpInside)
     }
     
     func setupLayout() {
+        self.customView.snp.remakeConstraints { (make) in
+            make.top.equalToSuperview().offset(31)
+            make.leading.equalToSuperview()
+            make.height.equalTo(44)
+            make.trailing.equalToSuperview()
+        }
+        
         self.backButton.snp.remakeConstraints { (make) in
             make.top.equalToSuperview()
             make.leading.equalToSuperview()
-            make.width.equalTo(64)
-            make.height.equalTo(64)
+            make.height.equalToSuperview()
+            make.width.equalTo(44)
         }
         
         self.userInfoButton.snp.remakeConstraints { (make) in
             make.top.equalToSuperview()
             make.trailing.equalToSuperview()
-            make.width.equalTo(64)
-            make.height.equalTo(64)
+            make.height.equalToSuperview()
+            make.width.equalTo(44)
         }
         
         self.completedButton.snp.remakeConstraints { (make) in
@@ -412,20 +444,21 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
     func completedButtonOnClick() {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "PreviewChecklistsViewController")
         
         self.present(vc!, animated: true, completion: nil)
     }
     
-    func backButtonOnClick() {
+    @objc func backButtonOnClick() {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func userInfoButtonOnClick() {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "UserInfoViewController")
-        self.present(vc!, animated: true, completion: nil)
+    @objc func userInfoButtonOnClick() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "UserInfoViewController")
+        self.present(vc, animated: true, completion: nil)
     }
     
 }
