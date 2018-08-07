@@ -98,11 +98,11 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         self.checklistTableView.showsVerticalScrollIndicator = false
         self.checklistTableView.register(NewChecklistTableViewCell.self, forCellReuseIdentifier: NewChecklistTableViewCell.CELL_IDENTIFIER)
         
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "Có nha vợ yêu", imgCaptured: NSData()))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: NSData()))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "Có nha cục cưng", imgCaptured: NSData()))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: NSData()))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: ":D", imgCaptured: NSData()))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(), UIImage(),UIImage()), numberOfCapturedImg: 0))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(), UIImage(),UIImage()), numberOfCapturedImg: 0))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(), UIImage(),UIImage()), numberOfCapturedImg: 0))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(), UIImage(),UIImage()), numberOfCapturedImg: 0))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(), UIImage(),UIImage()), numberOfCapturedImg: 0))
         
     }
     

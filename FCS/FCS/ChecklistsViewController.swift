@@ -60,7 +60,8 @@ struct Question {
     var questionName: String
     var questionChoice: Int
     var review: String
-    var imgCaptured: NSData
+    var imgCaptured: [UIImage]
+    var numberOfCapturedImg: Int
 }
 
 

@@ -154,6 +154,11 @@ class NewChecklistTableViewCell: UITableViewCell {
         self.secondImageView.image = UIImage.init(named: "ic_image")
         self.thirdImageView.image = UIImage.init(named: "ic_image")
         
+        self.firstImageView.contentMode = .scaleAspectFit
+        self.secondImageView.contentMode = .scaleAspectFit
+        self.thirdImageView.contentMode = .scaleAspectFit
+        
+        
         self.reviewTextView.text = "Chồng trả lời vào đây nha chồng.. ^_^"
         
         /// COnfigure cell
@@ -278,7 +283,7 @@ class NewChecklistTableViewCell: UITableViewCell {
 }
 
 
-class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ReviewViewProtocol {
+class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var backButton: UIButton = UIButton()
     
@@ -289,6 +294,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     var customView: UIView = UIView()
     
     var question: [Question] = [Question]()
+    
+    let imagePicker = UIImagePickerController()
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if question[indexPath.row].review == "" {
@@ -338,8 +345,21 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             vc.modalPresentationCapturesStatusBarAppearance = true
             vc.delegate = self
             self.present(vc, animated: true, completion: nil)
-            
         }
+        
+        cell.imageButtonTapped = {
+            let vc = ImageReviewViewController()
+            vc.idxCheckList = indexPath.row
+            vc.modalPresentationCapturesStatusBarAppearance = true
+            vc.delegate = self
+            self.present(vc, animated: true, completion: nil)
+        }
+        
+        cell.firstImageView.image = question[indexPath.row].imgCaptured[0]
+        cell.secondImageView.image = question[indexPath.row].imgCaptured[1]
+        cell.thirdImageView.image = question[indexPath.row].imgCaptured[2]
+        
+        
         return cell
     }
     
@@ -357,6 +377,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.checklistTableView.delegate = self
         self.checklistTableView.dataSource = self
         
+        self.imagePicker.delegate = self
+        
         completedButton.layer.masksToBounds = true
         completedButton.layer.borderColor = UIColor.white.cgColor
         completedButton.layer.borderWidth = 2
@@ -371,11 +393,13 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.checklistTableView.showsVerticalScrollIndicator = false
         self.checklistTableView.register(NewChecklistTableViewCell.self, forCellReuseIdentifier: NewChecklistTableViewCell.CELL_IDENTIFIER)
         
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: NSData()))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: NSData()))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: NSData()))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: NSData()))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: NSData()))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(), UIImage(),UIImage()), numberOfCapturedImg: 0))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(), UIImage(),UIImage()), numberOfCapturedImg: 0))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(), UIImage(),UIImage()), numberOfCapturedImg: 0))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(), UIImage(),UIImage()), numberOfCapturedImg: 0))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(), UIImage(),UIImage()), numberOfCapturedImg: 0))
+        
+        
         
     }
     
@@ -483,10 +507,21 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         let vc = storyboard.instantiateViewController(withIdentifier: "UserInfoViewController")
         self.present(vc, animated: true, completion: nil)
     }
-    
+}
+
+extension ChecklistsTableViewController: ReviewViewProtocol {
     func didTapDoneButton(idxRow: Int, comment: String) {
         question[idxRow].review = comment
         self.checklistTableView.reloadData()
     }
-    
 }
+
+extension ChecklistsTableViewController: ImageReviewViewProtocol {
+    func didFinishChoosingImage(idxRow: Int, image: UIImage) {
+        let idx = question[idxRow].numberOfCapturedImg
+        question[idxRow].imgCaptured[idx % 3] = image
+        question[idxRow].numberOfCapturedImg = (question[idxRow].numberOfCapturedImg + 1) % 3
+        self.checklistTableView.reloadData()
+    }
+}
+
