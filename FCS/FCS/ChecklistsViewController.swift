@@ -62,6 +62,7 @@ struct Question {
     var review: String
     var imgCaptured: [UIImage]
     var numberOfCapturedImg: Int
+    var latestImage: UIImage
 }
 
 

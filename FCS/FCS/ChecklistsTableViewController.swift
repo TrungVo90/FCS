@@ -393,14 +393,11 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.checklistTableView.showsVerticalScrollIndicator = false
         self.checklistTableView.register(NewChecklistTableViewCell.self, forCellReuseIdentifier: NewChecklistTableViewCell.CELL_IDENTIFIER)
         
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(), UIImage(),UIImage()), numberOfCapturedImg: 0))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(), UIImage(),UIImage()), numberOfCapturedImg: 0))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(), UIImage(),UIImage()), numberOfCapturedImg: 0))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(), UIImage(),UIImage()), numberOfCapturedImg: 0))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(), UIImage(),UIImage()), numberOfCapturedImg: 0))
-        
-        
-        
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!))
     }
     
     fileprivate var _isStatusBarHidden = false
@@ -427,15 +424,12 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.view.addSubview(self.completedButton)
         self.view.addSubview(self.customView)
         self.customView.addSubview(self.backButton)
-//        self.customView.addSubview(self.userInfoButton)
         self.customView.backgroundColor = UIColor.init(red: 78/255, green: 181/255, blue: 251/255, alpha: 1.0)
         
         self.backButton.setImage(UIImage(named: "ic_back_white"), for: .normal)
-//        self.userInfoButton.setImage(UIImage(named: "ic_user"), for: .normal)
         
         self.backButton.addTarget(self, action: #selector(backButtonOnClick), for: .touchUpInside)
         self.completedButton.addTarget(self, action: #selector(completedButtonOnClick), for: .touchUpInside)
-//        self.userInfoButton.addTarget(self, action: #selector(userInfoButtonOnClick), for: .touchUpInside)
         
         self.customView.addSubview(self.titleLabel)
         self.titleLabel.font = UIFont(name: "Georgia-Bold", size: 22)
@@ -521,6 +515,7 @@ extension ChecklistsTableViewController: ImageReviewViewProtocol {
         let idx = question[idxRow].numberOfCapturedImg
         question[idxRow].imgCaptured[idx % 3] = image
         question[idxRow].numberOfCapturedImg = (question[idxRow].numberOfCapturedImg + 1) % 3
+        question[idxRow].latestImage = image
         self.checklistTableView.reloadData()
     }
 }

@@ -52,7 +52,7 @@ class ImageReviewViewController: UIViewController, UIImagePickerControllerDelega
         self.dimView.addSubview(self.takePhotoButton)
         self.dimView.addSubview(self.photoLibraryButton)
         
-        self.view.backgroundColor = .clear
+        self.view.backgroundColor = .black
         
         self.imagePicker.delegate = self
         

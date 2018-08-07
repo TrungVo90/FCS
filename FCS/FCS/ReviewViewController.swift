@@ -54,7 +54,7 @@ class ReviewViewController: UIViewController {
         self.dimView.addSubview(self.reviewTextView)
         self.dimView.addSubview(self.doneButton)
         
-        self.view.backgroundColor = .clear
+        self.view.backgroundColor = .black
         
         
         self.reviewTextView.delegate = self
