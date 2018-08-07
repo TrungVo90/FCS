@@ -14,6 +14,7 @@ class NewChecklistTableViewCell: UITableViewCell {
     var fisrtChoiceButtonTapped : (() -> Void)? = nil
     var secondChoiceButtonTapped : (() -> Void)? = nil
     var thirdChoiceButtonTapped : (() -> Void)? = nil
+    var reviewButtonTapped : (() -> Void)? = nil
     var imageButtonTapped : (() -> Void)? = nil
     
     var scrollView = UIScrollView()
@@ -69,6 +70,12 @@ class NewChecklistTableViewCell: UITableViewCell {
         }
     }
     
+    @objc func reviewButtonOnClick() {
+        if let reviewButtonTapped = self.reviewButtonTapped {
+            reviewButtonTapped()
+        }
+    }
+    
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -111,6 +118,7 @@ class NewChecklistTableViewCell: UITableViewCell {
         self.firstChoiceButton.addTarget(self, action: #selector(firstChoiceButtonOnClick), for: .touchUpInside)
         self.secondChoiceButton.addTarget(self, action: #selector(secondChoiceButtonOnClick), for: .touchUpInside)
         self.thirdChoiceButton.addTarget(self, action: #selector(thirdChoiceButtonOnClick), for: .touchUpInside)
+        self.reviewButton.addTarget(self, action: #selector(reviewButtonOnClick), for: .touchUpInside)
         self.imageButton.addTarget(self, action: #selector(imageButtonOnClick), for: .touchUpInside)
 
         //// Set color
@@ -270,7 +278,7 @@ class NewChecklistTableViewCell: UITableViewCell {
 }
 
 
-class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ReviewViewProtocol {
     
     var backButton: UIButton = UIButton()
     
@@ -323,6 +331,15 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
         }
+        
+        cell.reviewButtonTapped = {
+            let vc = ReviewViewController()
+            vc.idxCheckList = indexPath.row
+            vc.modalPresentationCapturesStatusBarAppearance = true
+            vc.delegate = self
+            self.present(vc, animated: true, completion: nil)
+            
+        }
         return cell
     }
     
@@ -354,11 +371,11 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.checklistTableView.showsVerticalScrollIndicator = false
         self.checklistTableView.register(NewChecklistTableViewCell.self, forCellReuseIdentifier: NewChecklistTableViewCell.CELL_IDENTIFIER)
         
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "Có nha vợ yêu", imgCaptured: NSData()))
         question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: NSData()))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "Có nha cục cưng", imgCaptured: NSData()))
         question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: NSData()))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: ":D", imgCaptured: NSData()))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: NSData()))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: NSData()))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: NSData()))
         
     }
     
@@ -454,7 +471,6 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     @objc func completedButtonOnClick() {
         let vc = PreviewChecklistsTableViewController()
         vc.modalPresentationCapturesStatusBarAppearance = true
-        
         self.present(vc, animated: true, completion: nil)
     }
     
@@ -466,6 +482,11 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "UserInfoViewController")
         self.present(vc, animated: true, completion: nil)
+    }
+    
+    func didTapDoneButton(idxRow: Int, comment: String) {
+        question[idxRow].review = comment
+        self.checklistTableView.reloadData()
     }
     
 }
