@@ -342,6 +342,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         cell.reviewButtonTapped = {
             let vc = ReviewViewController()
             vc.idxCheckList = indexPath.row
+            vc.comment = self.question[indexPath.row].review
             vc.modalPresentationCapturesStatusBarAppearance = true
             vc.delegate = self
             self.present(vc, animated: true, completion: nil)
