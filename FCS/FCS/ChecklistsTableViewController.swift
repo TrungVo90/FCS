@@ -125,7 +125,7 @@ class NewChecklistTableViewCell: UITableViewCell {
         
         self.dashedLineView.backgroundColor = .lightGray
         
-        self.questionTextView.text = "Chồng có thương em nhiều không?"
+        self.questionTextView.text = "Question 1?"
         
         self.firstChoiceLabel.text = "1"
         self.firstChoiceLabel.textAlignment = .center
@@ -159,13 +159,19 @@ class NewChecklistTableViewCell: UITableViewCell {
         self.thirdImageView.contentMode = .scaleAspectFit
         
         
-        self.reviewTextView.text = "Chồng trả lời vào đây nha chồng.. ^_^"
+        self.reviewTextView.text = "The commentation"
         
         /// COnfigure cell
         self.questionTextView.isUserInteractionEnabled = false
-        self.questionTextView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
+        self.questionTextView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         self.reviewTextView.isUserInteractionEnabled = false
-        self.reviewTextView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
+        self.reviewTextView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        
+        questionTextView.layer.shadowColor = UIColor.lightGray.cgColor
+        questionTextView.layer.shadowOffset = CGSize(width: 5, height: 5)
+        questionTextView.layer.shadowOpacity = 0.5;
+        questionTextView.layer.shadowRadius = 3.0;
+        questionTextView.layer.masksToBounds = false
     }
     
     func setupLayout() {
