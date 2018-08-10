@@ -25,7 +25,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         if question[indexPath.row].review == "" {
             return 265
         } else {
-            return 525
+            return 275 + question[indexPath.row].heightOfComment
         }
         
     }
@@ -40,8 +40,13 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         
         cell.questionTextView.text = "Chồng có thương em nhiều không?"
         
+        cell.heightOfReviewLabel = question[indexPath.row].heightOfComment
+        
         if question[indexPath.row].review != "" {
             cell.reviewTextView.text = question[indexPath.row].review
+            cell.reviewTextView.numberOfLines = 0
+            cell.reviewTextView.setContentCompressionResistancePriority(UILayoutPriority.init(1000), for: UILayoutConstraintAxis.horizontal)
+            cell.reviewTextView.setContentHuggingPriority(UILayoutPriority.init(1000), for: UILayoutConstraintAxis.horizontal)
             cell.setupLayoutForAddingComment()
         }
         
@@ -97,13 +102,6 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         self.checklistTableView.separatorStyle = .none
         self.checklistTableView.showsVerticalScrollIndicator = false
         self.checklistTableView.register(NewChecklistTableViewCell.self, forCellReuseIdentifier: NewChecklistTableViewCell.CELL_IDENTIFIER)
-        
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!, heightOfComment: 0.0))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!, heightOfComment: 0.0))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!, heightOfComment: 0.0))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!, heightOfComment: 0.0))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!, heightOfComment: 0.0))
-        
     }
     
     fileprivate var _isStatusBarHidden = false
@@ -166,13 +164,6 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
             make.width.equalToSuperview().multipliedBy(0.4)
             make.height.equalToSuperview()
         }
-        //
-        //        self.userInfoButton.snp.remakeConstraints { (make) in
-        //            make.top.equalToSuperview()
-        //            make.trailing.equalToSuperview()
-        //            make.height.equalToSuperview()
-        //            make.width.equalTo(44)
-        //        }
         
         self.submitButton.snp.remakeConstraints { (make) in
             make.bottom.equalToSuperview().offset(-15)

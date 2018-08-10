@@ -205,26 +205,26 @@ class NewChecklistTableViewCell: UITableViewCell {
             make.leading.equalToSuperview().offset(10)
             make.width.equalTo(30)
             make.height.equalTo(30)
-            make.top.equalTo(self.questionTextView.snp.bottom).offset(5)
+            make.top.equalTo(self.questionTextView.snp.bottom).offset(10)
         }
         
         self.firstChoiceButton.snp.remakeConstraints { (make) in
             make.leading.equalTo(self.firstChoiceLabel.snp.trailing).offset(5)
             make.width.equalTo(30)
             make.height.equalTo(30)
-            make.top.equalTo(self.questionTextView.snp.bottom).offset(5)
+            make.top.equalTo(self.questionTextView.snp.bottom).offset(10)
         }
         
         self.secondChoiceLabel.snp.remakeConstraints { (make) in
             make.trailing.equalTo(self._contentView.snp.centerX).offset(-2)
-            make.top.equalTo(self.questionTextView.snp.bottom).offset(5)
+            make.top.equalTo(self.questionTextView.snp.bottom).offset(10)
             make.height.equalTo(30)
             make.width.equalTo(30)
         }
         
         self.secondChoiceButton.snp.remakeConstraints { (make) in
             make.leading.equalTo(self._contentView.snp.centerX).offset(3)
-            make.top.equalTo(self.questionTextView.snp.bottom).offset(5)
+            make.top.equalTo(self.questionTextView.snp.bottom).offset(10)
             make.height.equalTo(30)
             make.width.equalTo(30)
         }
@@ -232,13 +232,13 @@ class NewChecklistTableViewCell: UITableViewCell {
         self.thirdChoiceButton.snp.remakeConstraints { (make) in
             make.trailing.equalToSuperview().offset(-10)
             make.width.height.equalTo(30)
-            make.top.equalTo(self.questionTextView.snp.bottom).offset(5)
+            make.top.equalTo(self.questionTextView.snp.bottom).offset(10)
         }
         
         self.thirdChoiceLabel.snp.remakeConstraints { (make) in
             make.trailing.equalTo(self.thirdChoiceButton.snp.leading).offset(-5)
             make.width.height.equalTo(30)
-            make.top.equalTo(self.questionTextView.snp.bottom).offset(5)
+            make.top.equalTo(self.questionTextView.snp.bottom).offset(10)
         }
         
         self.reviewButton.snp.remakeConstraints { (make) in
@@ -287,7 +287,7 @@ class NewChecklistTableViewCell: UITableViewCell {
         self.reviewTextView.snp.remakeConstraints { (make) in
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalToSuperview().offset(-10)
-            make.top.equalTo(self.imageButton.snp.bottom).offset(10)
+            make.top.equalTo(self.imageButton.snp.bottom).offset(5)
             make.height.equalTo(self.heightOfReviewLabel)
         }
     }
@@ -310,9 +310,9 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if question[indexPath.row].review == "" {
-            return 265
+            return 270
         } else {
-            return 275 + question[indexPath.row].heightOfComment
+            return 290 + question[indexPath.row].heightOfComment
         }
         
     }
@@ -475,13 +475,6 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             make.width.equalToSuperview().multipliedBy(0.4)
             make.height.equalToSuperview()
         }
-//
-//        self.userInfoButton.snp.remakeConstraints { (make) in
-//            make.top.equalToSuperview()
-//            make.trailing.equalToSuperview()
-//            make.height.equalToSuperview()
-//            make.width.equalTo(44)
-//        }
         
         self.completedButton.snp.remakeConstraints { (make) in
             make.bottom.equalToSuperview().offset(-15)
@@ -506,6 +499,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     @objc func completedButtonOnClick() {
         let vc = PreviewChecklistsTableViewController()
         vc.modalPresentationCapturesStatusBarAppearance = true
+        vc.question = self.question
         self.present(vc, animated: true, completion: nil)
     }
     
