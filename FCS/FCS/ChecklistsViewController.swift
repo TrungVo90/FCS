@@ -63,6 +63,7 @@ struct Question {
     var imgCaptured: [UIImage]
     var numberOfCapturedImg: Int
     var latestImage: UIImage
+    var heightOfComment: CGFloat
 }
 
 

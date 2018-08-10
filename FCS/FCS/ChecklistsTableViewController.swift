@@ -33,7 +33,9 @@ class NewChecklistTableViewCell: UITableViewCell {
     var thirdChoiceLabel: UILabel = UILabel()
     
     var reviewButton: UIButton = UIButton()
-    var reviewTextView: UITextView = UITextView()
+//    var reviewTextView: UITextView = UITextView()
+    
+    var reviewTextView: UILabel = UILabel()
     
     var imageButton: UIButton = UIButton()
     var firstImageView: UIImageView = UIImageView()
@@ -41,6 +43,8 @@ class NewChecklistTableViewCell: UITableViewCell {
     var thirdImageView: UIImageView = UIImageView()
     
     var dashedLineView: UIView = UIView()
+    
+    var heightOfReviewLabel: CGFloat = 0
     
     static var CELL_IDENTIFIER: String = "NewChecklistTableViewCell"
     
@@ -161,6 +165,7 @@ class NewChecklistTableViewCell: UITableViewCell {
         
         self.reviewTextView.text = "The commentation"
         
+        self.reviewTextView.numberOfLines = 0
         /// COnfigure cell
         self.questionTextView.isUserInteractionEnabled = false
         self.questionTextView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
@@ -283,7 +288,7 @@ class NewChecklistTableViewCell: UITableViewCell {
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalToSuperview().offset(-10)
             make.top.equalTo(self.imageButton.snp.bottom).offset(10)
-            make.height.equalTo(245)
+            make.height.equalTo(self.heightOfReviewLabel)
         }
     }
 }
@@ -307,7 +312,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         if question[indexPath.row].review == "" {
             return 265
         } else {
-            return 525
+            return 275 + question[indexPath.row].heightOfComment
         }
         
     }
@@ -321,10 +326,15 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             as! NewChecklistTableViewCell
         
         cell.questionTextView.text = "Chồng có thương em nhiều không?"
+        cell.heightOfReviewLabel = question[indexPath.row].heightOfComment
         
         if question[indexPath.row].review != "" {
             cell.reviewTextView.text = question[indexPath.row].review
+            cell.reviewTextView.numberOfLines = 0
+            cell.reviewTextView.setContentCompressionResistancePriority(UILayoutPriority.init(1000), for: UILayoutConstraintAxis.horizontal)
+            cell.reviewTextView.setContentHuggingPriority(UILayoutPriority.init(1000), for: UILayoutConstraintAxis.horizontal)
             cell.setupLayoutForAddingComment()
+            
         }
         
         cell.fisrtChoiceButtonTapped = {
@@ -400,11 +410,11 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.checklistTableView.showsVerticalScrollIndicator = false
         self.checklistTableView.register(NewChecklistTableViewCell.self, forCellReuseIdentifier: NewChecklistTableViewCell.CELL_IDENTIFIER)
         
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!, heightOfComment: 0.0))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!, heightOfComment: 0.0))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!, heightOfComment: 0.0))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!, heightOfComment: 0.0))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!, heightOfComment: 0.0))
     }
     
     fileprivate var _isStatusBarHidden = false
@@ -511,8 +521,9 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
 }
 
 extension ChecklistsTableViewController: ReviewViewProtocol {
-    func didTapDoneButton(idxRow: Int, comment: String) {
+    func didTapDoneButton(idxRow: Int, comment: String, heightOfButton: CGFloat) {
         question[idxRow].review = comment
+        question[idxRow].heightOfComment = heightOfButton
         self.checklistTableView.reloadData()
     }
 }

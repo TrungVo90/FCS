@@ -98,11 +98,11 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         self.checklistTableView.showsVerticalScrollIndicator = false
         self.checklistTableView.register(NewChecklistTableViewCell.self, forCellReuseIdentifier: NewChecklistTableViewCell.CELL_IDENTIFIER)
         
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!, heightOfComment: 0.0))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!, heightOfComment: 0.0))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!, heightOfComment: 0.0))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!, heightOfComment: 0.0))
+        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!, heightOfComment: 0.0))
         
     }
     

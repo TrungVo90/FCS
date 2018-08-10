@@ -10,7 +10,7 @@ import Foundation
 import SnapKit
 
 protocol ReviewViewProtocol {
-    func didTapDoneButton(idxRow: Int, comment: String)
+    func didTapDoneButton(idxRow: Int, comment: String, heightOfButton: CGFloat)
 }
 
 class ReviewViewController: UIViewController {
@@ -109,7 +109,16 @@ class ReviewViewController: UIViewController {
     
     @objc func doneButtonOnClick() {
         self.dismiss(animated: true, completion: nil)
-        self.delegate?.didTapDoneButton(idxRow: idxCheckList, comment: self.comment)
+        
+        let label:UILabel = UILabel(frame: CGRect.init(x: 0, y: 0, width: self.reviewTextView.frame.width, height: CGFloat.greatestFiniteMagnitude))
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.text = self.comment
+        
+        label.sizeToFit()
+        let heightOfComment = label.frame.height
+        
+        self.delegate?.didTapDoneButton(idxRow: idxCheckList, comment: self.comment, heightOfButton: heightOfComment)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -120,7 +129,9 @@ class ReviewViewController: UIViewController {
 //        gradient.colors = [UIColor.lightGray.cgColor, UIColor.white.cgColor]
 //
 //        self.view.layer.insertSublayer(gradient, at: 0)
-        self.view.backgroundColor = UIColor.clear    }
+        self.view.backgroundColor = UIColor.clear
+        
+    }
 }
 
 extension ReviewViewController {
