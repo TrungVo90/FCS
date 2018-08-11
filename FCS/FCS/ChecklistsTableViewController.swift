@@ -309,9 +309,9 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if question[indexPath.row].review == "" {
-            return 270
+            return 230
         } else {
-            return 290 + question[indexPath.row].heightOfComment
+            return 240 + question[indexPath.row].heightOfComment
         }
         
     }

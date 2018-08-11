@@ -114,6 +114,7 @@ class ReviewViewController: UIViewController {
         label.numberOfLines = 0
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.text = self.comment
+        label.font = UIFont(name:"Georgia", size: 15.0)
         
         label.sizeToFit()
         let heightOfComment = label.frame.height
