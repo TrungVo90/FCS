@@ -23,9 +23,9 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if question[indexPath.row].review == "" {
-            return 265
+            return 230
         } else {
-            return 275 + question[indexPath.row].heightOfComment
+            return 240 + question[indexPath.row].heightOfComment
         }
         
     }
@@ -38,7 +38,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewChecklistTableViewCell", for: indexPath)
             as! NewChecklistTableViewCell
         
-        cell.questionTextView.text = "Chồng có thương em nhiều không?"
+        cell.questionTextView.text = question[indexPath.row].questionName
         
         cell.heightOfReviewLabel = question[indexPath.row].heightOfComment
         
