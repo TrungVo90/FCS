@@ -164,19 +164,18 @@ class NewChecklistTableViewCell: UITableViewCell {
         
         
         self.reviewTextView.text = "The commentation"
-        
         self.reviewTextView.numberOfLines = 0
-        /// COnfigure cell
+        self.reviewTextView.font = UIFont(name:"Georgia", size: 15.0)
+
+        
+        /// Configure cell
         self.questionTextView.isUserInteractionEnabled = false
         self.questionTextView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         self.reviewTextView.isUserInteractionEnabled = false
         self.reviewTextView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         
-        questionTextView.layer.shadowColor = UIColor.lightGray.cgColor
-        questionTextView.layer.shadowOffset = CGSize(width: 5, height: 5)
-        questionTextView.layer.shadowOpacity = 0.5;
-        questionTextView.layer.shadowRadius = 3.0;
-        questionTextView.layer.masksToBounds = false
+        //Add Shadow Here
+        self.questionTextView.addShadow();
     }
     
     func setupLayout() {
@@ -198,7 +197,7 @@ class NewChecklistTableViewCell: UITableViewCell {
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalToSuperview().offset(-10)
             make.top.equalToSuperview().offset(5)
-            make.height.equalTo(125)
+            make.height.equalTo(80)
         }
         
         self.firstChoiceLabel.snp.remakeConstraints { (make) in
@@ -325,7 +324,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewChecklistTableViewCell", for: indexPath)
             as! NewChecklistTableViewCell
         
-        cell.questionTextView.text = "Chồng có thương em nhiều không?"
+        cell.questionTextView.text = "Bundler maintains a consistent environment for ruby applications. It tracks an application's code and the rubygems it needs to run, so that an application will always have the exact gems (and versions) that it needs to run?"
         cell.heightOfReviewLabel = question[indexPath.row].heightOfComment
         
         if question[indexPath.row].review != "" {
@@ -431,8 +430,6 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         super.viewWillAppear(animated)
         self._isStatusBarHidden = false
         self.setNeedsStatusBarAppearanceUpdate()
-        
-        
     }
     
     func setupView() {
@@ -480,7 +477,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             make.bottom.equalToSuperview().offset(-15)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.33)
-            make.height.equalTo(70)
+            make.height.equalTo(60)
         }
         
         self.checklistTableView.snp.remakeConstraints { (make) in
@@ -529,6 +526,16 @@ extension ChecklistsTableViewController: ImageReviewViewProtocol {
         question[idxRow].numberOfCapturedImg = (question[idxRow].numberOfCapturedImg + 1) % 3
         question[idxRow].latestImage = image
         self.checklistTableView.reloadData()
+    }
+}
+
+extension UIView{
+    func addShadow() {
+        self.layer.shadowColor = UIColor.lightGray.cgColor
+        self.layer.shadowOffset = CGSize(width: 2, height: 2)
+        self.layer.shadowOpacity = 0.7;
+        self.layer.shadowRadius = 3.0;
+        self.layer.masksToBounds = false
     }
 }
 
