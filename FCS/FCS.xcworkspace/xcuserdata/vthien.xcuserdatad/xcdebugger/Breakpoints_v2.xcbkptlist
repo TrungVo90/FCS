@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FCS/ChecklistsTableViewController.swift"
-            timestampString = "555701188.3911411"
+            timestampString = "556630761.019056"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "79"
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FCS/ReviewViewController.swift"
-            timestampString = "555701188.391477"
+            timestampString = "556630761.019163"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "195"
@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FCS/ChecklistsTableViewController.swift"
-            timestampString = "555701188.391524"
+            timestampString = "556630761.019222"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "325"
@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FCS/ChecklistsTableViewController.swift"
-            timestampString = "555701188.391794"
+            timestampString = "556630761.019293"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "285"
@@ -74,7 +74,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FCS/ChecklistsTableViewController.swift"
-            timestampString = "555701188.392004"
+            timestampString = "556630761.0193599"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "503"
@@ -90,7 +90,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FCS/ChecklistsTableViewController.swift"
-            timestampString = "555701188.392225"
+            timestampString = "556630761.019811"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "332"
@@ -106,7 +106,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FCS/PreviewChecklistsTableViewController.swift"
-            timestampString = "555701188.392429"
+            timestampString = "556630761.019894"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "50"
@@ -122,12 +122,76 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FCS/ChecklistsTableViewController.swift"
-            timestampString = "555701188.392718"
+            timestampString = "556630761.0199701"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "291"
             endingLineNumber = "291"
             landmarkName = "setupLayoutForAddingComment()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FCS.NewChecklistTableViewCell.setupLayoutForAddingComment() -&gt; ()"
+                  moduleName = "FCS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vthien/Desktop/Demo/FCS/FCS/FCS/ChecklistsTableViewController.swift"
+                  timestampString = "556630761.219326"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "291"
+                  endingLineNumber = "291"
+                  offsetFromSymbolStart = "114">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (SnapKit.ConstraintMaker) -&gt; () in FCS.NewChecklistTableViewCell.setupLayoutForAddingComment() -&gt; ()"
+                  moduleName = "FCS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vthien/Desktop/Demo/FCS/FCS/FCS/ChecklistsTableViewController.swift"
+                  timestampString = "556630761.22114"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "291"
+                  endingLineNumber = "291"
+                  offsetFromSymbolStart = "1032">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FCS/AppDelegate.swift"
+            timestampString = "556630761.0200419"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FCS/StoreListViewCompany.swift"
+            timestampString = "556630820.102569"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "tableView(_:didSelectRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

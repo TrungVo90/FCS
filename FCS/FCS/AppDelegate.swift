@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         self.window?.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        fetchAllData()
         return true
     }
 
@@ -89,6 +90,215 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+    
+    private func fetchAllData() {
+        let dataManager = DataManager.sharedInstance
+        dataManager.downloadAllInitialData { (data,error) in
+            if let error = error {
+                // got an error in getting the data, need to handle it
+                print("error calling POST on /todos")
+                print(error)
+                return
+            }
+            if let data = data {
+                /// Parse JSON data
+                let kUserDefault = UserDefaults.standard
+                var questions = kUserDefault.array(forKey: "questions")
+                var companies = kUserDefault.array(forKey: "companies")
+                var branchs = kUserDefault.array(forKey: "branchs")
+                var categories = kUserDefault.array(forKey: "categories")
+                var companyQuestions = kUserDefault.array(forKey: "company_questions")
+                
+                questions = self.parseAllQuestions(listOfQuestion: data["questions"] as! [AnyObject])
+                companies = self.parseAllCompanies(listOfCompanies: data["companies"] as! [AnyObject])
+                branchs = self.parseAllBranchs(listOfBranchs: data["branchs"] as! [AnyObject])
+                categories = self.parseAllCategories(listOfCategories: data["categories"] as! [AnyObject])
+                companyQuestions = self.parseAllCompanyQuestions(listOfCompanyQuestions: data["company_questions"] as! [AnyObject])
+                
+                /// Store data
+                var encodedData = NSKeyedArchiver.archivedData(withRootObject: questions! as NSArray) as NSData
+                kUserDefault.set(encodedData, forKey: "questions")
+                encodedData = NSKeyedArchiver.archivedData(withRootObject: companies! as Array) as NSData
+                kUserDefault.set(encodedData, forKey: "companies")
+                encodedData = NSKeyedArchiver.archivedData(withRootObject: branchs! as Array) as NSData
+                kUserDefault.set(encodedData, forKey: "branchs")
+                encodedData = NSKeyedArchiver.archivedData(withRootObject: categories! as Array) as NSData
+                kUserDefault.set(encodedData, forKey: "categories")
+                encodedData = NSKeyedArchiver.archivedData(withRootObject: companyQuestions! as Array) as NSData
+                kUserDefault.set(encodedData, forKey: "company_questions")
+                
+                kUserDefault.synchronize()
+            }
+            
+        }
+    }
+    
+    fileprivate func parseAllQuestions(listOfQuestion: [AnyObject]) -> [Questions] {
+        var questions = [Questions]()
+        for q in listOfQuestion {
+            var question = Questions()
+            question.status = (q["status"] as? Int)!
+            question.title_en = (q["title_en"] as? String)!
+            question.question_id = (q["id"] as? Int64)!
+            question.category_id = (q["category_id"] as? Int64)!
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            dateFormatter.timeZone = TimeZone.current
+            dateFormatter.locale = Locale.current
+            
+            dateFormatter.calendar = Calendar(identifier: .iso8601)
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+            dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+            
+            var date = dateFormatter.date(from: (q["created_at"] as? String)!)
+            
+            question.created_at = date == nil ? Date(timeIntervalSince1970: 0) : date!
+            
+            question.checklist_id = (q["checklist_id"] as? Int64)!
+            date = dateFormatter.date(from: (q["updated_at"] as? String)!)!
+            question.updated_at = date == nil ? Date(timeIntervalSince1970: 0) : date!
+            question.title_vn = (q["title_vn"] as? String)!
+            questions.append(question)
+        }
+        return questions
+    }
+    
+    fileprivate func parseAllCompanies(listOfCompanies: [AnyObject]) -> [Companies] {
+        var companies = [Companies]()
+        for q in listOfCompanies {
+            var company = Companies()
+            
+            company.id = (q["id"] as? Int64)!
+            company.name = (q["name"] as? String)!
+            company.email = (q["email"] as? String)!
+            company.auth_key = (q["auth_key"] as? String)!
+            company.password_hash = (q["password_hash"] as? String)!
+            company.password_reset_token = (q["password_reset_token"] as? String)!
+            company.phone = (q["phone"] as? String)!
+            company.address = (q["address"] as? String)!
+            company.tax_number = (q["tax_number"] as? Int64)!
+            company.contract_number = (q["contract_number"] as? String)!
+            
+            company.status = (q["status"] as? Int)!
+            
+            var dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            dateFormatter.timeZone = TimeZone.current
+            dateFormatter.locale = Locale.current
+            
+            dateFormatter.calendar = Calendar(identifier: .iso8601)
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+            dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+            
+            var date = dateFormatter.date(from: (q["contract_expired"] as? String)!)
+            
+            company.contract_expired = date == nil ? Date(timeIntervalSince1970: 0) : date!
+            
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            date = dateFormatter.date(from: (q["created_at"] as? String)!)
+            company.created_at = date == nil ? Date(timeIntervalSince1970: 0) : date!
+            
+            date = dateFormatter.date(from: (q["updated_at"] as? String)!)
+            company.updated_at = date == nil ? Date(timeIntervalSince1970: 0) : date!
+            
+            companies.append(company)
+        }
+        return companies
+    }
+    
+    fileprivate func parseAllBranchs(listOfBranchs: [AnyObject]) -> [Branchs] {
+        var branchs = [Branchs]()
+        for q in listOfBranchs {
+            var branch = Branchs()
+            branch.id = (q["id"] as? Int64)!
+            branch.company_id = (q["company_id"] as? Int64)!
+            branch.name = (q["name"] as? String)!
+            branch.email = (q["email"] as? String)!
+            branch.phone = (q["phone"] as? String)!
+            branch.address = (q["address"] as? String)!
+            branch.status = (q["status"] as? Int)!
+            
+            var dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            dateFormatter.timeZone = TimeZone.current
+            dateFormatter.locale = Locale.current
+            
+            dateFormatter.calendar = Calendar(identifier: .iso8601)
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+            dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+            
+            var date = dateFormatter.date(from: (q["created_at"] as? String)!)
+            branch.created_at = date == nil ? Date(timeIntervalSince1970: 0) : date!
+            
+            date = dateFormatter.date(from: (q["updated_at"] as? String)!)
+            branch.updated_at = date == nil ? Date(timeIntervalSince1970: 0) : date!
+            
+            branchs.append(branch)
+        }
+        return branchs
+    }
+    
+    fileprivate func parseAllCategories(listOfCategories: [AnyObject]) -> [Categories] {
+        var categories = [Categories]()
+        for q in listOfCategories {
+            var category = Categories()
+            category.id = (q["id"] as? Int64)!
+            category.checklist_id = (q["checklist_id"] as? Int64)!
+            category.name = (q["name"] as? String)!
+            category.status = (q["status"] as? Int)!
+            
+            var dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            dateFormatter.timeZone = TimeZone.current
+            dateFormatter.locale = Locale.current
+            
+            dateFormatter.calendar = Calendar(identifier: .iso8601)
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+            dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+            
+            
+            var date = dateFormatter.date(from: (q["created_at"] as? String)!)
+            category.created_at = date == nil ? Date(timeIntervalSince1970: 0) : date!
+            
+            date = dateFormatter.date(from: (q["updated_at"] as? String)!)
+            category.updated_at = date == nil ? Date(timeIntervalSince1970: 0) : date!
+            
+            categories.append(category)
+        }
+        return categories
+    }
+    
+    fileprivate func parseAllCompanyQuestions(listOfCompanyQuestions: [AnyObject]) -> [CompanyQuestions] {
+        var companyQuestions = [CompanyQuestions]()
+        for q in listOfCompanyQuestions {
+            var companyQuestion = CompanyQuestions()
+            companyQuestion.status = (q["status"] as? Int)!
+            companyQuestion.question_id = (q["question_id"] as? Int64)!
+            companyQuestion.category_id = (q["category_id"] as? Int64)!
+            companyQuestion.company_id = (q["company_id"] as? Int64)!
+            companyQuestion.checklist_id = (q["checklist_id"] as? Int64)!
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            dateFormatter.timeZone = TimeZone.current
+            dateFormatter.locale = Locale.current
+            
+            dateFormatter.calendar = Calendar(identifier: .iso8601)
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+            dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+            
+            var date = dateFormatter.date(from: (q["created_at"] as? String)!)
+            companyQuestion.created_at = date == nil ? Date(timeIntervalSince1970: 0) : date!
+            
+            date = dateFormatter.date(from: (q["updated_at"] as? String)!)!
+            companyQuestion.updated_at = date == nil ? Date(timeIntervalSince1970: 0) : date!
+            
+            companyQuestions.append(companyQuestion)
+        }
+        return companyQuestions
+    }
+    
 
 }
 

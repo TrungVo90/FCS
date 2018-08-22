@@ -11,6 +11,7 @@
 		35204A07210B956200A2894A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35204A06210B956200A2894A /* LoginViewController.swift */; };
 		35204A09210B957100A2894A /* PreviewChecklistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35204A08210B957100A2894A /* PreviewChecklistsViewController.swift */; };
 		35204A0B210B958C00A2894A /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35204A0A210B958C00A2894A /* UserInfoViewController.swift */; };
+		35215E5F212AC1930061352A /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35215E5E212AC1930061352A /* DataManager.swift */; };
 		35C5D4F22116940900AA5CFA /* ChecklistsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C5D4F12116940900AA5CFA /* ChecklistsTableViewController.swift */; };
 		35CC6FDB2118B8490089BA7C /* PreviewChecklistsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CC6FDA2118B8490089BA7C /* PreviewChecklistsTableViewController.swift */; };
 		35CC6FDD211950350089BA7C /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CC6FDC211950350089BA7C /* ReviewViewController.swift */; };
@@ -54,6 +55,7 @@
 		35204A06210B956200A2894A /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		35204A08210B957100A2894A /* PreviewChecklistsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewChecklistsViewController.swift; sourceTree = "<group>"; };
 		35204A0A210B958C00A2894A /* UserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewController.swift; sourceTree = "<group>"; };
+		35215E5E212AC1930061352A /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		35C5D4F12116940900AA5CFA /* ChecklistsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistsTableViewController.swift; sourceTree = "<group>"; };
 		35CC6FDA2118B8490089BA7C /* PreviewChecklistsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewChecklistsTableViewController.swift; sourceTree = "<group>"; };
 		35CC6FDC211950350089BA7C /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				35CC6FDA2118B8490089BA7C /* PreviewChecklistsTableViewController.swift */,
 				35CC6FDC211950350089BA7C /* ReviewViewController.swift */,
 				35CC6FDE211993CE0089BA7C /* ImageReviewViewController.swift */,
+				35215E5E212AC1930061352A /* DataManager.swift */,
 			);
 			path = FCS;
 			sourceTree = "<group>";
@@ -419,6 +422,7 @@
 				35F6DE9C2109B37D00CE6101 /* FCS.xcdatamodeld in Sources */,
 				35F6DE962109B37D00CE6101 /* ChecklistsViewController.swift in Sources */,
 				35204A07210B956200A2894A /* LoginViewController.swift in Sources */,
+				35215E5F212AC1930061352A /* DataManager.swift in Sources */,
 				35F6DE942109B37D00CE6101 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -26,13 +26,34 @@ class StoreListTableViewCell: UITableViewCell {
 
 class StoreListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var storeTableView: UITableView!
+    var company_id: Int64 = 0
+    fileprivate var _branchs = [Branchs]()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        /// Load list of company on UI
+        if let unarchivedObject = UserDefaults.standard.object(forKey: "branchs") as? Data {
+            self._branchs = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [Branchs])!
+        }
+        
+        /// Filter store based on company id
+        self._branchs = self.getListOfBranchsBasedOnCompanyId(companyId: self.company_id)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.storeTableView.delegate = self
         self.storeTableView.dataSource = self
-        
+    }
+    
+    private func getListOfBranchsBasedOnCompanyId(companyId: Int64) -> [Branchs] {
+        var result = [Branchs]()
+        for branch in self._branchs {
+            if branch.company_id == companyId {
+                result.append(branch)
+            }
+        }
+        return result
     }
     
     override func didReceiveMemoryWarning() {
@@ -45,14 +66,15 @@ class StoreListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return self._branchs.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "storeListTableViewCell", for: indexPath)
             as! StoreListTableViewCell
-       cell.storeNameLabel.text = "BBC Company"
-        cell.storeDescription.text = "108 Trần Minh Quyền, P11, Q10"
+        let branch = self._branchs[indexPath.row]
+       cell.storeNameLabel.text = branch.name
+        cell.storeDescription.text = "Address: " + branch.address + " - Phone: " + branch.phone + "\n Email: " + branch.email
         return cell
     }
     

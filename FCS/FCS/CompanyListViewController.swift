@@ -15,6 +15,8 @@ class CompanyListTableViewCell: UITableViewCell {
     @IBOutlet weak var companyNameLabel: UILabel!
     @IBOutlet weak var companyDescription: UILabel!
     
+    
+    
     override func awakeFromNib() {
         companyImageView.layer.borderWidth = 1
         companyImageView.layer.masksToBounds = false
@@ -29,11 +31,20 @@ class CompanyListViewController: UIViewController, UITableViewDelegate, UITableV
     
     @IBOutlet weak var userInfoButton: UIButton!
     
+    fileprivate var _companies = [Companies]()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.companyTableView.delegate = self
         self.companyTableView.dataSource = self
+        
+        /// Load list of company on UI
+        if let unarchivedObject = UserDefaults.standard.object(forKey: "companies") as? Data {
+            self._companies = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [Companies])!
+        }
+        
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -50,22 +61,24 @@ class CompanyListViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return self._companies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "companyListTableViewCell", for: indexPath)
             as! CompanyListTableViewCell
-        cell.companyNameLabel.text = "HighLand Coffee"
-        cell.companyDescription.text = "Highlands Coffee® được sinh ra từ niềm đam mê bất tận với hạt cà phê Việt Nam"
+        let company = self._companies[indexPath.row]
+        cell.companyNameLabel.text = company.name
+        cell.companyDescription.text = company.address
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "StoreListViewController")
-        
-        self.present(vc!, animated: true, completion: nil)
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "StoreListViewController") as! StoreListViewController
+        let company = self._companies[indexPath.row]
+        vc.company_id = company.id
+        self.present(vc, animated: true, completion: nil)
     }
     
     @IBAction func userInfoButtonOnClick(_ sender: Any) {
