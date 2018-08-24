@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cF4-cM-Vgu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cF4-cM-Vgu">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="GeorgiaBold.ttf">
+            <string>Georgia-Bold</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Checklists View Controller-->
         <scene sceneID="lHz-KU-H3n">
@@ -838,6 +843,7 @@
                         <viewLayoutGuide key="safeArea" id="PbM-Hd-siT"/>
                     </view>
                     <connections>
+                        <outlet property="storeSearchBar" destination="pxN-SM-g0e" id="2DJ-Ye-8O9"/>
                         <outlet property="storeTableView" destination="Rg0-Q0-aYz" id="h9a-J6-tik"/>
                     </connections>
                 </viewController>
@@ -967,6 +973,7 @@
                         <viewLayoutGuide key="safeArea" id="YQd-Ok-GkN"/>
                     </view>
                     <connections>
+                        <outlet property="companySearchBar" destination="Jch-7E-yk6" id="ARS-un-Yfp"/>
                         <outlet property="companyTableView" destination="WJ7-H1-oRC" id="6b1-mZ-oO4"/>
                     </connections>
                 </viewController>
