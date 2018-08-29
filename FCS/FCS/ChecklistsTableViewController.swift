@@ -395,14 +395,14 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         
         self.imagePicker.delegate = self
         
-        completedButton.layer.masksToBounds = true
-        completedButton.layer.borderColor = UIColor.white.cgColor
-        completedButton.layer.borderWidth = 2
-        completedButton.layer.cornerRadius = 10
+        self.completedButton.layer.masksToBounds = true
+        self.completedButton.layer.borderColor = UIColor.white.cgColor
+        self.completedButton.layer.borderWidth = 2
+        self.completedButton.layer.cornerRadius = 10
     
-        completedButton.backgroundColor = UIColor.init(red: 78/255, green: 181/255, blue: 251/255, alpha: 1.0)
+        self.completedButton.backgroundColor = UIColor.init(red: 78/255, green: 181/255, blue: 251/255, alpha: 1.0)
 
-        completedButton.setTitle("Completed", for: .normal)
+        self.completedButton.setTitle("Complete", for: .normal)
         
         self.checklistTableView.backgroundColor = UIColor.clear
         self.checklistTableView.separatorStyle = .none
@@ -444,11 +444,12 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         
         self.backButton.addTarget(self, action: #selector(backButtonOnClick), for: .touchUpInside)
         self.completedButton.addTarget(self, action: #selector(completedButtonOnClick), for: .touchUpInside)
-        
+        self.completedButton.titleLabel!.font = UIFont(name: "Georgia-Bold" , size: 19)
+
         self.customView.addSubview(self.titleLabel)
         self.titleLabel.font = UIFont(name: "Georgia-Bold", size: 22)
         self.titleLabel.textColor = .white
-        self.titleLabel.text = "Check lists"
+        self.titleLabel.text = "Check List"
         self.titleLabel.textAlignment = .center
     }
     
@@ -476,7 +477,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.completedButton.snp.remakeConstraints { (make) in
             make.bottom.equalToSuperview().offset(-15)
             make.centerX.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.33)
+            make.width.equalToSuperview().multipliedBy(0.40)
             make.height.equalTo(60)
         }
         
@@ -497,7 +498,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         let vc = PreviewChecklistsTableViewController()
         vc.modalPresentationCapturesStatusBarAppearance = true
         vc.question = self.question
-        self.present(vc, animated: true, completion: nil)
+        self.present(vc, animated: false, completion: nil)
     }
     
     @objc func backButtonOnClick() {

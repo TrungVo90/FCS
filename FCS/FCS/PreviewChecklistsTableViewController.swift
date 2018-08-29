@@ -89,14 +89,15 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         self.checklistTableView.delegate = self
         self.checklistTableView.dataSource = self
         
-        submitButton.layer.masksToBounds = true
-        submitButton.layer.borderColor = UIColor.white.cgColor
-        submitButton.layer.borderWidth = 2
-        submitButton.layer.cornerRadius = 10
+        self.submitButton.layer.masksToBounds = true
+        self.submitButton.layer.borderColor = UIColor.white.cgColor
+        self.submitButton.layer.borderWidth = 2
+        self.submitButton.layer.cornerRadius = 10
         
         submitButton.backgroundColor = UIColor.init(red: 78/255, green: 181/255, blue: 251/255, alpha: 1.0)
-        
-        submitButton.setTitle("Completed", for: .normal)
+        self.submitButton.titleLabel!.font = UIFont(name: "Georgia-Bold" , size: 19)
+
+        submitButton.setTitle("Submit", for: .normal)
         
         self.checklistTableView.backgroundColor = UIColor.clear
         self.checklistTableView.separatorStyle = .none
@@ -140,7 +141,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         self.customView.addSubview(self.titleLabel)
         self.titleLabel.font = UIFont(name: "Georgia-Bold", size: 22)
         self.titleLabel.textColor = .white
-        self.titleLabel.text = "Preview"
+        self.titleLabel.text = "Preview Check List"
         self.titleLabel.textAlignment = .center
     }
     
@@ -161,15 +162,15 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         
         self.titleLabel.snp.remakeConstraints { (make) in
             make.center.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.4)
+            make.width.equalToSuperview().multipliedBy(0.8)
             make.height.equalToSuperview()
         }
         
         self.submitButton.snp.remakeConstraints { (make) in
             make.bottom.equalToSuperview().offset(-15)
             make.centerX.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.33)
-            make.height.equalTo(70)
+            make.width.equalToSuperview().multipliedBy(0.40)
+            make.height.equalTo(60)
         }
         
         self.checklistTableView.snp.remakeConstraints { (make) in
