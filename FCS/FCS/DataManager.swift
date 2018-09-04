@@ -8,6 +8,9 @@
 
 import Foundation
 
+let HOST: String = "http://35.225.247.85/"
+let DOMAIN: String = "product/fcsapp/demo/fcsapp/api/web/index.php/"
+
 enum BackendError: Error {
     case urlError(reason: String)
     case objectSerialization(reason: String)
@@ -353,7 +356,7 @@ class CompanyQuestions: NSObject, NSCoding {
 open class DataManager: NSObject, Codable {
     static let sharedInstance = DataManager()
     func downloadAllInitialData(completionHandler: @escaping ([String:AnyObject]?, Error?) -> Void) {
-        let urlString = "http://35.225.247.85/product/fcsapp/demo/fcsapp/api/web/index.php/init"
+        let urlString =  HOST + DOMAIN + "init"
         guard let url = URL(string: urlString) else {
             let error = BackendError.urlError(reason: "Could not construct URL")
             completionHandler(nil, error)
@@ -412,6 +415,60 @@ open class DataManager: NSObject, Codable {
             }
         }
         
+        task.resume()
+    }
+    
+    func login(completionHandler: @escaping ([String:AnyObject]?, Error?) -> Void) -> Void {
+        let urlString =  HOST + DOMAIN + "login"
+        guard let url = URL(string: urlString) else {
+            let error = BackendError.urlError(reason: "Could not construct URL")
+            completionHandler(nil, error)
+            return
+        }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        var headers = urlRequest.allHTTPHeaderFields ?? [:]
+        headers["Content-Type"] = "application/json"
+        urlRequest.allHTTPHeaderFields = headers
+        
+        let parameters = ["username": "admin", "password": "123456"] as [String : String]
+        do {
+            urlRequest.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
+        let task = URLSession.shared.dataTask(with: urlRequest) {
+            (data, response, error) in
+            guard error == nil else {
+                let error = error!
+                completionHandler(nil, error)
+                return
+            }
+            guard let responseData = data else {
+                let error = BackendError.objectSerialization(reason: "No data in response")
+                completionHandler(nil,error)
+                return
+            }
+            
+            // parse the result as JSON
+            // then create a Todo from the JSON
+            do {
+                if let generalDataJSON = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],let generalData = GeneralData(json: generalDataJSON) {
+                    // created a TODO object
+                    
+                    completionHandler(generalData.data,nil)
+                } else {
+                    // couldn't create a todo object from the JSON
+                    let error = BackendError.objectSerialization(reason: "Couldn't create a todo object from the JSON")
+                    completionHandler(nil, error)
+                }
+            } catch {
+                // error trying to convert the data to JSON using JSONSerialization.jsonObject
+                completionHandler(nil, error)
+                return
+            }
+        }
         task.resume()
     }
 }

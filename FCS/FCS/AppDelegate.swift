@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         self.window?.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         fetchAllData()
+        login()
         return true
     }
 
@@ -130,6 +131,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 kUserDefault.synchronize()
             }
             
+        }
+    }
+    
+    private func login() {
+        DataManager.sharedInstance.login { (data, error) in
+            if let error = error {
+                // got an error in getting the data, need to handle it
+                print("error calling POST on /todos")
+                print(error)
+                return
+            }
+            if let dic: [String:String] = data as? [String : String]  {
+                let accessToken = dic["access_token"]
+                print(accessToken)
+            }
         }
     }
     
