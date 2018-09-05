@@ -44,18 +44,21 @@ class LoginViewController: UIViewController {
                 DispatchQueue.global(qos: .background).async {
                     print("handle login data")
                     let accessToken = dic[ACCESS_TOKEN_KEY]
+                    
                     if (UserDefaults.standard.object(forKey: ACCESS_TOKEN_KEY) != nil) {
                         UserDefaults.standard.removeObject(forKey: ACCESS_TOKEN_KEY)
                     }
                     UserDefaults.standard.set(accessToken, forKey: ACCESS_TOKEN_KEY)
                     UserDefaults.standard.synchronize();
                     print(accessToken ?? "")
+                    
+                    DispatchQueue.main.async {
+                        print("navigation to company view controller")
+                        self.navigationToOtherView()
+                    }
                 }
 
-                DispatchQueue.main.async {
-                    print("navigation to company view controller")
-                    self.navigationToOtherView()
-                }
+                
             }
         }
     }
