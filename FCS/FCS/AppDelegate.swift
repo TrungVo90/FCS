@@ -19,7 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         self.window?.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         fetchAllData()
-        login()
         return true
     }
 
@@ -134,25 +133,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    private func login() {
-        DataManager.sharedInstance.login { (data, error) in
-            if let error = error {
-                // got an error in getting the data, need to handle it
-                print("error calling POST on /todos")
-                print(error)
-                return
-            }
-            if let dic: [String:String] = data as? [String : String]  {
-                let accessToken = dic["access_token"]
-                print(accessToken)
-            }
-        }
-    }
     
     fileprivate func parseAllQuestions(listOfQuestion: [AnyObject]) -> [Questions] {
         var questions = [Questions]()
         for q in listOfQuestion {
-            var question = Questions()
+            let question = Questions()
             question.status = (q["status"] as? Int)!
             question.title_en = (q["title_en"] as? String)!
             question.question_id = (q["id"] as? Int64)!
@@ -183,8 +168,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     fileprivate func parseAllCompanies(listOfCompanies: [AnyObject]) -> [Companies] {
         var companies = [Companies]()
         for q in listOfCompanies {
-            var company = Companies()
-            
+            let company = Companies()
             company.id = (q["id"] as? Int64)!
             company.name = (q["name"] as? String)!
             company.email = (q["email"] as? String)!
@@ -198,7 +182,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             company.status = (q["status"] as? Int)!
             
-            var dateFormatter = DateFormatter()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             dateFormatter.timeZone = TimeZone.current
             dateFormatter.locale = Locale.current
@@ -226,7 +210,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     fileprivate func parseAllBranchs(listOfBranchs: [AnyObject]) -> [Branchs] {
         var branchs = [Branchs]()
         for q in listOfBranchs {
-            var branch = Branchs()
+            let branch = Branchs()
             branch.id = (q["id"] as? Int64)!
             branch.company_id = (q["company_id"] as? Int64)!
             branch.name = (q["name"] as? String)!
@@ -235,7 +219,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             branch.address = (q["address"] as? String)!
             branch.status = (q["status"] as? Int)!
             
-            var dateFormatter = DateFormatter()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             dateFormatter.timeZone = TimeZone.current
             dateFormatter.locale = Locale.current
@@ -258,13 +242,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     fileprivate func parseAllCategories(listOfCategories: [AnyObject]) -> [Categories] {
         var categories = [Categories]()
         for q in listOfCategories {
-            var category = Categories()
+            let category = Categories()
             category.id = (q["id"] as? Int64)!
             category.checklist_id = (q["checklist_id"] as? Int64)!
             category.name = (q["name"] as? String)!
             category.status = (q["status"] as? Int)!
             
-            var dateFormatter = DateFormatter()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             dateFormatter.timeZone = TimeZone.current
             dateFormatter.locale = Locale.current
@@ -288,7 +272,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     fileprivate func parseAllCompanyQuestions(listOfCompanyQuestions: [AnyObject]) -> [CompanyQuestions] {
         var companyQuestions = [CompanyQuestions]()
         for q in listOfCompanyQuestions {
-            var companyQuestion = CompanyQuestions()
+            let companyQuestion = CompanyQuestions()
             companyQuestion.status = (q["status"] as? Int)!
             companyQuestion.question_id = (q["question_id"] as? Int64)!
             companyQuestion.category_id = (q["category_id"] as? Int64)!
