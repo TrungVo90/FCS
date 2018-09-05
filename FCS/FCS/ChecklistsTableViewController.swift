@@ -313,6 +313,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     var defaultLanguage: Int = 0 // 0: vn 1: en
     
+    var doneQuestions: [Int] = [Int]()
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if questions[indexPath.row].review == "" {
             return 230
@@ -327,6 +329,12 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.questions.count
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if !doneQuestions.contains(indexPath.row) {
+            doneQuestions.append(indexPath.row)
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -355,18 +363,30 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             cell.firstChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
             cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+            
+            if !self.doneQuestions.contains(indexPath.row) {
+                self.doneQuestions.append(indexPath.row)
+            }
         }
         
         cell.secondChoiceButtonTapped = {
             cell.secondChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
             cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+            
+            if !self.doneQuestions.contains(indexPath.row) {
+                self.doneQuestions.append(indexPath.row)
+            }
         }
         
         cell.thirdChoiceButtonTapped = {
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
             cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+            
+            if !self.doneQuestions.contains(indexPath.row) {
+                self.doneQuestions.append(indexPath.row)
+            }
         }
         
         cell.reviewButtonTapped = {
@@ -386,14 +406,14 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             self.present(vc, animated: true, completion: nil)
         }
         
-        cell.firstImageView.image = question.imgCaptured[0] == nil ? UIImage() : question.imgCaptured[0]
-        cell.secondImageView.image = question.imgCaptured[1] == nil ? UIImage() : question.imgCaptured[1]
-        cell.thirdImageView.image = question.imgCaptured[2] == nil ? UIImage() : question.imgCaptured[2]
+        cell.firstImageView.image = question.imgCaptured[0]
+        cell.secondImageView.image = question.imgCaptured[1]
+        cell.thirdImageView.image = question.imgCaptured[2]
         
         
         return cell
     }
-    
+
     private var completedButton: UIButton = UIButton()
     
     private var checklistTableView: UITableView = UITableView()
@@ -534,6 +554,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         vc.modalPresentationCapturesStatusBarAppearance = true
         vc.questions = self.questions
         vc.defaultLanguage = self.defaultLanguage
+        vc.doneQuestions = self.doneQuestions.count
         self.present(vc, animated: false, completion: nil)
     }
     
@@ -559,7 +580,14 @@ extension ChecklistsTableViewController: ReviewViewProtocol {
     func didTapDoneButton(idxRow: Int, comment: String, heightOfButton: CGFloat) {
         questions[idxRow].review = comment
         questions[idxRow].heightOfComment = heightOfButton
+        
+        if !doneQuestions.contains(idxRow) {
+            doneQuestions.append(idxRow)
+        }
+        
         self.checklistTableView.reloadData()
+        
+
     }
 }
 
@@ -569,6 +597,11 @@ extension ChecklistsTableViewController: ImageReviewViewProtocol {
         questions[idxRow].imgCaptured[idx % 3] = image
         questions[idxRow].numberOfCapturedImg = (questions[idxRow].numberOfCapturedImg + 1) % 3
         questions[idxRow].latestImage = image
+        
+        if !doneQuestions.contains(idxRow) {
+            doneQuestions.append(idxRow)
+        }
+        
         self.checklistTableView.reloadData()
     }
 }

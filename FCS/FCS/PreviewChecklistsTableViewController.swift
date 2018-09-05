@@ -23,6 +23,29 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     
     var defaultLanguage: Int = 0 // 0: vn 1: en
     
+    var doneQuestions: Int = 0
+    
+    var finishedPercentLabel: UILabel = UILabel()
+    
+    var highLabel: UILabel = UILabel()
+    
+    var mediumLabel: UILabel = UILabel()
+    
+    var lowLabel: UILabel = UILabel()
+    
+    var veryLowLabel: UILabel = UILabel()
+    
+    var greenLabel: UILabel = UILabel()
+    
+    var yellowLabel: UILabel = UILabel()
+    
+    var purpleLabel: UILabel = UILabel()
+    
+    var redLabel: UILabel = UILabel()
+    
+    var summarizationView: UIView = UIView()
+    
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if questions[indexPath.row].review == "" {
             return 230
@@ -32,8 +55,12 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return self.questions.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -125,6 +152,15 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         super.viewWillAppear(animated)
         self._isStatusBarHidden = false
         self.setNeedsStatusBarAppearanceUpdate()
+        
+        ///
+        
+        var string: String = "Tổng số điểm thực tế: " + self.doneQuestions.description + "Tổng số điểm yêu cầu: " + self.questions.count.description
+
+        let percent = CGFloat(self.doneQuestions)/CGFloat(self.questions.count)
+        string = string + "\n" + percent.description + "%"
+        
+        self.finishedPercentLabel.text = string
     }
     
     func setupView() {
@@ -149,6 +185,30 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         self.titleLabel.textColor = .white
         self.titleLabel.text = "Preview Check List"
         self.titleLabel.textAlignment = .center
+        
+        self.summarizationView.addSubview(self.finishedPercentLabel)
+        self.summarizationView.addSubview(self.highLabel)
+        self.summarizationView.addSubview(self.mediumLabel)
+        self.summarizationView.addSubview(self.lowLabel)
+        self.summarizationView.addSubview(self.veryLowLabel)
+        self.summarizationView.addSubview(self.greenLabel)
+        self.summarizationView.addSubview(self.yellowLabel)
+        self.summarizationView.addSubview(self.purpleLabel)
+        self.summarizationView.addSubview(self.redLabel)
+        
+        self.greenLabel.backgroundColor = UIColor.green
+        self.yellowLabel.backgroundColor = UIColor.yellow
+        self.purpleLabel.backgroundColor = UIColor.purple
+        self.redLabel.backgroundColor = UIColor.red
+        
+        self.highLabel.text = "91-100%"
+        self.mediumLabel.text = "81-90%"
+        self.lowLabel.text = "75-80%"
+        self.veryLowLabel.text = "0-74%"
+        
+        self.view.addSubview(self.summarizationView)
+        
+        
     }
     
     func setupLayout() {
@@ -179,10 +239,83 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
             make.height.equalTo(60)
         }
         
+        setupLayoutSummarizationView()
+        
         self.checklistTableView.snp.remakeConstraints { (make) in
             make.top.equalTo(self.backButton.snp.bottom)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(self.submitButton.snp.top).offset(-10)
+            make.bottom.equalTo(self.summarizationView.snp.top).offset(-5)
+        }
+        
+    }
+    
+    func setupLayoutSummarizationView() {
+        self.summarizationView.snp.remakeConstraints { (make) in
+            make.height.equalTo(90)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(self.submitButton.snp.top).offset(-5)
+        }
+        
+        self.finishedPercentLabel.snp.remakeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.4)
+            make.leading.trailing.equalToSuperview()
+        }
+        
+        self.highLabel.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.finishedPercentLabel.snp.bottom)
+            make.leading.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.5)
+            make.height.equalToSuperview().multipliedBy(0.15)
+        }
+        
+        self.greenLabel.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.finishedPercentLabel.snp.bottom)
+            make.trailing.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.5)
+            make.height.equalToSuperview().multipliedBy(0.15)
+        }
+        
+        self.mediumLabel.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.highLabel.snp.bottom)
+            make.leading.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.5)
+            make.height.equalToSuperview().multipliedBy(0.15)
+        }
+        
+        self.yellowLabel.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.greenLabel.snp.bottom)
+            make.trailing.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.5)
+            make.height.equalToSuperview().multipliedBy(0.15)
+        }
+        
+        self.lowLabel.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.mediumLabel.snp.bottom)
+            make.leading.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.5)
+            make.height.equalToSuperview().multipliedBy(0.15)
+        }
+        
+        self.purpleLabel.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.yellowLabel.snp.bottom)
+            make.trailing.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.5)
+            make.height.equalToSuperview().multipliedBy(0.15)
+        }
+        
+        self.veryLowLabel.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.lowLabel.snp.bottom)
+            make.leading.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.5)
+            make.height.equalToSuperview().multipliedBy(0.15)
+        }
+        
+        self.redLabel.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.purpleLabel.snp.bottom)
+            make.trailing.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.5)
+            make.height.equalToSuperview().multipliedBy(0.15)
         }
         
     }
