@@ -19,13 +19,15 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     
     var customView: UIView = UIView()
     
-    var question: [Question] = [Question]()
+    var questions: [Questions] = [Questions]()
+    
+    var defaultLanguage: Int = 0 // 0: vn 1: en
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if question[indexPath.row].review == "" {
+        if questions[indexPath.row].review == "" {
             return 230
         } else {
-            return 240 + question[indexPath.row].heightOfComment
+            return 240 + questions[indexPath.row].heightOfComment
         }
         
     }
@@ -37,13 +39,17 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewChecklistTableViewCell", for: indexPath)
             as! NewChecklistTableViewCell
+        let question = self.questions[indexPath.row]
+        if defaultLanguage == 0 {
+            cell.questionTextView.text = question.title_vn
+        } else {
+            cell.questionTextView.text = question.title_en
+        }
         
-        cell.questionTextView.text = question[indexPath.row].questionName
+        cell.heightOfReviewLabel = question.heightOfComment
         
-        cell.heightOfReviewLabel = question[indexPath.row].heightOfComment
-        
-        if question[indexPath.row].review != "" {
-            cell.reviewTextView.text = question[indexPath.row].review
+        if question.review != "" {
+            cell.reviewTextView.text = question.review
             cell.reviewTextView.numberOfLines = 0
             cell.reviewTextView.setContentCompressionResistancePriority(UILayoutPriority.init(1000), for: UILayoutConstraintAxis.horizontal)
             cell.reviewTextView.setContentHuggingPriority(UILayoutPriority.init(1000), for: UILayoutConstraintAxis.horizontal)

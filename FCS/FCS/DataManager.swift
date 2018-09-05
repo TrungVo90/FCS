@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import UIKit
 let HOST: String = "http://35.225.247.85/"
 let DOMAIN: String = "product/fcsapp/demo/fcsapp/api/web/index.php/"
 
@@ -243,6 +243,13 @@ class Questions: NSObject, NSCoding {
     var title_vn: String = ""
     var title_en: String = ""
     
+    var questionChoice: Int = 0
+    var review: String = ""
+    var imgCaptured: [UIImage] = [UIImage]()
+    var numberOfCapturedImg: Int = 0
+    var latestImage: UIImage = UIImage()
+    var heightOfComment: CGFloat = 0.0
+    
     override init() {
         self.company_id = 0
         self.checklist_id = 0
@@ -253,6 +260,18 @@ class Questions: NSObject, NSCoding {
         self.updated_at = Date(timeIntervalSince1970: 0)
         self.title_vn = ""
         self.title_en = ""
+        
+        /// Addtional properties
+        self.questionChoice = 0
+        self.review = ""
+        self.imgCaptured = [UIImage]()
+        self.imgCaptured.append(UIImage())
+        self.imgCaptured.append(UIImage())
+        self.imgCaptured.append(UIImage())
+        
+        self.numberOfCapturedImg = 0
+        self.latestImage = UIImage()
+        self.heightOfComment = 0.0
     }
     
     init(company_id: Int64, checklist_id: Int64 = 0, category_id: Int64, question_id: Int64, status: Int = 0, created_at: Date = Date(timeIntervalSince1970: 0), updated_at: Date = Date(timeIntervalSince1970: 0), title_vn: String = "", title_en: String = "") {
@@ -265,6 +284,18 @@ class Questions: NSObject, NSCoding {
         self.updated_at = updated_at
         self.title_en = title_en
         self.title_vn = title_vn
+        
+        /// Addtional properties
+        self.questionChoice = 0
+        self.review = ""
+        self.imgCaptured = [UIImage]()
+        self.imgCaptured.append(UIImage())
+        self.imgCaptured.append(UIImage())
+        self.imgCaptured.append(UIImage())
+        
+        self.numberOfCapturedImg = 0
+        self.latestImage = UIImage()
+        self.heightOfComment = 0.0
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
@@ -294,7 +325,7 @@ class Questions: NSObject, NSCoding {
         aCoder.encode(self.created_at, forKey: "created_at")
         aCoder.encode(self.updated_at, forKey: "updated_at")
         aCoder.encode(self.title_vn, forKey: "title_vn")
-        aCoder.encode(self.title_en, forKey: "title_vn")
+        aCoder.encode(self.title_en, forKey: "title_en")
     }
 }
 

@@ -16,6 +16,7 @@
 		35CC6FDB2118B8490089BA7C /* PreviewChecklistsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CC6FDA2118B8490089BA7C /* PreviewChecklistsTableViewController.swift */; };
 		35CC6FDD211950350089BA7C /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CC6FDC211950350089BA7C /* ReviewViewController.swift */; };
 		35CC6FDF211993CE0089BA7C /* ImageReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CC6FDE211993CE0089BA7C /* ImageReviewViewController.swift */; };
+		35E91D1E213EE8CF0046F62A /* CategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E91D1D213EE8CF0046F62A /* CategoryTableViewController.swift */; };
 		35F366B7210E2892003A057E /* CompanyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F366B6210E2892003A057E /* CompanyListViewController.swift */; };
 		35F366B9210E9946003A057E /* StoreListViewCompany.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F366B8210E9946003A057E /* StoreListViewCompany.swift */; };
 		35F6DE942109B37D00CE6101 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F6DE932109B37D00CE6101 /* AppDelegate.swift */; };
@@ -60,6 +61,7 @@
 		35CC6FDA2118B8490089BA7C /* PreviewChecklistsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewChecklistsTableViewController.swift; sourceTree = "<group>"; };
 		35CC6FDC211950350089BA7C /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
 		35CC6FDE211993CE0089BA7C /* ImageReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageReviewViewController.swift; sourceTree = "<group>"; };
+		35E91D1D213EE8CF0046F62A /* CategoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewController.swift; sourceTree = "<group>"; };
 		35F366B6210E2892003A057E /* CompanyListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyListViewController.swift; sourceTree = "<group>"; };
 		35F366B8210E9946003A057E /* StoreListViewCompany.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreListViewCompany.swift; sourceTree = "<group>"; };
 		35F6DE902109B37D00CE6101 /* FCS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FCS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,6 +155,7 @@
 				35CC6FDC211950350089BA7C /* ReviewViewController.swift */,
 				35CC6FDE211993CE0089BA7C /* ImageReviewViewController.swift */,
 				35215E5E212AC1930061352A /* DataManager.swift */,
+				35E91D1D213EE8CF0046F62A /* CategoryTableViewController.swift */,
 			);
 			path = FCS;
 			sourceTree = "<group>";
@@ -418,6 +421,7 @@
 				35F366B7210E2892003A057E /* CompanyListViewController.swift in Sources */,
 				35C5D4F22116940900AA5CFA /* ChecklistsTableViewController.swift in Sources */,
 				35CC6FDF211993CE0089BA7C /* ImageReviewViewController.swift in Sources */,
+				35E91D1E213EE8CF0046F62A /* CategoryTableViewController.swift in Sources */,
 				35204A0B210B958C00A2894A /* UserInfoViewController.swift in Sources */,
 				35F6DE9C2109B37D00CE6101 /* FCS.xcdatamodeld in Sources */,
 				35F6DE962109B37D00CE6101 /* ChecklistsViewController.swift in Sources */,

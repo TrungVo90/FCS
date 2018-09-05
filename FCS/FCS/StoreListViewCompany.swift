@@ -123,7 +123,8 @@ class StoreListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = ChecklistsTableViewController()
+        let vc = CategoryTableViewController()
+        vc.companyId = self.company_id
         vc.modalPresentationCapturesStatusBarAppearance = true
 
         self.present(vc, animated: false, completion: nil)

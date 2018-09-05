@@ -139,7 +139,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         for q in listOfQuestion {
             let question = Questions()
             question.status = (q["status"] as? Int)!
-            question.title_en = (q["title_en"] as? String)!
             question.question_id = (q["id"] as? Int64)!
             question.category_id = (q["category_id"] as? Int64)!
             
@@ -160,6 +159,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             date = dateFormatter.date(from: (q["updated_at"] as? String)!)!
             question.updated_at = date == nil ? Date(timeIntervalSince1970: 0) : date!
             question.title_vn = (q["title_vn"] as? String)!
+            question.title_en = (q["title_en"] as? String)!
             questions.append(question)
         }
         return questions

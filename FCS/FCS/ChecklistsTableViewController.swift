@@ -303,32 +303,47 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     var customView: UIView = UIView()
     
-    var question: [Question] = [Question]()
+    var questions: [Questions] = [Questions]()
     
     let imagePicker = UIImagePickerController()
     
+    var changeLanguageButton: UIButton = UIButton()
+    
+    var listOfQuestionIds: [Int64] = [Int64]()
+    
+    var defaultLanguage: Int = 0 // 0: vn 1: en
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if question[indexPath.row].review == "" {
+        if questions[indexPath.row].review == "" {
             return 230
         } else {
-            return 240 + question[indexPath.row].heightOfComment
+            return 240 + questions[indexPath.row].heightOfComment
         }
-        
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return self.questions.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewChecklistTableViewCell", for: indexPath)
             as! NewChecklistTableViewCell
+        let question = questions[indexPath.row]
+        if defaultLanguage == 0 {
+            cell.questionTextView.text = question.title_vn
+        } else {
+            cell.questionTextView.text = question.title_en
+        }
         
-        cell.questionTextView.text = "Bundler maintains a consistent environment for ruby applications. It tracks an application's code and the rubygems it needs to run, so that an application will always have the exact gems (and versions) that it needs to run?"
-        cell.heightOfReviewLabel = question[indexPath.row].heightOfComment
+        cell.heightOfReviewLabel = question.heightOfComment
         
-        if question[indexPath.row].review != "" {
-            cell.reviewTextView.text = question[indexPath.row].review
+        if questions[indexPath.row].review != "" {
+            cell.reviewTextView.text = question.review
             cell.reviewTextView.numberOfLines = 0
             cell.reviewTextView.setContentCompressionResistancePriority(UILayoutPriority.init(1000), for: UILayoutConstraintAxis.horizontal)
             cell.reviewTextView.setContentHuggingPriority(UILayoutPriority.init(1000), for: UILayoutConstraintAxis.horizontal)
@@ -357,7 +372,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         cell.reviewButtonTapped = {
             let vc = ReviewViewController()
             vc.idxCheckList = indexPath.row
-            vc.comment = self.question[indexPath.row].review
+            vc.comment = question.review
             vc.modalPresentationCapturesStatusBarAppearance = true
             vc.delegate = self
             self.present(vc, animated: true, completion: nil)
@@ -371,9 +386,9 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             self.present(vc, animated: true, completion: nil)
         }
         
-        cell.firstImageView.image = question[indexPath.row].imgCaptured[0]
-        cell.secondImageView.image = question[indexPath.row].imgCaptured[1]
-        cell.thirdImageView.image = question[indexPath.row].imgCaptured[2]
+        cell.firstImageView.image = question.imgCaptured[0] == nil ? UIImage() : question.imgCaptured[0]
+        cell.secondImageView.image = question.imgCaptured[1] == nil ? UIImage() : question.imgCaptured[1]
+        cell.thirdImageView.image = question.imgCaptured[2] == nil ? UIImage() : question.imgCaptured[2]
         
         
         return cell
@@ -409,11 +424,20 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.checklistTableView.showsVerticalScrollIndicator = false
         self.checklistTableView.register(NewChecklistTableViewCell.self, forCellReuseIdentifier: NewChecklistTableViewCell.CELL_IDENTIFIER)
         
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!, heightOfComment: 0.0))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!, heightOfComment: 0.0))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!, heightOfComment: 0.0))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!, heightOfComment: 0.0))
-        question.append(Question(questionName: "ABC", questionChoice: 1, review: "", imgCaptured: [UIImage](arrayLiteral: UIImage(named:"ic_image")!, UIImage(named:"ic_image")!,UIImage(named:"ic_image")!), numberOfCapturedImg: 0, latestImage: UIImage(named:"ic_image")!, heightOfComment: 0.0))
+        self.questions = filterQuestions()
+    }
+    
+    func filterQuestions() -> [Questions] {
+        var result = [Questions]()
+        if let unarchivedObject = UserDefaults.standard.object(forKey: "questions") as? Data {
+            let questions = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [Questions])!
+            for q in questions {
+                if self.listOfQuestionIds.contains(q.question_id) {
+                    result.append(q)
+                }
+            }
+        }
+        return result
     }
     
     fileprivate var _isStatusBarHidden = false
@@ -438,8 +462,12 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.view.addSubview(self.completedButton)
         self.view.addSubview(self.customView)
         self.customView.addSubview(self.backButton)
+        self.customView.addSubview(self.changeLanguageButton)
+        
         self.customView.backgroundColor = UIColor.init(red: 78/255, green: 181/255, blue: 251/255, alpha: 1.0)
         
+        self.changeLanguageButton.setImage(UIImage(named: "icon_changeLanguage"), for: .normal)
+        self.changeLanguageButton.addTarget(self, action: #selector(changeLanguageButtonOnClick), for: .touchUpInside)
         self.backButton.setImage(UIImage(named: "ic_back_white"), for: .normal)
         
         self.backButton.addTarget(self, action: #selector(backButtonOnClick), for: .touchUpInside)
@@ -464,6 +492,13 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.backButton.snp.remakeConstraints { (make) in
             make.top.equalToSuperview()
             make.leading.equalToSuperview()
+            make.height.equalToSuperview()
+            make.width.equalTo(44)
+        }
+        
+        self.changeLanguageButton.snp.remakeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.trailing.equalToSuperview()
             make.height.equalToSuperview()
             make.width.equalTo(44)
         }
@@ -497,13 +532,21 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     @objc func completedButtonOnClick() {
         let vc = PreviewChecklistsTableViewController()
         vc.modalPresentationCapturesStatusBarAppearance = true
-        vc.question = self.question
+        vc.questions = self.questions
+        vc.defaultLanguage = self.defaultLanguage
         self.present(vc, animated: false, completion: nil)
     }
+    
     
     @objc func backButtonOnClick() {
         self.dismiss(animated: true, completion: nil)
     }
+    
+    @objc func changeLanguageButtonOnClick() {
+        defaultLanguage = (defaultLanguage + 1) % 2
+        self.checklistTableView.reloadData()
+    }
+
     
     @objc func userInfoButtonOnClick() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -514,18 +557,18 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
 
 extension ChecklistsTableViewController: ReviewViewProtocol {
     func didTapDoneButton(idxRow: Int, comment: String, heightOfButton: CGFloat) {
-        question[idxRow].review = comment
-        question[idxRow].heightOfComment = heightOfButton
+        questions[idxRow].review = comment
+        questions[idxRow].heightOfComment = heightOfButton
         self.checklistTableView.reloadData()
     }
 }
 
 extension ChecklistsTableViewController: ImageReviewViewProtocol {
     func didFinishChoosingImage(idxRow: Int, image: UIImage) {
-        let idx = question[idxRow].numberOfCapturedImg
-        question[idxRow].imgCaptured[idx % 3] = image
-        question[idxRow].numberOfCapturedImg = (question[idxRow].numberOfCapturedImg + 1) % 3
-        question[idxRow].latestImage = image
+        let idx = questions[idxRow].numberOfCapturedImg
+        questions[idxRow].imgCaptured[idx % 3] = image
+        questions[idxRow].numberOfCapturedImg = (questions[idxRow].numberOfCapturedImg + 1) % 3
+        questions[idxRow].latestImage = image
         self.checklistTableView.reloadData()
     }
 }
