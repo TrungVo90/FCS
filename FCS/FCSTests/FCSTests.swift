@@ -1,10 +1,3 @@
-//
-//  FCSTests.swift
-//  FCSTests
-//
-//  Created by Mr Trung Vo Thien Trung on 7/26/18.
-//  Copyright © 2018 Home. All rights reserved.
-//
 
 import XCTest
 @testable import FCS

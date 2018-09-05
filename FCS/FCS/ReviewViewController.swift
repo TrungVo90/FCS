@@ -1,10 +1,4 @@
-//
-//  ReviewController.swift
-//  FCS
-//
-//  Created by Mr Trung Vo Thien Trung on 8/7/18.
-//  Copyright © 2018 Home. All rights reserved.
-//
+
 
 import Foundation
 import SnapKit

@@ -1,10 +1,4 @@
-//
-//  CategoryTableViewController.swift
-//  FCS
-//
-//  Created by Mr Trung Vo Thien Trung on 9/4/18.
-//  Copyright © 2018 Home. All rights reserved.
-//
+
 
 import Foundation
 import UIKit
