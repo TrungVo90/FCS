@@ -449,7 +449,7 @@ open class DataManager: NSObject, Codable {
         task.resume()
     }
     
-    func login(completionHandler: @escaping ([String:AnyObject]?, Error?) -> Void) -> Void {
+    func login(_ username: String , _ password: String, completionHandler: @escaping ([String:AnyObject]?, Error?) -> Void) -> Void {
         let urlString =  HOST + DOMAIN + "login"
         guard let url = URL(string: urlString) else {
             let error = BackendError.urlError(reason: "Could not construct URL")
@@ -462,7 +462,7 @@ open class DataManager: NSObject, Codable {
         headers["Content-Type"] = "application/json"
         urlRequest.allHTTPHeaderFields = headers
         
-        let parameters = ["username": "admin", "password": "123456"] as [String : String]
+        let parameters = ["username": username, "password": password] as [String : String]
         do {
             urlRequest.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
         } catch let error {

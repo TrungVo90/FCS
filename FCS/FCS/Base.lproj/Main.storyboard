@@ -261,7 +261,7 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="User name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QRJ-EF-4fq">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="admin" borderStyle="roundedRect" placeholder="User name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QRJ-EF-4fq">
                                 <rect key="frame" x="31" y="264" width="313" height="28.333333333333314"/>
                                 <color key="tintColor" red="0.25882352939999997" green="0.72941176470000002" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -271,7 +271,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="svN-Kl-kED">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="123456" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="svN-Kl-kED">
                                 <rect key="frame" x="31" y="333.33333333333331" width="313" height="30.333333333333314"/>
                                 <color key="tintColor" red="0.25882352939999997" green="0.72941176470000002" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -304,6 +304,18 @@
                                     <constraint firstAttribute="width" secondItem="pId-cN-u15" secondAttribute="height" multiplier="46:37" id="fmN-7b-jDq"/>
                                 </constraints>
                             </imageView>
+                            <view hidden="YES" alpha="0.29999999999999999" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q10-up-Grz">
+                                <rect key="frame" x="0.0" y="31" width="375" height="781"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yqZ-vU-qdt">
+                                <rect key="frame" x="167.66666666666666" y="215" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="B82-aT-uYT"/>
+                                    <constraint firstAttribute="height" constant="40" id="Qmz-Wp-Qea"/>
+                                </constraints>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -311,6 +323,7 @@
                             <constraint firstItem="vd3-Qx-LiR" firstAttribute="centerX" secondItem="501-Pw-tIU" secondAttribute="centerX" constant="2" id="36i-AR-rvP"/>
                             <constraint firstItem="QRJ-EF-4fq" firstAttribute="top" secondItem="pId-cN-u15" secondAttribute="bottom" constant="41" id="3e8-ed-nii"/>
                             <constraint firstItem="svN-Kl-kED" firstAttribute="top" secondItem="QRJ-EF-4fq" secondAttribute="bottom" constant="41" id="Abk-DY-f5N"/>
+                            <constraint firstItem="yqZ-vU-qdt" firstAttribute="centerX" secondItem="501-Pw-tIU" secondAttribute="centerX" id="HVs-Ta-Hpk"/>
                             <constraint firstItem="QRJ-EF-4fq" firstAttribute="leading" secondItem="T0p-jU-32X" secondAttribute="leading" constant="31" id="Hi7-X7-UjA"/>
                             <constraint firstItem="pId-cN-u15" firstAttribute="top" secondItem="0a5-2H-iUj" secondAttribute="bottom" id="QkX-aq-AIw"/>
                             <constraint firstItem="vd3-Qx-LiR" firstAttribute="top" secondItem="svN-Kl-kED" secondAttribute="bottom" constant="41" id="XSV-E2-Q5X"/>
@@ -320,11 +333,16 @@
                             <constraint firstItem="0a5-2H-iUj" firstAttribute="trailing" secondItem="T0p-jU-32X" secondAttribute="trailing" id="qPL-el-PU2"/>
                             <constraint firstItem="svN-Kl-kED" firstAttribute="leading" secondItem="QRJ-EF-4fq" secondAttribute="leading" id="qiZ-pY-XA9"/>
                             <constraint firstItem="svN-Kl-kED" firstAttribute="trailing" secondItem="QRJ-EF-4fq" secondAttribute="trailing" id="rfM-mj-Pf7"/>
+                            <constraint firstItem="yqZ-vU-qdt" firstAttribute="top" secondItem="0a5-2H-iUj" secondAttribute="bottom" constant="140" id="yyP-Qs-Jfi"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="T0p-jU-32X"/>
                     </view>
                     <connections>
+                        <outlet property="indicatorIcon" destination="yqZ-vU-qdt" id="XRk-V4-O4b"/>
+                        <outlet property="indicatorView" destination="q10-up-Grz" id="UF1-RI-Glf"/>
                         <outlet property="loginButton" destination="vd3-Qx-LiR" id="VJe-Ca-yf6"/>
+                        <outlet property="tfPassword" destination="svN-Kl-kED" id="zRz-XP-zKa"/>
+                        <outlet property="tfUsername" destination="QRJ-EF-4fq" id="oJg-wS-gVe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gz9-Mu-04o" userLabel="First Responder" sceneMemberID="firstResponder"/>
