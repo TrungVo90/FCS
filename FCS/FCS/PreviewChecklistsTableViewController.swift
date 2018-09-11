@@ -76,19 +76,20 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
             cell.setupLayoutForAddingComment()
         }
         
-        cell.fisrtChoiceButtonTapped = {
+        if questions[indexPath.row].questionChoice == 1 {
+            
             cell.firstChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
             cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
         }
         
-        cell.secondChoiceButtonTapped = {
+        if questions[indexPath.row].questionChoice == 2 {
             cell.secondChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
             cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
         }
         
-        cell.thirdChoiceButtonTapped = {
+        if questions[indexPath.row].questionChoice == 3 {
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
             cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)

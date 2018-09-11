@@ -127,17 +127,17 @@ class NewChecklistTableViewCell: UITableViewCell {
         
         self.firstChoiceLabel.text = "1"
         self.firstChoiceLabel.textAlignment = .center
-        self.firstChoiceLabel.font = UIFont(name:"Georgia Bold", size: 20.0)
+        self.firstChoiceLabel.font = UIFont(name: "Georgia-Bold", size: 20.0)
         self.firstChoiceLabel.font = UIFont.systemFont(ofSize: 20.0)
         
         self.secondChoiceLabel.text = "2"
         self.secondChoiceLabel.textAlignment = .center
-        self.secondChoiceLabel.font = UIFont(name:"Georgia Bold", size: 20.0)
+        self.secondChoiceLabel.font = UIFont(name: "Georgia-Bold", size: 20.0)
         self.secondChoiceLabel.font = UIFont.systemFont(ofSize: 20.0)
         
         self.thirdChoiceLabel.text = "3"
         self.thirdChoiceLabel.textAlignment = .center
-        self.thirdChoiceLabel.font = UIFont(name:"Georgia Bold", size: 20.0)
+        self.thirdChoiceLabel.font = UIFont(name: "Georgia-Bold", size: 20.0)
         self.thirdChoiceLabel.font = UIFont.systemFont(ofSize: 20.0)
         
         self.firstChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
@@ -159,7 +159,7 @@ class NewChecklistTableViewCell: UITableViewCell {
         
         self.reviewTextView.text = "The commentation"
         self.reviewTextView.numberOfLines = 0
-        self.reviewTextView.font = UIFont(name:"Georgia", size: 15.0)
+        self.reviewTextView.font = UIFont(name: "Georgia-Bold", size: 12)
 
         
         /// Configure cell
@@ -361,6 +361,9 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             if !self.doneQuestions.contains(indexPath.row) {
                 self.doneQuestions.append(indexPath.row)
             }
+            
+            self.questions[indexPath.row].questionChoice = 1
+            
         }
         
         cell.secondChoiceButtonTapped = {
@@ -371,6 +374,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             if !self.doneQuestions.contains(indexPath.row) {
                 self.doneQuestions.append(indexPath.row)
             }
+            
+            self.questions[indexPath.row].questionChoice = 2
         }
         
         cell.thirdChoiceButtonTapped = {
@@ -381,6 +386,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             if !self.doneQuestions.contains(indexPath.row) {
                 self.doneQuestions.append(indexPath.row)
             }
+            
+            self.questions[indexPath.row].questionChoice = 3
         }
         
         cell.reviewButtonTapped = {
@@ -511,10 +518,9 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         }
         
         self.changeLanguageButton.snp.remakeConstraints { (make) in
-            make.top.equalToSuperview()
+            make.centerY.equalToSuperview()
             make.trailing.equalToSuperview()
-            make.height.equalToSuperview()
-            make.width.equalTo(44)
+            make.width.height.equalTo(35)
         }
         
         self.titleLabel.snp.remakeConstraints { (make) in

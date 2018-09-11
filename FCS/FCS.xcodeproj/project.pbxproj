@@ -22,7 +22,6 @@
 		35F6DE942109B37D00CE6101 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F6DE932109B37D00CE6101 /* AppDelegate.swift */; };
 		35F6DE962109B37D00CE6101 /* ChecklistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F6DE952109B37D00CE6101 /* ChecklistsViewController.swift */; };
 		35F6DE992109B37D00CE6101 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35F6DE972109B37D00CE6101 /* Main.storyboard */; };
-		35F6DE9C2109B37D00CE6101 /* FCS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 35F6DE9A2109B37D00CE6101 /* FCS.xcdatamodeld */; };
 		35F6DE9E2109B37D00CE6101 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35F6DE9D2109B37D00CE6101 /* Assets.xcassets */; };
 		35F6DEA12109B37D00CE6101 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35F6DE9F2109B37D00CE6101 /* LaunchScreen.storyboard */; };
 		35F6DEAC2109B37D00CE6101 /* FCSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F6DEAB2109B37D00CE6101 /* FCSTests.swift */; };
@@ -68,7 +67,6 @@
 		35F6DE932109B37D00CE6101 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		35F6DE952109B37D00CE6101 /* ChecklistsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistsViewController.swift; sourceTree = "<group>"; };
 		35F6DE982109B37D00CE6101 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		35F6DE9B2109B37D00CE6101 /* FCS.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FCS.xcdatamodel; sourceTree = "<group>"; };
 		35F6DE9D2109B37D00CE6101 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		35F6DEA02109B37D00CE6101 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		35F6DEA22109B37D00CE6101 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -144,7 +142,6 @@
 				35F6DE9D2109B37D00CE6101 /* Assets.xcassets */,
 				35F6DE9F2109B37D00CE6101 /* LaunchScreen.storyboard */,
 				35F6DEA22109B37D00CE6101 /* Info.plist */,
-				35F6DE9A2109B37D00CE6101 /* FCS.xcdatamodeld */,
 				35204A06210B956200A2894A /* LoginViewController.swift */,
 				35204A08210B957100A2894A /* PreviewChecklistsViewController.swift */,
 				35204A0A210B958C00A2894A /* UserInfoViewController.swift */,
@@ -423,7 +420,6 @@
 				35CC6FDF211993CE0089BA7C /* ImageReviewViewController.swift in Sources */,
 				35E91D1E213EE8CF0046F62A /* CategoryTableViewController.swift in Sources */,
 				35204A0B210B958C00A2894A /* UserInfoViewController.swift in Sources */,
-				35F6DE9C2109B37D00CE6101 /* FCS.xcdatamodeld in Sources */,
 				35F6DE962109B37D00CE6101 /* ChecklistsViewController.swift in Sources */,
 				35204A07210B956200A2894A /* LoginViewController.swift in Sources */,
 				35215E5F212AC1930061352A /* DataManager.swift in Sources */,
@@ -731,19 +727,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		35F6DE9A2109B37D00CE6101 /* FCS.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				35F6DE9B2109B37D00CE6101 /* FCS.xcdatamodel */,
-			);
-			currentVersion = 35F6DE9B2109B37D00CE6101 /* FCS.xcdatamodel */;
-			path = FCS.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 35F6DE882109B37D00CE6101 /* Project object */;
 }

@@ -37,6 +37,7 @@ class CategoryTableViewController: UIViewController, UITableViewDelegate, UITabl
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
         let category = self.categories[indexPath.row]
         cell.textLabel?.text = category.name
+        cell.textLabel?.font = UIFont(name: "Georgia-Bold", size: 12)
         return cell
     }
     
@@ -73,7 +74,7 @@ class CategoryTableViewController: UIViewController, UITableViewDelegate, UITabl
         self.categoryTableView.dataSource = self
         
         self.categoryTableView.backgroundColor = UIColor.clear
-        self.categoryTableView.separatorStyle = .none
+        self.categoryTableView.separatorStyle = .singleLine
         self.categoryTableView.showsVerticalScrollIndicator = false
         self.categoryTableView.register(UITableViewCell.self, forCellReuseIdentifier: "CategoryCell")
         
