@@ -22,7 +22,10 @@ class CompanyListTableViewCell: UITableViewCell {
 class CompanyListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     @IBOutlet weak var companyTableView: UITableView!
     
-    @IBOutlet weak var userInfoButton: UIButton!
+    @IBAction func userInfoButton(_ sender: Any) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "UserInfoViewController")
+        self.present(vc!, animated: true, completion: nil)
+    }
     
     @IBOutlet weak var companySearchBar: UISearchBar!
     fileprivate var _companies = [Companies]()

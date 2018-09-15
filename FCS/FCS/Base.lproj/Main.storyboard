@@ -44,12 +44,6 @@
                                                 <action selector="backButtonOnClick:" destination="xAk-Wr-g45" id="Wja-aP-i4U"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Item" image="user_menu" springLoaded="YES" id="lnk-fZ-cuZ">
-                                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <connections>
-                                                <action selector="userInfoButtonOnClick:" destination="xAk-Wr-g45" id="BHX-pe-xbN"/>
-                                            </connections>
-                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -251,14 +245,7 @@
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </textAttributes>
                                 <items>
-                                    <navigationItem title="Login" id="mwb-R4-02z">
-                                        <barButtonItem key="rightBarButtonItem" image="user_menu" id="kYw-ud-gAw">
-                                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <connections>
-                                                <action selector="userProfileButtonOnClick:" destination="cF4-cM-Vgu" id="Rcj-KF-boR"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
+                                    <navigationItem title="Login" id="mwb-R4-02z"/>
                                 </items>
                             </navigationBar>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="admin" borderStyle="roundedRect" placeholder="User name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QRJ-EF-4fq">
@@ -305,7 +292,7 @@
                                 </constraints>
                             </imageView>
                             <view hidden="YES" alpha="0.29999999999999999" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q10-up-Grz">
-                                <rect key="frame" x="0.0" y="31" width="375" height="781"/>
+                                <rect key="frame" x="0.0" y="75" width="375" height="737"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
@@ -886,10 +873,10 @@
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="Company List" id="ECO-wA-4Ze">
-                                        <barButtonItem key="leftBarButtonItem" image="ic_back" id="K7a-q3-06a">
+                                        <barButtonItem key="rightBarButtonItem" title="Item" image="user_menu" springLoaded="YES" id="lnk-fZ-cuZ">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <connections>
-                                                <action selector="backButtonOnClick:" destination="GpO-Kn-D8N" id="ibo-qa-pkQ"/>
+                                                <action selector="userInfoButton:" destination="GpO-Kn-D8N" id="nHF-c4-Ltn"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
