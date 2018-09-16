@@ -19,7 +19,8 @@ class CompanyListTableViewCell: UITableViewCell {
     }
 }
 
-class CompanyListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class CompanyListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, LanguagesPickerDelegate {
+   
     @IBOutlet weak var companyTableView: UITableView!
     
     @IBAction func userInfoButton(_ sender: Any) {
@@ -43,9 +44,6 @@ class CompanyListViewController: UIViewController, UITableViewDelegate, UITableV
         if let unarchivedObject = UserDefaults.standard.object(forKey: "companies") as? Data {
             self._companies = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [Companies])!
         }
-        
-        
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -126,6 +124,17 @@ class CompanyListViewController: UIViewController, UITableViewDelegate, UITableV
     
     @IBAction func backButtonOnClick(_ sender: Any) {
          self.dismiss(animated: true, completion: nil)
+    }
+    @IBAction func dropDownButtonOnClick(_ sender: Any) {
+      let pickerLangs =  LanguagesPickerViewController.init(style: .grouped)
+        self.present(pickerLangs, animated: true) {
+            print("pickerLangs presented")
+        }
+        pickerLangs.delegate = self
+    }
+    
+    func selectedLanguage(_ lang: String) {
+        print("lang selected = \(lang)")
     }
     
 }

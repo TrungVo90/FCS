@@ -873,6 +873,16 @@
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="Company List" id="ECO-wA-4Ze">
+                                        <barButtonItem key="leftBarButtonItem" title="Item" style="plain" id="Y3X-Cx-ZU0">
+                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ech-lB-TzK">
+                                                <rect key="frame" x="16" y="9" width="26" height="26"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" image="ic_down"/>
+                                                <connections>
+                                                    <action selector="dropDownButtonOnClick:" destination="GpO-Kn-D8N" eventType="touchUpInside" id="5Ye-p7-ynV"/>
+                                                </connections>
+                                            </button>
+                                        </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="Item" image="user_menu" springLoaded="YES" id="lnk-fZ-cuZ">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <connections>
@@ -989,6 +999,7 @@
         <image name="ic_back" width="16" height="26"/>
         <image name="ic_check" width="42" height="42"/>
         <image name="ic_circle" width="42" height="42"/>
+        <image name="ic_down" width="26" height="26"/>
         <image name="ic_logo" width="98" height="30"/>
         <image name="ic_user" width="42" height="42"/>
         <image name="user_menu" width="33" height="33"/>

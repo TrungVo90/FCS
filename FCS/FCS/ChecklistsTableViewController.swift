@@ -592,7 +592,7 @@ extension ChecklistsTableViewController: ReviewViewProtocol {
 }
 
 extension ChecklistsTableViewController: ImageReviewViewProtocol {
-    func didFinishChoosingImage(idxRow: Int, image: UIImage) {
+func didFinishChoosingImage(idxRow: Int, image: UIImage) {
         let idx = questions[idxRow].numberOfCapturedImg
         questions[idxRow].imgCaptured[idx % 3] = image
         questions[idxRow].numberOfCapturedImg = (questions[idxRow].numberOfCapturedImg + 1) % 3
