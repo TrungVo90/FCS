@@ -9,6 +9,20 @@
 import Foundation
 import UIKit
 
+
+class LanguageListTableViewCell: UITableViewCell {
+    
+    static var CELL_IDENTIFIER: String = "LanguagesListableViewCell"
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 protocol LanguagesPickerDelegate {
     func selectedLanguage(_ lang: String)
 }
@@ -26,6 +40,13 @@ class LanguagesPickerViewController: UITableViewController  {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    override func viewDidLoad() {
+        self.tableView.register(LanguageListTableViewCell.self, forCellReuseIdentifier: LanguageListTableViewCell.CELL_IDENTIFIER)
+        print("LanguagesPickerViewController did load")
+        
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -39,9 +60,9 @@ class LanguagesPickerViewController: UITableViewController  {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: LanguageListTableViewCell.CELL_IDENTIFIER, for: indexPath)
+            as! LanguageListTableViewCell
         
-    
         cell.textLabel?.text = langs[indexPath.row];
         return cell
     }
