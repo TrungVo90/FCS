@@ -248,6 +248,7 @@ class Questions: NSObject, NSCoding {
     var numberOfCapturedImg: Int = 0
     var latestImage: UIImage = UIImage()
     var heightOfComment: CGFloat = 0.0
+    var heightOfQuestion: CGFloat = 0.0
     
     override init() {
         self.company_id = 0
@@ -271,6 +272,7 @@ class Questions: NSObject, NSCoding {
         self.numberOfCapturedImg = 0
         self.latestImage = UIImage()
         self.heightOfComment = 0.0
+        self.heightOfQuestion = 0.0
     }
     
     init(company_id: Int64, checklist_id: Int64 = 0, category_id: Int64, question_id: Int64, status: Int = 0, created_at: Date = Date(timeIntervalSince1970: 0), updated_at: Date = Date(timeIntervalSince1970: 0), title_vn: String = "", title_en: String = "") {
@@ -295,6 +297,7 @@ class Questions: NSObject, NSCoding {
         self.numberOfCapturedImg = 0
         self.latestImage = UIImage()
         self.heightOfComment = 0.0
+        self.heightOfQuestion = 0.0
     }
     
     required convenience init?(coder aDecoder: NSCoder) {

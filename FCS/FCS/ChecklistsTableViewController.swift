@@ -39,6 +39,7 @@ class NewChecklistTableViewCell: UITableViewCell {
     var dashedLineView: UIView = UIView()
     
     var heightOfReviewLabel: CGFloat = 0
+    var heightOfQuestionLabel: CGFloat = 0
     
     static var CELL_IDENTIFIER: String = "NewChecklistTableViewCell"
     
@@ -191,7 +192,7 @@ class NewChecklistTableViewCell: UITableViewCell {
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalToSuperview().offset(-10)
             make.top.equalToSuperview().offset(5)
-            make.height.equalTo(80)
+            make.height.equalTo(10)
         }
         
         self.firstChoiceLabel.snp.remakeConstraints { (make) in
@@ -284,6 +285,16 @@ class NewChecklistTableViewCell: UITableViewCell {
             make.height.equalTo(self.heightOfReviewLabel)
         }
     }
+    
+    func setupLayoutForQuestion() {
+        self.questionTextView.snp.remakeConstraints { (make) in
+            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-10)
+            make.top.equalToSuperview().offset(5)
+            make.height.equalTo(self.heightOfQuestionLabel)
+        }
+    }
+    
 }
 
 
@@ -309,21 +320,36 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     var doneQuestions: [Int] = [Int]()
     
+    var categories: [Categories] = [Categories]()
+    
+    var companyQuestions: [CompanyQuestions] = [CompanyQuestions]()
+    
+    var companyId: Int64 = 0
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let heightOfQuestion = calculateHeightOfQuestion(question: questions[indexPath.row], width: tableView.frame.width - 10)
+        questions[indexPath.row].heightOfQuestion = heightOfQuestion
         if questions[indexPath.row].review == "" {
-            return 230
+            return 160 + heightOfQuestion //230
         } else {
-            return 240 + questions[indexPath.row].heightOfComment
+            return 170 + questions[indexPath.row].heightOfComment + heightOfQuestion//240
         }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return self.categories.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        filterListOfCompanyQuestionIds(companyId: Int64(section), categoryId: companyId)
+        self.questions = filterQuestions()
         return self.questions.count
     }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.categories[section].name
+    }
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if !doneQuestions.contains(indexPath.row) {
@@ -343,7 +369,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         }
         
         cell.heightOfReviewLabel = question.heightOfComment
-        
+        cell.heightOfQuestionLabel = question.heightOfQuestion
+        cell.setupLayoutForQuestion()
         if questions[indexPath.row].review != "" {
             cell.reviewTextView.text = question.review
             cell.reviewTextView.numberOfLines = 0
@@ -445,7 +472,35 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.checklistTableView.showsVerticalScrollIndicator = false
         self.checklistTableView.register(NewChecklistTableViewCell.self, forCellReuseIdentifier: NewChecklistTableViewCell.CELL_IDENTIFIER)
         
-        self.questions = filterQuestions()
+        if let unarchivedObject = UserDefaults.standard.object(forKey: "categories") as? Data {
+            self.categories = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [Categories])!
+        }
+        
+        /// Load list of company question
+        if let unarchivedObject = UserDefaults.standard.object(forKey: "company_questions") as? Data {
+            self.companyQuestions = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [CompanyQuestions])!
+        }
+    }
+    
+    private func calculateHeightOfQuestion(question: Questions, width: CGFloat) -> CGFloat {
+        let label:UILabel = UILabel(frame: CGRect.init(x: 0, y: 0, width: width, height: CGFloat.greatestFiniteMagnitude))
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.text = defaultLanguage == 0 ? question.title_vn : question.title_en
+        label.font = UIFont(name:"Georgia", size: 15.0)
+        
+        label.sizeToFit()
+
+        return label.frame.height
+    }
+    
+    private func filterListOfCompanyQuestionIds(companyId: Int64, categoryId: Int64) {
+        self.listOfQuestionIds = [Int64]()
+        for q in self.companyQuestions {
+            if q.category_id == categoryId && q.company_id == companyId {
+                self.listOfQuestionIds.append(q.question_id)
+            }
+        }
     }
     
     func filterQuestions() -> [Questions] {

@@ -117,7 +117,8 @@ class StoreListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = CategoryTableViewController()
+        //let vc = CategoryTableViewController()
+        let vc = ChecklistsTableViewController()
         vc.companyId = self.company_id
         vc.modalPresentationCapturesStatusBarAppearance = true
 
