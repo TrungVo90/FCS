@@ -682,10 +682,12 @@ extension UIView{
 extension ChecklistsTableViewController: DKDropMenuDelegate  {
     
     func itemSelected(withIndex: Int, name: String) {
-        print("selected item:\(name)")
+        self.defaultLanguage = withIndex;
+        print("selected item:\(withIndex)")
     }
     
     func collapsedChanged() {
+        self.checklistTableView.reloadData()
         print("collapsedChanged")
 
     }
