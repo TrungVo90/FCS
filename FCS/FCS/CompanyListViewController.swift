@@ -2,6 +2,8 @@
 import Foundation
 import UIKit
 
+
+
 class CompanyListTableViewCell: UITableViewCell {
     @IBOutlet weak var companyImageView: UIImageView!
     
@@ -19,9 +21,10 @@ class CompanyListTableViewCell: UITableViewCell {
     }
 }
 
-class CompanyListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, LanguagesPickerDelegate {
+class CompanyListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, LanguagesPickerDelegate, DKDropMenuDelegate {
    
     @IBOutlet weak var companyTableView: UITableView!
+    @IBOutlet weak var dropMenu: DKDropMenu? = nil
     
     @IBAction func userInfoButton(_ sender: Any) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "UserInfoViewController")
@@ -32,6 +35,8 @@ class CompanyListViewController: UIViewController, UITableViewDelegate, UITableV
     fileprivate var _companies = [Companies]()
     var filtered: [Companies] = []
     var searchActive : Bool = false
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +49,16 @@ class CompanyListViewController: UIViewController, UITableViewDelegate, UITableV
         if let unarchivedObject = UserDefaults.standard.object(forKey: "companies") as? Data {
             self._companies = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [Companies])!
         }
+        
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(self.dropDownButtonOnClick(_:)))
+//        tap.delegate = self as? UIGestureRecognizerDelegate
+//        dropMenu?.addGestureRecognizer(tap)
+        
+        dropMenu?.add(names: ["Vi", "En"])
+        
+        dropMenu?.delegate = self
     }
+    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -125,14 +139,13 @@ class CompanyListViewController: UIViewController, UITableViewDelegate, UITableV
     @IBAction func backButtonOnClick(_ sender: Any) {
          self.dismiss(animated: true, completion: nil)
     }
-    @IBAction func dropDownButtonOnClick(_ sender: Any) {
-      let pickerLangs =  LanguagesPickerViewController.init(style: .grouped)
-        self.present(pickerLangs, animated: true) {
-            print("pickerLangs presented")
-        }
-        pickerLangs.delegate = self
-    }
     
+    
+    func itemSelected(withIndex: Int, name: String) {
+        print("lang selected = \(name)")
+
+    }
+
     func selectedLanguage(_ lang: String) {
         print("lang selected = \(lang)")
     }

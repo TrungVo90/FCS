@@ -28,6 +28,8 @@
 		35F6DEB72109B37D00CE6101 /* FCSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F6DEB62109B37D00CE6101 /* FCSUITests.swift */; };
 		48E87F033335C3B6F4D407DA /* Pods_FCSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 092357CF25A6C5395857E773 /* Pods_FCSTests.framework */; };
 		5BEB714D214E2951002E1479 /* LanguagesPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEB714C214E2951002E1479 /* LanguagesPickerViewController.swift */; };
+		6D5BCEB02151083300C81ADD /* DKDropMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5BCEAF2151083300C81ADD /* DKDropMenu.swift */; };
+		6DB7C2972150CCDE00F0AA73 /* DropDown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DB7C2962150CCDE00F0AA73 /* DropDown.framework */; };
 		9F8BC27F6A8325E1EACC8DEC /* Pods_FCS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 805D6512ED2BC2803BE334B4 /* Pods_FCS.framework */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +81,8 @@
 		35F6DEB82109B37D00CE6101 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3FADB766BE5ABDE29972F624 /* Pods-FCS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FCS.release.xcconfig"; path = "Pods/Target Support Files/Pods-FCS/Pods-FCS.release.xcconfig"; sourceTree = "<group>"; };
 		5BEB714C214E2951002E1479 /* LanguagesPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesPickerViewController.swift; sourceTree = "<group>"; };
+		6D5BCEAF2151083300C81ADD /* DKDropMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DKDropMenu.swift; sourceTree = "<group>"; };
+		6DB7C2962150CCDE00F0AA73 /* DropDown.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DropDown.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		805D6512ED2BC2803BE334B4 /* Pods_FCS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FCS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FF134FA1437F577B7129824 /* Pods-FCS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FCS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FCS/Pods-FCS.debug.xcconfig"; sourceTree = "<group>"; };
 		A5AB6DE0431A3404ADA32D51 /* Pods-FCSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FCSUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FCSUITests/Pods-FCSUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -90,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DB7C2972150CCDE00F0AA73 /* DropDown.framework in Frameworks */,
 				9F8BC27F6A8325E1EACC8DEC /* Pods_FCS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -144,6 +149,7 @@
 				35F6DE9D2109B37D00CE6101 /* Assets.xcassets */,
 				35F6DE9F2109B37D00CE6101 /* LaunchScreen.storyboard */,
 				35F6DEA22109B37D00CE6101 /* Info.plist */,
+				6D5BCEAF2151083300C81ADD /* DKDropMenu.swift */,
 				35204A06210B956200A2894A /* LoginViewController.swift */,
 				35204A08210B957100A2894A /* PreviewChecklistsViewController.swift */,
 				35204A0A210B958C00A2894A /* UserInfoViewController.swift */,
@@ -194,6 +200,7 @@
 		CA6CB022321645587918C79A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6DB7C2962150CCDE00F0AA73 /* DropDown.framework */,
 				805D6512ED2BC2803BE334B4 /* Pods_FCS.framework */,
 				092357CF25A6C5395857E773 /* Pods_FCSTests.framework */,
 				AC2ED773C40FD7B35D402EB7 /* Pods_FCSUITests.framework */,
@@ -342,10 +349,12 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-FCS/Pods-FCS-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -423,6 +432,7 @@
 				35C5D4F22116940900AA5CFA /* ChecklistsTableViewController.swift in Sources */,
 				35CC6FDF211993CE0089BA7C /* ImageReviewViewController.swift in Sources */,
 				35E91D1E213EE8CF0046F62A /* CategoryTableViewController.swift in Sources */,
+				6D5BCEB02151083300C81ADD /* DKDropMenu.swift in Sources */,
 				35204A0B210B958C00A2894A /* UserInfoViewController.swift in Sources */,
 				35F6DE962109B37D00CE6101 /* ChecklistsViewController.swift in Sources */,
 				35204A07210B956200A2894A /* LoginViewController.swift in Sources */,

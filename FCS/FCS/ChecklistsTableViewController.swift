@@ -314,6 +314,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     var changeLanguageButton: UIButton = UIButton()
     
+    var dropDownMenu: DKDropMenu = DKDropMenu()
+    
     var listOfQuestionIds: [Int64] = [Int64]()
     
     var defaultLanguage: Int = 0 // 0: vn 1: en
@@ -442,6 +444,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         return cell
     }
 
+    
     private var completedButton: UIButton = UIButton()
     
     private var checklistTableView: UITableView = UITableView()
@@ -467,7 +470,6 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
 
         self.completedButton.setTitle("Complete", for: .normal)
         
-        self.checklistTableView.backgroundColor = UIColor.clear
         self.checklistTableView.separatorStyle = .none
         self.checklistTableView.showsVerticalScrollIndicator = false
         self.checklistTableView.register(NewChecklistTableViewCell.self, forCellReuseIdentifier: NewChecklistTableViewCell.CELL_IDENTIFIER)
@@ -534,17 +536,24 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     func setupView() {
         self.view.backgroundColor = .white
+        self.view.addSubview(self.dropDownMenu)
         self.view.addSubview(self.checklistTableView)
         self.view.addSubview(self.completedButton)
         self.view.addSubview(self.customView)
         self.customView.addSubview(self.backButton)
-        self.customView.addSubview(self.changeLanguageButton)
-        
+        //self.customView.addSubview(self.changeLanguageButton)
+
+        self.checklistTableView.backgroundColor = UIColor.clear
         self.customView.backgroundColor = UIColor.init(red: 78/255, green: 181/255, blue: 251/255, alpha: 1.0)
         
         self.changeLanguageButton.setImage(UIImage(named: "icon_changeLanguage"), for: .normal)
         self.changeLanguageButton.addTarget(self, action: #selector(changeLanguageButtonOnClick), for: .touchUpInside)
         self.backButton.setImage(UIImage(named: "ic_back_white"), for: .normal)
+        
+        
+        dropDownMenu.backgroundColor = UIColor.white
+        dropDownMenu.add(names: ["Vietnamese", "English"])
+        dropDownMenu.delegate = self
         
         self.backButton.addTarget(self, action: #selector(backButtonOnClick), for: .touchUpInside)
         self.completedButton.addTarget(self, action: #selector(completedButtonOnClick), for: .touchUpInside)
@@ -572,10 +581,10 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             make.width.equalTo(44)
         }
         
-        self.changeLanguageButton.snp.remakeConstraints { (make) in
-            make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.width.height.equalTo(35)
+        self.dropDownMenu.snp.remakeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview()
+            make.top.equalTo(self.customView.snp.bottom)
         }
         
         self.titleLabel.snp.remakeConstraints { (make) in
@@ -592,7 +601,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         }
         
         self.checklistTableView.snp.remakeConstraints { (make) in
-            make.top.equalTo(self.backButton.snp.bottom)
+            make.top.equalTo(self.dropDownMenu.snp.bottom)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(self.completedButton.snp.top).offset(-10)
         }
@@ -642,7 +651,6 @@ extension ChecklistsTableViewController: ReviewViewProtocol {
         
         self.checklistTableView.reloadData()
         
-
     }
 }
 
@@ -668,6 +676,18 @@ extension UIView{
         self.layer.shadowOpacity = 0.7;
         self.layer.shadowRadius = 3.0;
         self.layer.masksToBounds = false
+    }
+}
+
+extension ChecklistsTableViewController: DKDropMenuDelegate  {
+    
+    func itemSelected(withIndex: Int, name: String) {
+        print("selected item:\(name)")
+    }
+    
+    func collapsedChanged() {
+        print("collapsedChanged")
+
     }
 }
 

@@ -85,9 +85,15 @@ class LoginViewController: UIViewController {
         indicatorIcon.stopAnimating()
         indicatorIcon.isHidden = true
         indicatorView.isHidden = true
-
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "CompanyListViewController")
-        self.present(vc!, animated: true, completion: nil)
+//
+//        let vc = self.storyboard?.instantiateViewController(withIdentifier: "CompanyListViewController")
+//        self.present(vc!, animated: true, completion: nil)
+        
+        let vc = ChecklistsTableViewController()
+        vc.companyId = 1
+        vc.modalPresentationCapturesStatusBarAppearance = true
+        
+        self.present(vc, animated: false, completion: nil)
     }
     
 }
