@@ -99,13 +99,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 var questions = kUserDefault.array(forKey: "questions")
                 var companies = kUserDefault.array(forKey: "companies")
                 var branchs = kUserDefault.array(forKey: "branchs")
-                var categories = kUserDefault.array(forKey: "categories")
+                var categories = kUserDefault.array(forKey: "question_categories")
                 var companyQuestions = kUserDefault.array(forKey: "company_questions")
                 
                 questions = self.parseAllQuestions(listOfQuestion: data["questions"] as! [AnyObject])
                 companies = self.parseAllCompanies(listOfCompanies: data["companies"] as! [AnyObject])
                 branchs = self.parseAllBranchs(listOfBranchs: data["branchs"] as! [AnyObject])
-                categories = self.parseAllCategories(listOfCategories: data["categories"] as! [AnyObject])
+                categories = self.parseAllCategories(listOfCategories: data["question_categories"] as! [AnyObject])
                 companyQuestions = self.parseAllCompanyQuestions(listOfCompanyQuestions: data["company_questions"] as! [AnyObject])
                 
                 /// Store data
@@ -116,7 +116,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 encodedData = NSKeyedArchiver.archivedData(withRootObject: branchs! as Array) as NSData
                 kUserDefault.set(encodedData, forKey: "branchs")
                 encodedData = NSKeyedArchiver.archivedData(withRootObject: categories! as Array) as NSData
-                kUserDefault.set(encodedData, forKey: "categories")
+                kUserDefault.set(encodedData, forKey: "question_categories")
                 encodedData = NSKeyedArchiver.archivedData(withRootObject: companyQuestions! as Array) as NSData
                 kUserDefault.set(encodedData, forKey: "company_questions")
                 

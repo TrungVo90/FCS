@@ -124,6 +124,7 @@ class StoreListViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "storeListTableViewCell", for: indexPath)
             as! StoreListTableViewCell
+        cell.delegate = self;
         var branch = self._branchs[indexPath.row]
         if(searchActive){
             branch = filtered[indexPath.row]
