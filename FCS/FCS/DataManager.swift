@@ -387,6 +387,8 @@ class CompanyQuestions: NSObject, NSCoding {
 }
 
 open class DataManager: NSObject, Codable {
+    
+    let ACCESS_TOKEN_KEY = "access_token"
     static let sharedInstance = DataManager()
     func downloadAllInitialData(completionHandler: @escaping ([String:AnyObject]?, Error?) -> Void) {
         let urlString =  HOST + DOMAIN + "init"
@@ -400,6 +402,10 @@ open class DataManager: NSObject, Codable {
         var headers = urlRequest.allHTTPHeaderFields ?? [:]
         headers["Content-Type"] = "application/json"
         urlRequest.allHTTPHeaderFields = headers
+        
+        if let token = UserDefaults.standard.object(forKey:ACCESS_TOKEN_KEY ) {
+            urlRequest.setValue(token as! String, forHTTPHeaderField: "Authorization")
+        }
         
         let encoder = JSONEncoder()
         do {
