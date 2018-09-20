@@ -3,22 +3,39 @@
 import Foundation
 import UIKit
 
+protocol StoreListCellDelegate {
+    func auditButtonTouch()
+}
+
 class StoreListTableViewCell: UITableViewCell {
+
+    internal var delegate: StoreListCellDelegate?
+    
     @IBOutlet weak var storeImageView: UIImageView!
     
     @IBOutlet weak var storeNameLabel: UILabel!
     @IBOutlet weak var storeDescription: UILabel!
-    
+
+    @IBOutlet weak var auditButton: UIButton!
+
     override func awakeFromNib() {
         storeImageView.layer.borderWidth = 1
         storeImageView.layer.masksToBounds = false
         storeImageView.layer.borderColor = UIColor.white.cgColor
         storeImageView.layer.cornerRadius = storeImageView.frame.height/2
         storeImageView.clipsToBounds = true
+        
+        auditButton.layer.masksToBounds = false
+        auditButton.layer.borderColor = UIColor.white.cgColor
+        auditButton.layer.cornerRadius = 5
+        
+    }
+    @IBAction func auditButtonTouch(_ sender: Any) {
+        self.delegate?.auditButtonTouch()
     }
 }
 
-class StoreListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class StoreListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, StoreListCellDelegate {
     @IBOutlet weak var storeTableView: UITableView!
     var company_id: Int64 = 0
     fileprivate var _branchs = [Branchs]()
@@ -133,6 +150,16 @@ class StoreListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBAction func backButtonOnClick(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    func auditButtonTouch() {
+        
+        print("audit Button Touch")
+        let vc = ChecklistsTableViewController()
+        vc.companyId = self.company_id
+        vc.modalPresentationCapturesStatusBarAppearance = true
+        
+        self.present(vc, animated: false, completion: nil)
     }
     
 }

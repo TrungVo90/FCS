@@ -787,28 +787,45 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EgL-Rk-Veu">
-                                                    <rect key="frame" x="97" y="35.333333333333336" width="240" height="27.666666666666664"/>
+                                                    <rect key="frame" x="97" y="35.333333333333336" width="200" height="27.666666666666664"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zBR-QX-85R">
+                                                    <rect key="frame" x="287" y="23" width="50" height="24"/>
+                                                    <color key="backgroundColor" red="0.25882352939999997" green="0.72941176470000002" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="lSC-tQ-ozY"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Georgia-Bold" family="Georgia" pointSize="10"/>
+                                                    <state key="normal" title="Audit">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="auditButtonTouch:" destination="0QE-6W-DSB" eventType="touchUpInside" id="PGf-8S-bhl"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="Oqf-ZT-6JY" secondAttribute="trailing" constant="5" id="3D5-c8-Bbh"/>
                                                 <constraint firstItem="WnW-ch-SA0" firstAttribute="leading" secondItem="CPO-bk-Hvr" secondAttribute="leading" constant="22" id="DHr-hy-zDr"/>
                                                 <constraint firstItem="Oqf-ZT-6JY" firstAttribute="top" secondItem="hwi-gR-4yW" secondAttribute="top" id="GjH-AE-3fI"/>
                                                 <constraint firstItem="EgL-Rk-Veu" firstAttribute="top" secondItem="Oqf-ZT-6JY" secondAttribute="bottom" constant="5" id="IWx-w2-q1b"/>
-                                                <constraint firstItem="EgL-Rk-Veu" firstAttribute="trailing" secondItem="Oqf-ZT-6JY" secondAttribute="trailing" id="OLL-g1-NZx"/>
+                                                <constraint firstItem="EgL-Rk-Veu" firstAttribute="trailing" secondItem="Oqf-ZT-6JY" secondAttribute="trailing" constant="-40" id="OLL-g1-NZx"/>
                                                 <constraint firstItem="Oqf-ZT-6JY" firstAttribute="leading" secondItem="WnW-ch-SA0" secondAttribute="trailing" constant="24" id="WdQ-vS-SZw"/>
                                                 <constraint firstAttribute="bottom" secondItem="p3k-ok-6Gx" secondAttribute="bottom" id="XW5-0x-ddL"/>
                                                 <constraint firstItem="WnW-ch-SA0" firstAttribute="centerY" secondItem="CPO-bk-Hvr" secondAttribute="centerY" id="Y9O-Hw-gh3"/>
                                                 <constraint firstItem="p3k-ok-6Gx" firstAttribute="top" secondItem="EgL-Rk-Veu" secondAttribute="bottom" constant="6" id="cOs-AB-bIa"/>
+                                                <constraint firstItem="zBR-QX-85R" firstAttribute="centerY" secondItem="CPO-bk-Hvr" secondAttribute="centerY" id="p4d-Y3-NgF"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="p3k-ok-6Gx" secondAttribute="trailing" constant="-45" id="pH9-Sl-wb3"/>
                                                 <constraint firstItem="EgL-Rk-Veu" firstAttribute="leading" secondItem="Oqf-ZT-6JY" secondAttribute="leading" id="pmR-ni-3Yz"/>
                                                 <constraint firstItem="p3k-ok-6Gx" firstAttribute="leading" secondItem="CPO-bk-Hvr" secondAttribute="leading" id="vxR-SD-shD"/>
+                                                <constraint firstAttribute="trailing" secondItem="zBR-QX-85R" secondAttribute="trailing" constant="5" id="xAx-V5-Q6v"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="auditButton" destination="zBR-QX-85R" id="k3Y-s9-6lG"/>
                                             <outlet property="storeDescription" destination="EgL-Rk-Veu" id="pz9-Lq-9da"/>
                                             <outlet property="storeImageView" destination="hwi-gR-4yW" id="Rdh-7x-WpJ"/>
                                             <outlet property="storeNameLabel" destination="Oqf-ZT-6JY" id="MWI-Zt-VRL"/>
@@ -850,7 +867,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5nB-L0-IHc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="197.59999999999999" y="99.753694581280797"/>
+            <point key="canvasLocation" x="-12" y="89.408866995073893"/>
         </scene>
         <!--Company List View Controller-->
         <scene sceneID="EL7-ea-ezb">
