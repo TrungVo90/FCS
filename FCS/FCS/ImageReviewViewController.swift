@@ -4,12 +4,14 @@ import Foundation
 import SnapKit
 
 protocol ImageReviewViewProtocol {
-    func didFinishChoosingImage(idxRow: Int, image: UIImage)
+    func didFinishChoosingImage(idxRow: Int,idxSection: Int,idxQuestion: Int64, image: UIImage)
 }
 
 class ImageReviewViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var idxCheckList: Int = 0
+    var idxCategory: Int = 0
+    var idxQuestion: Int64 = 0
     var image: UIImage = UIImage()
     
     var dimView: UIView = UIView()
@@ -116,7 +118,7 @@ class ImageReviewViewController: UIViewController, UIImagePickerControllerDelega
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            self.delegate?.didFinishChoosingImage(idxRow: idxCheckList, image: pickedImage)
+            self.delegate?.didFinishChoosingImage(idxRow: idxCheckList, idxSection: idxCategory, idxQuestion: idxQuestion, image: pickedImage)
             self.dismiss(animated: true, completion: nil)
         }
         dismiss(animated: true, completion: nil)

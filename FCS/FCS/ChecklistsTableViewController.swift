@@ -157,6 +157,10 @@ class NewChecklistTableViewCell: UITableViewCell {
         self.secondImageView.contentMode = .scaleAspectFit
         self.thirdImageView.contentMode = .scaleAspectFit
         
+//        self.firstImageView.backgroundColor = .black
+//        self.secondImageView.backgroundColor = .black
+//        self.thirdImageView.backgroundColor = .black
+        
         
         self.reviewTextView.text = "The commentation"
         self.reviewTextView.numberOfLines = 0
@@ -363,6 +367,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewChecklistTableViewCell", for: indexPath)
             as! NewChecklistTableViewCell
+        filterListOfCompanyQuestionIds(companyId: Int64(indexPath.section), categoryId: companyId)
+        self.questions = filterQuestions()
         let question = questions[indexPath.row]
         if defaultLanguage == 0 {
             cell.questionTextView.text = question.title_vn
@@ -430,7 +436,9 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         
         cell.imageButtonTapped = {
             let vc = ImageReviewViewController()
+            vc.idxQuestion = question.question_id
             vc.idxCheckList = indexPath.row
+            vc.idxCategory = indexPath.section
             vc.modalPresentationCapturesStatusBarAppearance = true
             vc.delegate = self
             self.present(vc, animated: true, completion: nil)
@@ -449,10 +457,18 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     private var checklistTableView: UITableView = UITableView()
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+        if let unarchivedObject = UserDefaults.standard.object(forKey: "questions") as? Data {
+            let questions = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [Questions])!
+            self.questions = questions
+        }
         setupView()
         setupLayout()
         
@@ -507,14 +523,13 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     func filterQuestions() -> [Questions] {
         var result = [Questions]()
-        if let unarchivedObject = UserDefaults.standard.object(forKey: "questions") as? Data {
-            let questions = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [Questions])!
-            for q in questions {
+        
+            for q in self.questions {
                 if self.listOfQuestionIds.contains(q.question_id) {
                     result.append(q)
                 }
             }
-        }
+        
         return result
     }
     
@@ -650,16 +665,27 @@ extension ChecklistsTableViewController: ReviewViewProtocol {
         }
         
         self.checklistTableView.reloadData()
-        
+    }
+    
+    func getQuestionBasedOnQuestionId(questionId: Int64) -> Questions {
+        for q in self.questions {
+            if q.question_id == questionId {
+                return q
+            }
+        }
+        return Questions()
     }
 }
 
 extension ChecklistsTableViewController: ImageReviewViewProtocol {
-func didFinishChoosingImage(idxRow: Int, image: UIImage) {
-        let idx = questions[idxRow].numberOfCapturedImg
-        questions[idxRow].imgCaptured[idx % 3] = image
-        questions[idxRow].numberOfCapturedImg = (questions[idxRow].numberOfCapturedImg + 1) % 3
-        questions[idxRow].latestImage = image
+    func didFinishChoosingImage(idxRow: Int,idxSection: Int,idxQuestion: Int64, image: UIImage) {
+        
+        let q = getQuestionBasedOnQuestionId(questionId: Int64(idxQuestion))
+        let idx = q.numberOfCapturedImg
+        q.imgCaptured[idx % 3] = image
+        q.numberOfCapturedImg = (questions[idxRow].numberOfCapturedImg + 1) % 3
+        q.latestImage = image
+    
         
         if !doneQuestions.contains(idxRow) {
             doneQuestions.append(idxRow)
