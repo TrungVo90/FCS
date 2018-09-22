@@ -157,11 +157,6 @@ class NewChecklistTableViewCell: UITableViewCell {
         self.secondImageView.contentMode = .scaleAspectFit
         self.thirdImageView.contentMode = .scaleAspectFit
         
-//        self.firstImageView.backgroundColor = .black
-//        self.secondImageView.backgroundColor = .black
-//        self.thirdImageView.backgroundColor = .black
-        
-        
         self.reviewTextView.text = "The commentation"
         self.reviewTextView.numberOfLines = 0
         self.reviewTextView.font = UIFont(name: "Georgia-Bold", size: 12)
@@ -314,6 +309,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     var questions: [Questions] = [Questions]()
     
+    var originalQuestions: [Questions] = [Questions]()
+    
     let imagePicker = UIImagePickerController()
     
     var changeLanguageButton: UIButton = UIButton()
@@ -347,7 +344,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        filterListOfCompanyQuestionIds(companyId: Int64(section), categoryId: companyId)
+        filterListOfCompanyQuestionIds(companyId: companyId, categoryId: Int64(self.categories[section].id))
         self.questions = filterQuestions()
         return self.questions.count
     }
@@ -367,8 +364,12 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewChecklistTableViewCell", for: indexPath)
             as! NewChecklistTableViewCell
-        filterListOfCompanyQuestionIds(companyId: Int64(indexPath.section), categoryId: companyId)
+
+        filterListOfCompanyQuestionIds(companyId: companyId, categoryId: Int64(self.categories[indexPath.section].id))
         self.questions = filterQuestions()
+        let heightOfQuestion = calculateHeightOfQuestion(question: questions[indexPath.row], width: tableView.frame.width - 10)
+        questions[indexPath.row].heightOfQuestion = heightOfQuestion
+        
         let question = questions[indexPath.row]
         if defaultLanguage == 0 {
             cell.questionTextView.text = question.title_vn
@@ -385,7 +386,6 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             cell.reviewTextView.setContentCompressionResistancePriority(UILayoutPriority.init(1000), for: UILayoutConstraintAxis.horizontal)
             cell.reviewTextView.setContentHuggingPriority(UILayoutPriority.init(1000), for: UILayoutConstraintAxis.horizontal)
             cell.setupLayoutForAddingComment()
-            
         }
         
         cell.fisrtChoiceButtonTapped = {
@@ -396,7 +396,6 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             if !self.doneQuestions.contains(indexPath.row) {
                 self.doneQuestions.append(indexPath.row)
             }
-            
             self.questions[indexPath.row].questionChoice = 1
             
         }
@@ -464,16 +463,24 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let unarchivedObject = UserDefaults.standard.object(forKey: "question_categories") as? Data {
+            self.categories = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [Categories])!
+        }
+        
+        /// Load list of company question
+        if let unarchivedObject = UserDefaults.standard.object(forKey: "company_questions") as? Data {
+            self.companyQuestions = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [CompanyQuestions])!
+        }
+        
         // Do any additional setup after loading the view, typically from a nib.
         if let unarchivedObject = UserDefaults.standard.object(forKey: "questions") as? Data {
             let questions = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [Questions])!
-            self.questions = questions
+            self.originalQuestions = questions
         }
-        setupView()
-        setupLayout()
         
-        self.checklistTableView.delegate = self
-        self.checklistTableView.dataSource = self
+        
+        setupView()
         
         self.imagePicker.delegate = self
         
@@ -490,14 +497,9 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.checklistTableView.showsVerticalScrollIndicator = false
         self.checklistTableView.register(NewChecklistTableViewCell.self, forCellReuseIdentifier: NewChecklistTableViewCell.CELL_IDENTIFIER)
         
-        if let unarchivedObject = UserDefaults.standard.object(forKey: "categories") as? Data {
-            self.categories = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [Categories])!
-        }
+
         
-        /// Load list of company question
-        if let unarchivedObject = UserDefaults.standard.object(forKey: "company_questions") as? Data {
-            self.companyQuestions = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [CompanyQuestions])!
-        }
+        setupLayout()
     }
     
     private func calculateHeightOfQuestion(question: Questions, width: CGFloat) -> CGFloat {
@@ -509,7 +511,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         
         label.sizeToFit()
 
-        return label.frame.height
+        return label.frame.height + 10
     }
     
     private func filterListOfCompanyQuestionIds(companyId: Int64, categoryId: Int64) {
@@ -524,7 +526,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     func filterQuestions() -> [Questions] {
         var result = [Questions]()
         
-            for q in self.questions {
+            for q in self.originalQuestions {
                 if self.listOfQuestionIds.contains(q.question_id) {
                     result.append(q)
                 }
@@ -565,6 +567,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.changeLanguageButton.addTarget(self, action: #selector(changeLanguageButtonOnClick), for: .touchUpInside)
         self.backButton.setImage(UIImage(named: "ic_back_white"), for: .normal)
         
+        self.checklistTableView.delegate = self
+        self.checklistTableView.dataSource = self
         
         dropDownMenu.backgroundColor = UIColor.white
         dropDownMenu.add(names: ["Vietnamese", "English"])

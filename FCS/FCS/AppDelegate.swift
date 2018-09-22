@@ -101,12 +101,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 var branchs = kUserDefault.array(forKey: "branchs")
                 var categories = kUserDefault.array(forKey: "question_categories")
                 var companyQuestions = kUserDefault.array(forKey: "company_questions")
+                var checklists = kUserDefault.array(forKey: "checklist")
                 
                 questions = self.parseAllQuestions(listOfQuestion: data["questions"] as! [AnyObject])
                 companies = self.parseAllCompanies(listOfCompanies: data["companies"] as! [AnyObject])
                 branchs = self.parseAllBranchs(listOfBranchs: data["branchs"] as! [AnyObject])
                 categories = self.parseAllCategories(listOfCategories: data["question_categories"] as! [AnyObject])
                 companyQuestions = self.parseAllCompanyQuestions(listOfCompanyQuestions: data["company_questions"] as! [AnyObject])
+                checklists = self.parseAllChecklist(checklists: data["checklist"] as! [AnyObject])
+                /// to do parse checklist to store data
                 
                 /// Store data
                 var encodedData = NSKeyedArchiver.archivedData(withRootObject: questions! as NSArray) as NSData
@@ -119,6 +122,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 kUserDefault.set(encodedData, forKey: "question_categories")
                 encodedData = NSKeyedArchiver.archivedData(withRootObject: companyQuestions! as Array) as NSData
                 kUserDefault.set(encodedData, forKey: "company_questions")
+                encodedData = NSKeyedArchiver.archivedData(withRootObject: checklists! as Array) as NSData
+                kUserDefault.set(encodedData, forKey: "checklist")
                 
                 kUserDefault.synchronize()
             }
@@ -291,6 +296,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         return companyQuestions
     }
+    
+    fileprivate func parseAllChecklist(checklists: [AnyObject]) -> [Checklist] {
+        var listOfChecklists = [Checklist]()
+        for q in checklists {
+            let checklist = Checklist()
+            checklist.id = (q["id"] as? Int64)!
+            checklist.name = (q["name"] as? String)!
+            checklist.status = (q["status"] as? Int)!
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            dateFormatter.timeZone = TimeZone.current
+            dateFormatter.locale = Locale.current
+            
+            dateFormatter.calendar = Calendar(identifier: .iso8601)
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+            dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+            
+            var date = dateFormatter.date(from: (q["created_at"] as? String)!)
+            checklist.created_at = date == nil ? Date(timeIntervalSince1970: 0) : date!
+            
+            date = dateFormatter.date(from: (q["updated_at"] as? String)!)!
+            checklist.updated_at = date == nil ? Date(timeIntervalSince1970: 0) : date!
+            
+            listOfChecklists.append(checklist)
+        }
+        return listOfChecklists
+    }
+    
+    
     
 
 }

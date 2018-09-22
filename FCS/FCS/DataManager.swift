@@ -386,6 +386,53 @@ class CompanyQuestions: NSObject, NSCoding {
     }
 }
 
+class Checklist: NSObject, NSCoding {
+    
+    var id: Int64 = 0
+    var status = 0
+    var name = ""
+    var created_at: Date = Date()
+    var updated_at: Date = Date()
+    
+    override init() {
+        self.id = 0
+        self.status = 0
+        self.name = ""
+        self.created_at = Date(timeIntervalSince1970: 0)
+        self.updated_at = Date(timeIntervalSince1970: 0)
+    }
+    
+    init(id: Int64 = 0, name: String = "", status: Int = 0, created_at: Date = Date(timeIntervalSince1970: 0), updated_at: Date = Date(timeIntervalSince1970: 0)) {
+        self.id = id
+        self.name = name
+        self.status = status
+        self.created_at = created_at
+        self.updated_at = updated_at
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        let id = aDecoder.decodeInt64(forKey: "id")
+        let name = aDecoder.decodeObject(forKey: "name") as! String
+        
+        
+        let status = aDecoder.decodeInteger(forKey: "status")
+        let created_at = aDecoder.decodeObject(forKey: "created_at") as! Date
+        let updated_at = aDecoder.decodeObject(forKey: "updated_at") as! Date
+        
+        self.init(id: id, name: name, status: status, created_at: created_at, updated_at: updated_at)
+    }
+    
+    
+    func encode(with aCoder: NSCoder) {
+        
+        aCoder.encode(self.id, forKey: "id")
+        aCoder.encode(self.name, forKey: "name")
+        aCoder.encode(self.status, forKey: "status")
+        aCoder.encode(self.created_at, forKey: "created_at")
+        aCoder.encode(self.updated_at, forKey: "updated_at")
+    }
+}
+
 open class DataManager: NSObject, Codable {
     
     let ACCESS_TOKEN_KEY = "access_token"
