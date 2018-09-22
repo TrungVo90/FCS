@@ -321,7 +321,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     var defaultLanguage: Int = 0 // 0: vn 1: en
     
-    var doneQuestions: [Int] = [Int]()
+    var doneQuestions: [Int64] = [Int64]()
     
     var categories: [Categories] = [Categories]()
     
@@ -355,8 +355,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if !doneQuestions.contains(indexPath.row) {
-            doneQuestions.append(indexPath.row)
+        if !doneQuestions.contains(questions[indexPath.row].question_id) {
+            doneQuestions.append(questions[indexPath.row].question_id)
         }
     }
     
@@ -393,8 +393,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             
-            if !self.doneQuestions.contains(indexPath.row) {
-                self.doneQuestions.append(indexPath.row)
+            if !self.doneQuestions.contains(self.questions[indexPath.row].question_id) {
+                self.doneQuestions.append(self.questions[indexPath.row].question_id)
             }
             self.questions[indexPath.row].questionChoice = 1
             
@@ -405,10 +405,9 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             
-            if !self.doneQuestions.contains(indexPath.row) {
-                self.doneQuestions.append(indexPath.row)
+            if !self.doneQuestions.contains(self.questions[indexPath.row].question_id) {
+                self.doneQuestions.append(self.questions[indexPath.row].question_id)
             }
-            
             self.questions[indexPath.row].questionChoice = 2
         }
         
@@ -417,10 +416,9 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             
-            if !self.doneQuestions.contains(indexPath.row) {
-                self.doneQuestions.append(indexPath.row)
+            if !self.doneQuestions.contains(self.questions[indexPath.row].question_id) {
+                self.doneQuestions.append(self.questions[indexPath.row].question_id)
             }
-            
             self.questions[indexPath.row].questionChoice = 3
         }
         
@@ -664,8 +662,8 @@ extension ChecklistsTableViewController: ReviewViewProtocol {
         questions[idxRow].review = comment
         questions[idxRow].heightOfComment = heightOfButton
         
-        if !doneQuestions.contains(idxRow) {
-            doneQuestions.append(idxRow)
+        if !doneQuestions.contains(questions[idxRow].question_id) {
+            doneQuestions.append(questions[idxRow].question_id)
         }
         
         self.checklistTableView.reloadData()
@@ -690,9 +688,13 @@ extension ChecklistsTableViewController: ImageReviewViewProtocol {
         q.numberOfCapturedImg = (questions[idxRow].numberOfCapturedImg + 1) % 3
         q.latestImage = image
     
+        let kUserDefault = UserDefaults.standard
+        var encodedData = NSKeyedArchiver.archivedData(withRootObject: self.questions as NSArray) as NSData
+        kUserDefault.set(encodedData, forKey: "questions")
+        kUserDefault.synchronize()
         
-        if !doneQuestions.contains(idxRow) {
-            doneQuestions.append(idxRow)
+        if !doneQuestions.contains(q.question_id) {
+            doneQuestions.append(q.question_id)
         }
         
         self.checklistTableView.reloadData()
