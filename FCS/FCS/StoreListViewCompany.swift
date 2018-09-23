@@ -135,12 +135,8 @@ class StoreListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //let vc = CategoryTableViewController()
-        let vc = ChecklistsTableViewController()
-        vc.companyId = self.company_id
-        vc.modalPresentationCapturesStatusBarAppearance = true
-
-        self.present(vc, animated: false, completion: nil)
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "DetailStoreTableViewController")        
+        self.present(vc!, animated: true, completion: nil)
     }
     
     @IBAction func userInfoButtonOnClick(_ sender: Any) {
