@@ -4,7 +4,7 @@ import Foundation
 import SnapKit
 
 protocol ImageReviewViewProtocol {
-    func didFinishChoosingImage(idxRow: Int,idxSection: Int,idxQuestion: Int64, image: UIImage)
+    func didFinishChoosingImage(question: Questions)
 }
 
 class ImageReviewViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -20,6 +20,8 @@ class ImageReviewViewController: UIViewController, UIImagePickerControllerDelega
     var photoLibraryButton: UIButton = UIButton()
     
     let imagePicker = UIImagePickerController()
+    
+    var question: Questions = Questions()
     
     var delegate: ImageReviewViewProtocol?
     
@@ -118,7 +120,16 @@ class ImageReviewViewController: UIViewController, UIImagePickerControllerDelega
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            self.delegate?.didFinishChoosingImage(idxRow: idxCheckList, idxSection: idxCategory, idxQuestion: idxQuestion, image: pickedImage)
+            
+            let idx = self.question.numberOfCapturedImg
+            
+            self.question.imgCaptured[idx % 3] = pickedImage
+            self.question.numberOfCapturedImg = (self.question.numberOfCapturedImg + 1) % 3
+            self.question.latestImage = pickedImage
+            
+
+            self.delegate?.didFinishChoosingImage(question: self.question)
+            
             self.dismiss(animated: true, completion: nil)
         }
         dismiss(animated: true, completion: nil)

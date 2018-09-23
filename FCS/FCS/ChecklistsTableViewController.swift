@@ -437,6 +437,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             vc.idxCheckList = indexPath.row
             vc.idxCategory = indexPath.section
             vc.modalPresentationCapturesStatusBarAppearance = true
+            vc.question = question
             vc.delegate = self
             self.present(vc, animated: true, completion: nil)
         }
@@ -677,25 +678,27 @@ extension ChecklistsTableViewController: ReviewViewProtocol {
         }
         return Questions()
     }
+    
+    func replaceQuestionById(question: Questions) {
+        let idx = 0
+        for q in self.questions {
+            if q.question_id == question.question_id {
+                self.questions[idx] = question
+            }
+        }
+    }
+    
 }
 
 extension ChecklistsTableViewController: ImageReviewViewProtocol {
-    func didFinishChoosingImage(idxRow: Int,idxSection: Int,idxQuestion: Int64, image: UIImage) {
-        
-        let q = getQuestionBasedOnQuestionId(questionId: Int64(idxQuestion))
-        let idx = q.numberOfCapturedImg
-        q.imgCaptured[idx % 3] = image
-        q.numberOfCapturedImg = (questions[idxRow].numberOfCapturedImg + 1) % 3
-        q.latestImage = image
     
+    func didFinishChoosingImage(question: Questions) {
+        replaceQuestionById(question: question)
+        
         let kUserDefault = UserDefaults.standard
         var encodedData = NSKeyedArchiver.archivedData(withRootObject: self.questions as NSArray) as NSData
         kUserDefault.set(encodedData, forKey: "questions")
         kUserDefault.synchronize()
-        
-        if !doneQuestions.contains(q.question_id) {
-            doneQuestions.append(q.question_id)
-        }
         
         self.checklistTableView.reloadData()
     }
