@@ -4,7 +4,7 @@ import Foundation
 import SnapKit
 
 protocol ReviewViewProtocol {
-    func didTapDoneButton(idxRow: Int, comment: String, heightOfButton: CGFloat)
+    func didTapDoneButton(question: Questions)
 }
 
 class ReviewViewController: UIViewController {
@@ -14,6 +14,7 @@ class ReviewViewController: UIViewController {
     var keyboardHeight: CGFloat!
     
     var comment: String = ""
+    var question: Questions = Questions()
     
     var scrollView: UIScrollView = UIScrollView()
     var containerView: UIView = UIView()
@@ -112,18 +113,14 @@ class ReviewViewController: UIViewController {
         
         label.sizeToFit()
         let heightOfComment = label.frame.height
+        self.question.heightOfComment = heightOfComment
+        self.question.review = self.comment
         
-        self.delegate?.didTapDoneButton(idxRow: idxCheckList, comment: self.comment, heightOfButton: heightOfComment)
+        self.delegate?.didTapDoneButton(question: self.question)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        let gradient = CAGradientLayer()
-//
-//        gradient.frame = view.bounds
-//        gradient.colors = [UIColor.lightGray.cgColor, UIColor.white.cgColor]
-//
-//        self.view.layer.insertSublayer(gradient, at: 0)
         self.view.backgroundColor = UIColor.clear
         
     }

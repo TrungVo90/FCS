@@ -424,6 +424,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         
         cell.reviewButtonTapped = {
             let vc = ReviewViewController()
+            vc.question = question
             vc.idxCheckList = indexPath.row
             vc.comment = question.review
             vc.modalPresentationCapturesStatusBarAppearance = true
@@ -659,15 +660,21 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
 }
 
 extension ChecklistsTableViewController: ReviewViewProtocol {
-    func didTapDoneButton(idxRow: Int, comment: String, heightOfButton: CGFloat) {
-        questions[idxRow].review = comment
-        questions[idxRow].heightOfComment = heightOfButton
+    func didTapDoneButton(question: Questions) {
         
-        if !doneQuestions.contains(questions[idxRow].question_id) {
-            doneQuestions.append(questions[idxRow].question_id)
-        }
+        replaceQuestionById(question: question)
+        
+        let kUserDefault = UserDefaults.standard
+        var encodedData = NSKeyedArchiver.archivedData(withRootObject: self.questions as NSArray) as NSData
+        kUserDefault.set(encodedData, forKey: "questions")
+        kUserDefault.synchronize()
         
         self.checklistTableView.reloadData()
+        
+        if !doneQuestions.contains(question.question_id) {
+            doneQuestions.append(question.question_id)
+        }
+        
     }
     
     func getQuestionBasedOnQuestionId(questionId: Int64) -> Questions {
@@ -701,6 +708,10 @@ extension ChecklistsTableViewController: ImageReviewViewProtocol {
         kUserDefault.synchronize()
         
         self.checklistTableView.reloadData()
+        
+        if !doneQuestions.contains(question.question_id) {
+            doneQuestions.append(question.question_id)
+        }
     }
 }
 
