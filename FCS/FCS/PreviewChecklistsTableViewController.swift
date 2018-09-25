@@ -307,6 +307,9 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row > questions.count {
+            return 0
+        }
         let heightOfQuestion = calculateHeightOfQuestion(question: questions[indexPath.row], width: tableView.frame.width - 10)
         questions[indexPath.row].heightOfQuestion = heightOfQuestion
         if questions[indexPath.row].review == "" {
@@ -338,6 +341,9 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PreviewCheckListTableViewCell.CELL_IDENTIFIER, for: indexPath)
             as! PreviewCheckListTableViewCell
+        filterListOfCompanyQuestionIds(companyId: companyId, categoryId: Int64(self.categories[indexPath.section].id))
+        self.questions = filterQuestions()
+        
         let question = self.questions[indexPath.row]
         if defaultLanguage == 0 {
             cell.questionTextView.text = question.title_vn
