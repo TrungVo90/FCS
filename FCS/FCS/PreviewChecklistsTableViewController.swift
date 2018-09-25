@@ -266,28 +266,84 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     
     var summarizationView: UIView = UIView()
     
+    var originalQuestions: [Questions] = [Questions]()
+
+    var listOfQuestionIds: [Int64] = [Int64]()
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if questions[indexPath.row].review == "" {
-            return 150
-        } else {
-            return 150 + questions[indexPath.row].heightOfComment
+    
+    
+    var categories: [Categories] = [Categories]()
+    
+    var companyQuestions: [CompanyQuestions] = [CompanyQuestions]()
+    
+    var companyId: Int64 = 0
+    
+    private func calculateHeightOfQuestion(question: Questions, width: CGFloat) -> CGFloat {
+        let label:UILabel = UILabel(frame: CGRect.init(x: 0, y: 0, width: width, height: CGFloat.greatestFiniteMagnitude))
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.text = defaultLanguage == 0 ? question.title_vn : question.title_en
+        label.font = UIFont(name:"Georgia", size: 15.0)
+        
+        label.sizeToFit()
+        
+        return label.frame.height + 10
+    }
+    
+    private func filterListOfCompanyQuestionIds(companyId: Int64, categoryId: Int64) {
+        self.listOfQuestionIds = [Int64]()
+        for q in self.companyQuestions {
+            if q.category_id == categoryId && q.company_id == companyId {
+                self.listOfQuestionIds.append(q.question_id)
+            }
+        }
+    }
+    
+    func filterQuestions() -> [Questions] {
+        var result = [Questions]()
+        
+        for q in self.originalQuestions {
+            if self.listOfQuestionIds.contains(q.question_id) {
+                result.append(q)
+            }
         }
         
+        return result
+    }
+    
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let heightOfQuestion = calculateHeightOfQuestion(question: questions[indexPath.row], width: tableView.frame.width - 10)
+        questions[indexPath.row].heightOfQuestion = heightOfQuestion
+        if questions[indexPath.row].review == "" {
+            return 230
+        } else {
+            return 240 + questions[indexPath.row].heightOfComment
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return self.categories.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        filterListOfCompanyQuestionIds(companyId: companyId, categoryId: Int64(self.categories[section].id))
+        self.questions = filterQuestions()
         return self.questions.count
     }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.categories[section].name
+    }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        /// Do nothing
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PreviewChecklistTableViewCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: PreviewCheckListTableViewCell.CELL_IDENTIFIER, for: indexPath)
             as! PreviewCheckListTableViewCell
-        
         let question = self.questions[indexPath.row]
         if defaultLanguage == 0 {
             cell.questionTextView.text = question.title_vn
@@ -296,7 +352,6 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         }
         
         cell.heightOfReviewLabel = question.heightOfComment
-        
         
         if question.review != "" {
             cell.reviewTextView.text = question.review
@@ -312,10 +367,10 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
             cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
            
-            cell.secondChoiceButton.isHidden = true
-            cell.secondChoiceLabel.isHidden = true
-            cell.thirdChoiceButton.isHidden = true
-            cell.thirdChoiceLabel.isHidden = true
+            cell.secondChoiceButton.isHidden = false
+            cell.secondChoiceLabel.isHidden = false
+            cell.thirdChoiceButton.isHidden = false
+            cell.thirdChoiceLabel.isHidden = false
             
         }
         
@@ -324,10 +379,10 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
             cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
         
-            cell.firstChoiceButton.isHidden = true
-            cell.firstChoiceLabel.isHidden = true
-            cell.thirdChoiceButton.isHidden = true
-            cell.thirdChoiceLabel.isHidden = true
+            cell.firstChoiceButton.isHidden = false
+            cell.firstChoiceLabel.isHidden = false
+            cell.thirdChoiceButton.isHidden = false
+            cell.thirdChoiceLabel.isHidden = false
         }
         
         if questions[indexPath.row].questionChoice == 3 {
@@ -335,16 +390,20 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
             cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
           
-            cell.firstChoiceButton.isHidden = true
-            cell.firstChoiceLabel.isHidden = true
-            cell.secondChoiceButton.isHidden = true
-            cell.secondChoiceLabel.isHidden = true
+            cell.firstChoiceButton.isHidden = false
+            cell.firstChoiceLabel.isHidden = false
+            cell.secondChoiceButton.isHidden = false
+            cell.secondChoiceLabel.isHidden = false
         }
         
         
         cell.firstChoiceButton.isUserInteractionEnabled = false
         cell.secondChoiceButton.isUserInteractionEnabled = false
         cell.thirdChoiceButton.isUserInteractionEnabled = false
+        
+        cell.firstImageView.image = questions[indexPath.row].imgCaptured[0]
+        cell.secondImageView.image = questions[indexPath.row].imgCaptured[1]
+        cell.thirdImageView.image = questions[indexPath.row].imgCaptured[2]
         
         return cell
     }
@@ -356,7 +415,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+
         setupView()
         setupLayout()
         

@@ -32,9 +32,9 @@ class NewChecklistTableViewCell: UITableViewCell {
     var reviewTextView: UILabel = UILabel()
     
     var imageButton: UIButton = UIButton()
-    var firstImageView: UIImageView = UIImageView()
-    var secondImageView: UIImageView = UIImageView()
-    var thirdImageView: UIImageView = UIImageView()
+    var firstImageView: UIImageView = UIImageView(image: UIImage(named:"ic_image"))
+    var secondImageView: UIImageView = UIImageView(image: UIImage(named:"ic_image"))
+    var thirdImageView: UIImageView = UIImageView(image:UIImage(named:"ic_image"))
     
     var dashedLineView: UIView = UIView()
     
@@ -149,9 +149,7 @@ class NewChecklistTableViewCell: UITableViewCell {
         
         self.imageButton.setImage(UIImage(named:"ic_camera"), for: .normal)
         
-        self.firstImageView.image = UIImage.init(named: "ic_image")
-        self.secondImageView.image = UIImage.init(named: "ic_image")
-        self.thirdImageView.image = UIImage.init(named: "ic_image")
+        self.firstImageView.backgroundColor = UIColor.black
         
         self.firstImageView.contentMode = .scaleAspectFit
         self.secondImageView.contentMode = .scaleAspectFit
@@ -161,7 +159,6 @@ class NewChecklistTableViewCell: UITableViewCell {
         self.reviewTextView.numberOfLines = 0
         self.reviewTextView.font = UIFont(name: "Georgia-Bold", size: 12)
 
-        
         /// Configure cell
         self.questionTextView.isUserInteractionEnabled = false
         self.questionTextView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
@@ -169,7 +166,7 @@ class NewChecklistTableViewCell: UITableViewCell {
         self.reviewTextView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         
         //Add Shadow Here
-        self.questionTextView.addShadow();
+        self.questionTextView.addShadow()
     }
     
     func setupLayout() {
@@ -367,6 +364,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
 
         filterListOfCompanyQuestionIds(companyId: companyId, categoryId: Int64(self.categories[indexPath.section].id))
         self.questions = filterQuestions()
+        
         let heightOfQuestion = calculateHeightOfQuestion(question: questions[indexPath.row], width: tableView.frame.width - 10)
         questions[indexPath.row].heightOfQuestion = heightOfQuestion
         
@@ -393,10 +391,14 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             
+            self.filterListOfCompanyQuestionIds(companyId: self.companyId, categoryId: Int64(self.categories[indexPath.section].id))
+            self.questions = self.filterQuestions()
+            
             if !self.doneQuestions.contains(self.questions[indexPath.row].question_id) {
                 self.doneQuestions.append(self.questions[indexPath.row].question_id)
             }
             self.questions[indexPath.row].questionChoice = 1
+            self.replaceQuestionById(question: self.questions[indexPath.row])
             
         }
         
@@ -405,10 +407,14 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             
+            self.filterListOfCompanyQuestionIds(companyId: self.companyId, categoryId: Int64(self.categories[indexPath.section].id))
+            self.questions = self.filterQuestions()
+            
             if !self.doneQuestions.contains(self.questions[indexPath.row].question_id) {
                 self.doneQuestions.append(self.questions[indexPath.row].question_id)
             }
             self.questions[indexPath.row].questionChoice = 2
+            self.replaceQuestionById(question: self.questions[indexPath.row])
         }
         
         cell.thirdChoiceButtonTapped = {
@@ -416,10 +422,14 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             
+            self.filterListOfCompanyQuestionIds(companyId: self.companyId, categoryId: Int64(self.categories[indexPath.section].id))
+            self.questions = self.filterQuestions()
+            
             if !self.doneQuestions.contains(self.questions[indexPath.row].question_id) {
                 self.doneQuestions.append(self.questions[indexPath.row].question_id)
             }
             self.questions[indexPath.row].questionChoice = 3
+            self.replaceQuestionById(question: self.questions[indexPath.row])
         }
         
         cell.reviewButtonTapped = {
@@ -517,10 +527,13 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     private func filterListOfCompanyQuestionIds(companyId: Int64, categoryId: Int64) {
         self.listOfQuestionIds = [Int64]()
         for q in self.companyQuestions {
+            print(String(q.question_id) + " - " + String("category: ") + (String(q.category_id)) + " - companyId" + String(q.company_id))
             if q.category_id == categoryId && q.company_id == companyId {
                 self.listOfQuestionIds.append(q.question_id)
             }
+            
         }
+        print("======")
     }
     
     func filterQuestions() -> [Questions] {
@@ -635,9 +648,13 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     @objc func completedButtonOnClick() {
         let vc = PreviewChecklistsTableViewController()
         vc.modalPresentationCapturesStatusBarAppearance = true
-        vc.questions = self.questions
+        vc.originalQuestions = self.originalQuestions
         vc.defaultLanguage = self.defaultLanguage
         vc.doneQuestions = self.doneQuestions.count
+        vc.companyId = self.companyId
+        vc.companyQuestions = self.companyQuestions
+        vc.categories = self.categories
+        
         self.present(vc, animated: false, completion: nil)
     }
     
@@ -664,11 +681,6 @@ extension ChecklistsTableViewController: ReviewViewProtocol {
         
         replaceQuestionById(question: question)
         
-        let kUserDefault = UserDefaults.standard
-        var encodedData = NSKeyedArchiver.archivedData(withRootObject: self.questions as NSArray) as NSData
-        kUserDefault.set(encodedData, forKey: "questions")
-        kUserDefault.synchronize()
-        
         self.checklistTableView.reloadData()
         
         if !doneQuestions.contains(question.question_id) {
@@ -677,21 +689,14 @@ extension ChecklistsTableViewController: ReviewViewProtocol {
         
     }
     
-    func getQuestionBasedOnQuestionId(questionId: Int64) -> Questions {
-        for q in self.questions {
-            if q.question_id == questionId {
-                return q
-            }
-        }
-        return Questions()
-    }
-    
     func replaceQuestionById(question: Questions) {
-        let idx = 0
-        for q in self.questions {
+        var idx = 0
+        for q in self.originalQuestions {
             if q.question_id == question.question_id {
-                self.questions[idx] = question
+                self.originalQuestions[idx] = question
+                break
             }
+            idx += 1
         }
     }
     
@@ -701,11 +706,6 @@ extension ChecklistsTableViewController: ImageReviewViewProtocol {
     
     func didFinishChoosingImage(question: Questions) {
         replaceQuestionById(question: question)
-        
-        let kUserDefault = UserDefaults.standard
-        var encodedData = NSKeyedArchiver.archivedData(withRootObject: self.questions as NSArray) as NSData
-        kUserDefault.set(encodedData, forKey: "questions")
-        kUserDefault.synchronize()
         
         self.checklistTableView.reloadData()
         
