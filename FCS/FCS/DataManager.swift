@@ -265,9 +265,9 @@ class Questions: NSObject, NSCoding {
         self.questionChoice = 0
         self.review = ""
         self.imgCaptured = [UIImage]()
-        self.imgCaptured.append(UIImage())
-        self.imgCaptured.append(UIImage())
-        self.imgCaptured.append(UIImage())
+        self.imgCaptured.append(UIImage(named:"ic_image")!)
+        self.imgCaptured.append(UIImage(named:"ic_image")!)
+        self.imgCaptured.append(UIImage(named:"ic_image")!)
         
         self.numberOfCapturedImg = 0
         self.latestImage = UIImage()
@@ -290,9 +290,9 @@ class Questions: NSObject, NSCoding {
         self.questionChoice = 0
         self.review = ""
         self.imgCaptured = [UIImage]()
-        self.imgCaptured.append(UIImage())
-        self.imgCaptured.append(UIImage())
-        self.imgCaptured.append(UIImage())
+        self.imgCaptured.append(UIImage(named:"ic_image")!)
+        self.imgCaptured.append(UIImage(named:"ic_image")!)
+        self.imgCaptured.append(UIImage(named:"ic_image")!)
         
         self.numberOfCapturedImg = 0
         self.latestImage = UIImage()

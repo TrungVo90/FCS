@@ -32,7 +32,7 @@ class NewChecklistTableViewCell: UITableViewCell {
     var reviewTextView: UILabel = UILabel()
     
     var imageButton: UIButton = UIButton()
-    var firstImageView: UIImageView = UIImageView(image: UIImage(named:"ic_image"))
+    var firstImageView: UIImageView =  UIImageView(image: UIImage(named:"ic_image"))
     var secondImageView: UIImageView = UIImageView(image: UIImage(named:"ic_image"))
     var thirdImageView: UIImageView = UIImageView(image:UIImage(named:"ic_image"))
     
@@ -148,8 +148,6 @@ class NewChecklistTableViewCell: UITableViewCell {
         self.reviewButton.setImage(UIImage(named:"ic_review"), for: .normal)
         
         self.imageButton.setImage(UIImage(named:"ic_camera"), for: .normal)
-        
-        self.firstImageView.backgroundColor = UIColor.black
         
         self.firstImageView.contentMode = .scaleAspectFit
         self.secondImageView.contentMode = .scaleAspectFit
@@ -452,10 +450,11 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             vc.delegate = self
             self.present(vc, animated: true, completion: nil)
         }
+
         
-        cell.firstImageView.image = question.imgCaptured[0]
-        cell.secondImageView.image = question.imgCaptured[1]
-        cell.thirdImageView.image = question.imgCaptured[2]
+        cell.firstImageView.image = questions[indexPath.row].imgCaptured[0]
+        cell.secondImageView.image = questions[indexPath.row].imgCaptured[1]
+        cell.thirdImageView.image = questions[indexPath.row].imgCaptured[2]
         
         
         return cell

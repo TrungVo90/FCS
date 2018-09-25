@@ -4,12 +4,6 @@ import SnapKit
 
 class PreviewCheckListTableViewCell: UITableViewCell {
     
-    var fisrtChoiceButtonTapped : (() -> Void)? = nil
-    var secondChoiceButtonTapped : (() -> Void)? = nil
-    var thirdChoiceButtonTapped : (() -> Void)? = nil
-    var reviewButtonTapped : (() -> Void)? = nil
-    var imageButtonTapped : (() -> Void)? = nil
-    
     var scrollView = UIScrollView()
     var containerView = UIView()
     
@@ -186,22 +180,22 @@ class PreviewCheckListTableViewCell: UITableViewCell {
         self.secondImageView.snp.remakeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.top.equalTo(self.firstChoiceButton.snp.bottom).offset(10)
-            make.width.equalTo(50)
-            make.height.equalTo(50)
+            make.width.equalTo(80)
+            make.height.equalTo(80)
         }
     
         self.thirdImageView.snp.remakeConstraints { (make) in
             make.leading.equalTo(self.secondImageView.snp.trailing).offset(10)
             make.top.equalTo(self.secondImageView)
-            make.width.equalTo(50)
-            make.height.equalTo(50)
+            make.width.equalTo(80)
+            make.height.equalTo(80)
         }
         
         self.firstImageView.snp.remakeConstraints { (make) in
             make.trailing.equalTo(self.secondImageView.snp.leading).offset(-10)
             make.top.equalTo(self.secondImageView)
-            make.width.equalTo(50)
-            make.height.equalTo(50)
+            make.width.equalTo(80)
+            make.height.equalTo(80)
         }
         
         self.dashedLineView.snp.remakeConstraints { (make) in
@@ -316,9 +310,9 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         let heightOfQuestion = calculateHeightOfQuestion(question: questions[indexPath.row], width: tableView.frame.width - 10)
         questions[indexPath.row].heightOfQuestion = heightOfQuestion
         if questions[indexPath.row].review == "" {
-            return 230
+            return 200
         } else {
-            return 240 + questions[indexPath.row].heightOfComment
+            return 200 + questions[indexPath.row].heightOfComment
         }
     }
     
@@ -401,9 +395,9 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         cell.secondChoiceButton.isUserInteractionEnabled = false
         cell.thirdChoiceButton.isUserInteractionEnabled = false
         
-        cell.firstImageView.image = questions[indexPath.row].imgCaptured[0]
-        cell.secondImageView.image = questions[indexPath.row].imgCaptured[1]
-        cell.thirdImageView.image = questions[indexPath.row].imgCaptured[2]
+        cell.firstImageView.image =  questions[indexPath.row].imgCaptured[0]
+        cell.secondImageView.image =  questions[indexPath.row].imgCaptured[1]
+        cell.thirdImageView.image =  questions[indexPath.row].imgCaptured[2]
         
         return cell
     }
