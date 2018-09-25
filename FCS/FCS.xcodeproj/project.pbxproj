@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		2F2AD8F9AB679481AB18711A /* Pods_FCSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2ED773C40FD7B35D402EB7 /* Pods_FCSUITests.framework */; };
 		35204A07210B956200A2894A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35204A06210B956200A2894A /* LoginViewController.swift */; };
-		35204A09210B957100A2894A /* PreviewChecklistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35204A08210B957100A2894A /* PreviewChecklistsViewController.swift */; };
 		35204A0B210B958C00A2894A /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35204A0A210B958C00A2894A /* UserInfoViewController.swift */; };
 		35215E5F212AC1930061352A /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35215E5E212AC1930061352A /* DataManager.swift */; };
 		35C5D4F22116940900AA5CFA /* ChecklistsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C5D4F12116940900AA5CFA /* ChecklistsTableViewController.swift */; };
@@ -20,7 +19,6 @@
 		35F366B7210E2892003A057E /* CompanyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F366B6210E2892003A057E /* CompanyListViewController.swift */; };
 		35F366B9210E9946003A057E /* StoreListViewCompany.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F366B8210E9946003A057E /* StoreListViewCompany.swift */; };
 		35F6DE942109B37D00CE6101 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F6DE932109B37D00CE6101 /* AppDelegate.swift */; };
-		35F6DE962109B37D00CE6101 /* ChecklistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F6DE952109B37D00CE6101 /* ChecklistsViewController.swift */; };
 		35F6DE9E2109B37D00CE6101 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35F6DE9D2109B37D00CE6101 /* Assets.xcassets */; };
 		35F6DEA12109B37D00CE6101 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35F6DE9F2109B37D00CE6101 /* LaunchScreen.storyboard */; };
 		35F6DEAC2109B37D00CE6101 /* FCSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F6DEAB2109B37D00CE6101 /* FCSTests.swift */; };
@@ -57,7 +55,6 @@
 		256B156E884BF296479F3B68 /* Pods-FCSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FCSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FCSTests/Pods-FCSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		303503D5ADC72BF97BA63E72 /* Pods-FCSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FCSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FCSTests/Pods-FCSTests.release.xcconfig"; sourceTree = "<group>"; };
 		35204A06210B956200A2894A /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		35204A08210B957100A2894A /* PreviewChecklistsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewChecklistsViewController.swift; sourceTree = "<group>"; };
 		35204A0A210B958C00A2894A /* UserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewController.swift; sourceTree = "<group>"; };
 		35215E5E212AC1930061352A /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		35C5D4F12116940900AA5CFA /* ChecklistsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistsTableViewController.swift; sourceTree = "<group>"; };
@@ -69,7 +66,6 @@
 		35F366B8210E9946003A057E /* StoreListViewCompany.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreListViewCompany.swift; sourceTree = "<group>"; };
 		35F6DE902109B37D00CE6101 /* FCS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FCS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35F6DE932109B37D00CE6101 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		35F6DE952109B37D00CE6101 /* ChecklistsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistsViewController.swift; sourceTree = "<group>"; };
 		35F6DE9D2109B37D00CE6101 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		35F6DEA02109B37D00CE6101 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		35F6DEA22109B37D00CE6101 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -147,13 +143,11 @@
 			children = (
 				6D580E322157B8E70033ED9E /* Main.storyboard */,
 				35F6DE932109B37D00CE6101 /* AppDelegate.swift */,
-				35F6DE952109B37D00CE6101 /* ChecklistsViewController.swift */,
 				35F6DE9D2109B37D00CE6101 /* Assets.xcassets */,
 				35F6DE9F2109B37D00CE6101 /* LaunchScreen.storyboard */,
 				35F6DEA22109B37D00CE6101 /* Info.plist */,
 				6D5BCEAF2151083300C81ADD /* DKDropMenu.swift */,
 				35204A06210B956200A2894A /* LoginViewController.swift */,
-				35204A08210B957100A2894A /* PreviewChecklistsViewController.swift */,
 				35204A0A210B958C00A2894A /* UserInfoViewController.swift */,
 				35F366B6210E2892003A057E /* CompanyListViewController.swift */,
 				35F366B8210E9946003A057E /* StoreListViewCompany.swift */,
@@ -430,7 +424,6 @@
 				35CC6FDD211950350089BA7C /* ReviewViewController.swift in Sources */,
 				5BEB714D214E2951002E1479 /* LanguagesPickerViewController.swift in Sources */,
 				35CC6FDB2118B8490089BA7C /* PreviewChecklistsTableViewController.swift in Sources */,
-				35204A09210B957100A2894A /* PreviewChecklistsViewController.swift in Sources */,
 				35F366B7210E2892003A057E /* CompanyListViewController.swift in Sources */,
 				35C5D4F22116940900AA5CFA /* ChecklistsTableViewController.swift in Sources */,
 				35CC6FDF211993CE0089BA7C /* ImageReviewViewController.swift in Sources */,
@@ -438,7 +431,6 @@
 				6D580E352157B96D0033ED9E /* DetailStoreViewController.swift in Sources */,
 				6D5BCEB02151083300C81ADD /* DKDropMenu.swift in Sources */,
 				35204A0B210B958C00A2894A /* UserInfoViewController.swift in Sources */,
-				35F6DE962109B37D00CE6101 /* ChecklistsViewController.swift in Sources */,
 				35204A07210B956200A2894A /* LoginViewController.swift in Sources */,
 				35215E5F212AC1930061352A /* DataManager.swift in Sources */,
 				35F6DE942109B37D00CE6101 /* AppDelegate.swift in Sources */,

@@ -2,6 +2,234 @@
 import Foundation
 import SnapKit
 
+class PreviewCheckListTableViewCell: UITableViewCell {
+    
+    var fisrtChoiceButtonTapped : (() -> Void)? = nil
+    var secondChoiceButtonTapped : (() -> Void)? = nil
+    var thirdChoiceButtonTapped : (() -> Void)? = nil
+    var reviewButtonTapped : (() -> Void)? = nil
+    var imageButtonTapped : (() -> Void)? = nil
+    
+    var scrollView = UIScrollView()
+    var containerView = UIView()
+    
+    var _contentView = UIView()
+    
+    var questionTextView: UITextView = UITextView()
+    
+    var firstChoiceButton: UIButton = UIButton()
+    var secondChoiceButton: UIButton = UIButton()
+    var thirdChoiceButton: UIButton = UIButton()
+    
+    var firstChoiceLabel: UILabel = UILabel()
+    var secondChoiceLabel: UILabel = UILabel()
+    var thirdChoiceLabel: UILabel = UILabel()
+    
+    var reviewTextView: UILabel = UILabel()
+    
+    var firstImageView: UIImageView = UIImageView()
+    var secondImageView: UIImageView = UIImageView()
+    var thirdImageView: UIImageView = UIImageView()
+    
+    var dashedLineView: UIView = UIView()
+    
+    var heightOfReviewLabel: CGFloat = 0
+    var heightOfQuestionLabel: CGFloat = 0
+    
+    static var CELL_IDENTIFIER: String = "PreviewChecklistTableViewCell"
+
+    
+    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setupViews()
+        setupLayout()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupViews() {
+        self.addSubview(self.containerView)
+        
+        self.containerView.addSubview(self.scrollView)
+        
+        self.scrollView.addSubview(self._contentView)
+        self._contentView.addSubview(self.questionTextView)
+        
+        self._contentView.addSubview(self.firstChoiceButton)
+        self._contentView.addSubview(self.secondChoiceButton)
+        self._contentView.addSubview(self.thirdChoiceButton)
+        
+        self._contentView.addSubview(self.firstChoiceLabel)
+        self._contentView.addSubview(self.secondChoiceLabel)
+        self._contentView.addSubview(self.thirdChoiceLabel)
+        
+        self._contentView.addSubview(self.reviewTextView)
+        self._contentView.addSubview(self.firstImageView)
+        self._contentView.addSubview(self.secondImageView)
+        self._contentView.addSubview(self.thirdImageView)
+        
+        self.containerView.addSubview(self.dashedLineView)
+    
+        //// Set color
+        
+        self.dashedLineView.backgroundColor = .lightGray
+        
+        self.questionTextView.text = "Question 1?"
+        
+        self.firstChoiceLabel.text = "1"
+        self.firstChoiceLabel.textAlignment = .center
+        self.firstChoiceLabel.font = UIFont(name: "Georgia-Bold", size: 20.0)
+        self.firstChoiceLabel.font = UIFont.systemFont(ofSize: 20.0)
+        
+        self.secondChoiceLabel.text = "2"
+        self.secondChoiceLabel.textAlignment = .center
+        self.secondChoiceLabel.font = UIFont(name: "Georgia-Bold", size: 20.0)
+        self.secondChoiceLabel.font = UIFont.systemFont(ofSize: 20.0)
+        
+        self.thirdChoiceLabel.text = "3"
+        self.thirdChoiceLabel.textAlignment = .center
+        self.thirdChoiceLabel.font = UIFont(name: "Georgia-Bold", size: 20.0)
+        self.thirdChoiceLabel.font = UIFont.systemFont(ofSize: 20.0)
+        
+        self.firstChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
+        self.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+        self.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+    
+        self.firstImageView.image = UIImage.init(named: "ic_image")
+        self.secondImageView.image = UIImage.init(named: "ic_image")
+        self.thirdImageView.image = UIImage.init(named: "ic_image")
+        
+        self.firstImageView.contentMode = .scaleAspectFit
+        self.secondImageView.contentMode = .scaleAspectFit
+        self.thirdImageView.contentMode = .scaleAspectFit
+        
+        self.reviewTextView.text = "The commentation"
+        self.reviewTextView.numberOfLines = 0
+        self.reviewTextView.font = UIFont(name: "Georgia-Bold", size: 12)
+        
+        
+        /// Configure cell
+        self.questionTextView.isUserInteractionEnabled = false
+        self.questionTextView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        self.reviewTextView.isUserInteractionEnabled = false
+        self.reviewTextView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        
+        //Add Shadow Here
+        self.questionTextView.addShadow();
+    }
+    
+    func setupLayout() {
+        self.containerView.snp.remakeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
+        self.scrollView.snp.remakeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
+        self._contentView.snp.remakeConstraints { (make) in
+            make.edges.equalToSuperview()
+            make.width.equalToSuperview()
+            make.bottom.equalTo(self.firstImageView.snp.bottom)
+        }
+        
+        self.questionTextView.snp.remakeConstraints { (make) in
+            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-10)
+            make.top.equalToSuperview().offset(5)
+            make.height.equalTo(10)
+        }
+        
+        self.firstChoiceLabel.snp.remakeConstraints { (make) in
+            make.leading.equalToSuperview().offset(10)
+            make.width.equalTo(30)
+            make.height.equalTo(30)
+            make.top.equalTo(self.questionTextView.snp.bottom).offset(40)
+        }
+        
+        self.firstChoiceButton.snp.remakeConstraints { (make) in
+            make.leading.equalTo(self.firstChoiceLabel.snp.trailing).offset(5)
+            make.top.equalTo(self.firstChoiceLabel)
+            make.width.equalTo(30)
+            make.height.equalTo(30)
+        }
+        
+        self.secondChoiceLabel.snp.remakeConstraints { (make) in
+            make.trailing.equalTo(self._contentView.snp.centerX).offset(-2)
+            make.top.equalTo(self.firstChoiceLabel)
+            make.height.equalTo(30)
+            make.width.equalTo(30)
+        }
+        
+        self.secondChoiceButton.snp.remakeConstraints { (make) in
+            make.leading.equalTo(self._contentView.snp.centerX).offset(3)
+            make.top.equalTo(self.firstChoiceLabel)
+            make.height.equalTo(30)
+            make.width.equalTo(30)
+        }
+        
+        self.thirdChoiceButton.snp.remakeConstraints { (make) in
+            make.trailing.equalToSuperview().offset(-10)
+            make.width.height.equalTo(30)
+            make.top.equalTo(self.firstChoiceLabel)
+        }
+        
+        self.thirdChoiceLabel.snp.remakeConstraints { (make) in
+            make.trailing.equalTo(self.thirdChoiceButton.snp.leading).offset(-5)
+            make.width.height.equalTo(30)
+            make.top.equalTo(self.firstChoiceLabel)
+        }
+        
+        self.secondImageView.snp.remakeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(self.firstChoiceButton.snp.bottom).offset(10)
+            make.width.equalTo(50)
+            make.height.equalTo(50)
+        }
+    
+        self.thirdImageView.snp.remakeConstraints { (make) in
+            make.leading.equalTo(self.secondImageView.snp.trailing).offset(10)
+            make.top.equalTo(self.secondImageView)
+            make.width.equalTo(50)
+            make.height.equalTo(50)
+        }
+        
+        self.firstImageView.snp.remakeConstraints { (make) in
+            make.trailing.equalTo(self.secondImageView.snp.leading).offset(-10)
+            make.top.equalTo(self.secondImageView)
+            make.width.equalTo(50)
+            make.height.equalTo(50)
+        }
+        
+        self.dashedLineView.snp.remakeConstraints { (make) in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(1)
+        }
+        
+    }
+    
+    func setupLayoutForAddingComment() {
+        self.reviewTextView.snp.remakeConstraints { (make) in
+            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-10)
+            make.top.equalTo(self.firstImageView.snp.bottom).offset(5)
+            make.height.equalTo(self.heightOfReviewLabel)
+        }
+    }
+    
+    func setupLayoutForQuestion() {
+        self.questionTextView.snp.remakeConstraints { (make) in
+            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-10)
+            make.top.equalToSuperview().offset(5)
+            make.height.equalTo(self.heightOfQuestionLabel)
+        }
+    }
+}
+
 class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var backButton: UIButton = UIButton()
@@ -25,7 +253,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     var mediumLabel: UILabel = UILabel()
     
     var lowLabel: UILabel = UILabel()
-    
+
     var veryLowLabel: UILabel = UILabel()
     
     var greenLabel: UILabel = UILabel()
@@ -41,9 +269,9 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if questions[indexPath.row].review == "" {
-            return 230
+            return 150
         } else {
-            return 240 + questions[indexPath.row].heightOfComment
+            return 150 + questions[indexPath.row].heightOfComment
         }
         
     }
@@ -57,8 +285,9 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "NewChecklistTableViewCell", for: indexPath)
-            as! NewChecklistTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PreviewChecklistTableViewCell", for: indexPath)
+            as! PreviewCheckListTableViewCell
+        
         let question = self.questions[indexPath.row]
         if defaultLanguage == 0 {
             cell.questionTextView.text = question.title_vn
@@ -67,6 +296,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         }
         
         cell.heightOfReviewLabel = question.heightOfComment
+        
         
         if question.review != "" {
             cell.reviewTextView.text = question.review
@@ -81,19 +311,36 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
             cell.firstChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
             cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+           
+            cell.secondChoiceButton.isHidden = true
+            cell.secondChoiceLabel.isHidden = true
+            cell.thirdChoiceButton.isHidden = true
+            cell.thirdChoiceLabel.isHidden = true
+            
         }
         
         if questions[indexPath.row].questionChoice == 2 {
             cell.secondChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
             cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+        
+            cell.firstChoiceButton.isHidden = true
+            cell.firstChoiceLabel.isHidden = true
+            cell.thirdChoiceButton.isHidden = true
+            cell.thirdChoiceLabel.isHidden = true
         }
         
         if questions[indexPath.row].questionChoice == 3 {
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
             cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+          
+            cell.firstChoiceButton.isHidden = true
+            cell.firstChoiceLabel.isHidden = true
+            cell.secondChoiceButton.isHidden = true
+            cell.secondChoiceLabel.isHidden = true
         }
+        
         
         cell.firstChoiceButton.isUserInteractionEnabled = false
         cell.secondChoiceButton.isUserInteractionEnabled = false
@@ -129,7 +376,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         self.checklistTableView.backgroundColor = UIColor.clear
         self.checklistTableView.separatorStyle = .none
         self.checklistTableView.showsVerticalScrollIndicator = false
-        self.checklistTableView.register(NewChecklistTableViewCell.self, forCellReuseIdentifier: NewChecklistTableViewCell.CELL_IDENTIFIER)
+        self.checklistTableView.register(PreviewCheckListTableViewCell.self, forCellReuseIdentifier: PreviewCheckListTableViewCell.CELL_IDENTIFIER)
     }
     
     fileprivate var _isStatusBarHidden = false
@@ -201,8 +448,6 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         self.veryLowLabel.text = "0-74%"
         
         self.view.addSubview(self.summarizationView)
-        
-        
     }
     
     func setupLayout() {
