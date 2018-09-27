@@ -4,13 +4,14 @@ import Foundation
 import UIKit
 
 protocol StoreListCellDelegate {
-    func auditButtonTouch()
+    func auditButtonTouch(branchId: Int64)
 }
 
 class StoreListTableViewCell: UITableViewCell {
 
     internal var delegate: StoreListCellDelegate?
     
+    var branchId: Int64 = 0
     @IBOutlet weak var storeImageView: UIImageView!
     
     @IBOutlet weak var storeNameLabel: UILabel!
@@ -31,7 +32,8 @@ class StoreListTableViewCell: UITableViewCell {
         
     }
     @IBAction func auditButtonTouch(_ sender: Any) {
-        self.delegate?.auditButtonTouch()
+        
+        self.delegate?.auditButtonTouch(branchId: self.branchId)
     }
 }
 
@@ -43,6 +45,8 @@ class StoreListViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var storeSearchBar: UISearchBar!
     
     var filtered: [Branchs] = []
+    
+    var branchId: Int64 = 0
     
     var searchActive : Bool = false
     override func viewWillAppear(_ animated: Bool) {
@@ -124,11 +128,13 @@ class StoreListViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "storeListTableViewCell", for: indexPath)
             as! StoreListTableViewCell
-        cell.delegate = self;
+        cell.delegate = self
         var branch = self._branchs[indexPath.row]
         if(searchActive){
             branch = filtered[indexPath.row]
         }
+        
+        cell.branchId = branch.id
         cell.storeNameLabel.text = branch.name
         cell.storeDescription.text = "Address: " + branch.address + " - Phone: " + branch.phone + "\n Email: " + branch.email
         return cell
@@ -149,11 +155,13 @@ class StoreListViewController: UIViewController, UITableViewDelegate, UITableVie
         self.dismiss(animated: true, completion: nil)
     }
     
-    func auditButtonTouch() {
+    func auditButtonTouch(branchId: Int64) {
         
         print("audit Button Touch")
         let vc = ChecklistsTableViewController()
+        
         vc.companyId = self.company_id
+        vc.branchId = branchId
         vc.modalPresentationCapturesStatusBarAppearance = true
         
         self.present(vc, animated: false, completion: nil)

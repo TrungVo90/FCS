@@ -624,7 +624,27 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     }
     
     @objc func submitButtonOnClick() {
-        /// To do: Implement later
+        
+        end_time = Date(timeIntervalSince1970: 0)
+        
+        var doneChecklist = DoneChecklist()
+        doneChecklist.start_time = start_time
+        doneChecklist.comment = ""
+        doneChecklist.end_time = end_time
+        doneChecklist.branch_id = 0
+        doneChecklist.company_id = self.companyId
+        doneChecklist.doneQuestions = self.originalQuestions
+        doneChecklist.lang = "en"
+        
+        
+        let kUserDefault = UserDefaults.standard
+        /// Store data
+        var encodedData = NSKeyedArchiver.archivedData(withRootObject: self.originalQuestions as NSArray) as NSData
+        kUserDefault.set(encodedData, forKey: "doneChecklistQuestions")
+        kUserDefault.synchronize()
+        
+        var questions = kUserDefault.array(forKey: "doneChecklistQuestions")
+        let a = 10
     }
     
     @objc func backButtonOnClick() {

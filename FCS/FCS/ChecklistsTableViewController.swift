@@ -29,6 +29,8 @@ class NewChecklistTableViewCell: UITableViewCell {
     var reviewButton: UIButton = UIButton()
 //    var reviewTextView: UITextView = UITextView()
     
+    var questionIdxLabel: UILabel = UILabel()
+    
     var reviewTextView: UILabel = UILabel()
     
     var imageButton: UIButton = UIButton()
@@ -92,6 +94,7 @@ class NewChecklistTableViewCell: UITableViewCell {
         self.containerView.addSubview(self.scrollView)
         
         self.scrollView.addSubview(self._contentView)
+        self._contentView.addSubview(self.questionIdxLabel)
         self._contentView.addSubview(self.questionTextView)
         
         self._contentView.addSubview(self.firstChoiceButton)
@@ -165,6 +168,10 @@ class NewChecklistTableViewCell: UITableViewCell {
         
         //Add Shadow Here
         self.questionTextView.addShadow()
+        
+        self.questionIdxLabel.textAlignment = .center
+        
+        
     }
     
     func setupLayout() {
@@ -182,8 +189,16 @@ class NewChecklistTableViewCell: UITableViewCell {
             make.bottom.equalTo(self.imageButton.snp.bottom)
         }
         
-        self.questionTextView.snp.remakeConstraints { (make) in
+        self.questionIdxLabel.snp.remakeConstraints { (make) in
             make.leading.equalToSuperview().offset(10)
+            make.width.equalTo(20)
+            make.top.equalToSuperview().offset(5)
+            make.height.equalTo(20)
+        }
+        
+        
+        self.questionTextView.snp.remakeConstraints { (make) in
+            make.leading.equalToSuperview().offset(35)
             make.trailing.equalToSuperview().offset(-10)
             make.top.equalToSuperview().offset(5)
             make.height.equalTo(10)
@@ -282,11 +297,18 @@ class NewChecklistTableViewCell: UITableViewCell {
     
     func setupLayoutForQuestion() {
         self.questionTextView.snp.remakeConstraints { (make) in
-            make.leading.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().offset(35)
             make.trailing.equalToSuperview().offset(-10)
             make.top.equalToSuperview().offset(5)
             make.height.equalTo(self.heightOfQuestionLabel)
         }
+        
+        let size = 20.0
+        self.questionIdxLabel.bounds = CGRect.init(x: 0, y: 0, width: size, height: size)
+        self.questionIdxLabel.layer.cornerRadius = CGFloat(size / 2)
+        self.questionIdxLabel.layer.borderWidth = 1.0
+        self.questionIdxLabel.layer.backgroundColor = UIColor.clear.cgColor
+        self.questionIdxLabel.layer.borderColor = UIColor.green.cgColor
     }
     
 }
@@ -324,8 +346,10 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     var companyId: Int64 = 0
     
+    var branchId: Int64 = 0
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let heightOfQuestion = calculateHeightOfQuestion(question: questions[indexPath.row], width: tableView.frame.width - 10)
+        let heightOfQuestion = calculateHeightOfQuestion(question: questions[indexPath.row], width: tableView.frame.width - 55)
         questions[indexPath.row].heightOfQuestion = heightOfQuestion
         if questions[indexPath.row].review == "" {
             return 160 + heightOfQuestion //230
@@ -372,6 +396,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         } else {
             cell.questionTextView.text = question.title_en
         }
+        
+        cell.questionIdxLabel.text =  String(indexPath.row + 1)
         
         cell.heightOfReviewLabel = question.heightOfComment
         cell.heightOfQuestionLabel = question.heightOfQuestion
@@ -472,6 +498,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        start_time = Date(timeIntervalSince1970: 0)
         
         if let unarchivedObject = UserDefaults.standard.object(forKey: "question_categories") as? Data {
             self.categories = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [Categories])!

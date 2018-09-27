@@ -433,6 +433,59 @@ class Checklist: NSObject, NSCoding {
     }
 }
 
+class DoneChecklist: NSObject, NSCoding {
+    
+    var company_id: Int64 = 0
+    var branch_id: Int64 = 0
+    var start_time: Date = Date()
+    var end_time: Date = Date()
+    var lang: String = "en" // Default is english
+    var comment: String = "This is a comment"
+    var doneQuestions: [Questions] = [Questions]()
+    
+    override init() {
+        self.company_id = 0
+        self.branch_id = 0
+        self.start_time = Date(timeIntervalSince1970: 0)
+        self.end_time = Date(timeIntervalSince1970: 0)
+        self.lang = "en"
+        self.comment = "This is a comment"
+        self.doneQuestions = [Questions]()
+    }
+    
+    init(company_id: Int64 = 0, branch_id: Int64 = 0, start_time: Date = Date(timeIntervalSince1970: 0), end_time: Date = Date(timeIntervalSince1970: 0), lang: String = "en", comment: String = "This is a comment", doneQuestions: [Questions] = [Questions]()) {
+        self.company_id = company_id
+        self.branch_id = branch_id
+        self.start_time = start_time
+        self.end_time = end_time
+        self.lang = lang
+        self.comment = comment
+        self.doneQuestions = doneQuestions
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        let company_id = aDecoder.decodeInt64(forKey: "company_id")
+        let branch_id = aDecoder.decodeInt64(forKey: "branch_id")
+        
+        let start_time = aDecoder.decodeInteger(forKey: "start_time") as! Date
+        let end_time = aDecoder.decodeObject(forKey: "end_time") as! Date
+        let lang = aDecoder.decodeObject(forKey: "lang") as! String
+        let comment = aDecoder.decodeObject(forKey: "comment") as! String
+        
+        self.init(company_id: company_id, branch_id: branch_id, start_time: start_time, end_time: end_time, lang: lang, comment: comment)
+    }
+    
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.company_id, forKey: "company_id")
+        aCoder.encode(self.branch_id, forKey: "branch_id")
+        aCoder.encode(self.start_time, forKey: "start_time")
+        aCoder.encode(self.end_time, forKey: "end_time")
+        aCoder.encode(self.lang, forKey: "lang")
+        aCoder.encode(self.comment, forKey: "comment")
+    }
+}
+
 open class DataManager: NSObject, Codable {
     
     let ACCESS_TOKEN_KEY = "access_token"
