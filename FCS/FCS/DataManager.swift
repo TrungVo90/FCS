@@ -250,6 +250,8 @@ class Questions: NSObject, NSCoding {
     var heightOfComment: CGFloat = 0.0
     var heightOfQuestion: CGFloat = 0.0
     
+    
+    
     override init() {
         self.company_id = 0
         self.checklist_id = 0

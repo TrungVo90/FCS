@@ -11,13 +11,7 @@ class PreviewCheckListTableViewCell: UITableViewCell {
     
     var questionTextView: UITextView = UITextView()
     
-    var firstChoiceButton: UIButton = UIButton()
-    var secondChoiceButton: UIButton = UIButton()
-    var thirdChoiceButton: UIButton = UIButton()
-    
-    var firstChoiceLabel: UILabel = UILabel()
-    var secondChoiceLabel: UILabel = UILabel()
-    var thirdChoiceLabel: UILabel = UILabel()
+    var choiceLabel: UILabel = UILabel()
     
     var reviewTextView: UILabel = UILabel()
     
@@ -51,14 +45,8 @@ class PreviewCheckListTableViewCell: UITableViewCell {
         
         self.scrollView.addSubview(self._contentView)
         self._contentView.addSubview(self.questionTextView)
+        self._contentView.addSubview(self.choiceLabel)
         
-        self._contentView.addSubview(self.firstChoiceButton)
-        self._contentView.addSubview(self.secondChoiceButton)
-        self._contentView.addSubview(self.thirdChoiceButton)
-        
-        self._contentView.addSubview(self.firstChoiceLabel)
-        self._contentView.addSubview(self.secondChoiceLabel)
-        self._contentView.addSubview(self.thirdChoiceLabel)
         
         self._contentView.addSubview(self.reviewTextView)
         self._contentView.addSubview(self.firstImageView)
@@ -73,24 +61,7 @@ class PreviewCheckListTableViewCell: UITableViewCell {
         
         self.questionTextView.text = "Question 1?"
         
-        self.firstChoiceLabel.text = "1"
-        self.firstChoiceLabel.textAlignment = .center
-        self.firstChoiceLabel.font = UIFont(name: "Georgia-Bold", size: 20.0)
-        self.firstChoiceLabel.font = UIFont.systemFont(ofSize: 20.0)
-        
-        self.secondChoiceLabel.text = "2"
-        self.secondChoiceLabel.textAlignment = .center
-        self.secondChoiceLabel.font = UIFont(name: "Georgia-Bold", size: 20.0)
-        self.secondChoiceLabel.font = UIFont.systemFont(ofSize: 20.0)
-        
-        self.thirdChoiceLabel.text = "3"
-        self.thirdChoiceLabel.textAlignment = .center
-        self.thirdChoiceLabel.font = UIFont(name: "Georgia-Bold", size: 20.0)
-        self.thirdChoiceLabel.font = UIFont.systemFont(ofSize: 20.0)
-        
-        self.firstChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
-        self.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
-        self.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+        self.choiceLabel.font = UIFont(name: "Georgia-Bold", size: 12)
     
         self.firstImageView.image = UIImage.init(named: "ic_image")
         self.secondImageView.image = UIImage.init(named: "ic_image")
@@ -113,6 +84,13 @@ class PreviewCheckListTableViewCell: UITableViewCell {
         
         //Add Shadow Here
         self.questionTextView.addShadow();
+        
+        let size = 20.0
+        self.choiceLabel.bounds = CGRect.init(x: 0, y: 0, width: size, height: size)
+        self.choiceLabel.layer.cornerRadius = CGFloat(size / 2)
+        self.choiceLabel.layer.borderWidth = 1.0
+        self.choiceLabel.layer.backgroundColor = UIColor.clear.cgColor
+        self.choiceLabel.layer.borderColor = UIColor.black.cgColor
     }
     
     func setupLayout() {
@@ -132,54 +110,22 @@ class PreviewCheckListTableViewCell: UITableViewCell {
         
         self.questionTextView.snp.remakeConstraints { (make) in
             make.leading.equalToSuperview().offset(10)
-            make.trailing.equalToSuperview().offset(-10)
+            make.trailing.equalToSuperview().offset(-40)
             make.top.equalToSuperview().offset(5)
             make.height.equalTo(10)
         }
         
-        self.firstChoiceLabel.snp.remakeConstraints { (make) in
-            make.leading.equalToSuperview().offset(10)
-            make.width.equalTo(30)
-            make.height.equalTo(30)
-            make.top.equalTo(self.questionTextView.snp.bottom).offset(40)
-        }
-        
-        self.firstChoiceButton.snp.remakeConstraints { (make) in
-            make.leading.equalTo(self.firstChoiceLabel.snp.trailing).offset(5)
-            make.top.equalTo(self.firstChoiceLabel)
-            make.width.equalTo(30)
-            make.height.equalTo(30)
-        }
-        
-        self.secondChoiceLabel.snp.remakeConstraints { (make) in
-            make.trailing.equalTo(self._contentView.snp.centerX).offset(-2)
-            make.top.equalTo(self.firstChoiceLabel)
-            make.height.equalTo(30)
-            make.width.equalTo(30)
-        }
-        
-        self.secondChoiceButton.snp.remakeConstraints { (make) in
-            make.leading.equalTo(self._contentView.snp.centerX).offset(3)
-            make.top.equalTo(self.firstChoiceLabel)
-            make.height.equalTo(30)
-            make.width.equalTo(30)
-        }
-        
-        self.thirdChoiceButton.snp.remakeConstraints { (make) in
+        self.choiceLabel.snp.remakeConstraints { (make) in
             make.trailing.equalToSuperview().offset(-10)
-            make.width.height.equalTo(30)
-            make.top.equalTo(self.firstChoiceLabel)
+            make.centerY.equalTo(self.questionTextView)
+            make.height.equalTo(20)
+            make.width.equalTo(20)
         }
         
-        self.thirdChoiceLabel.snp.remakeConstraints { (make) in
-            make.trailing.equalTo(self.thirdChoiceButton.snp.leading).offset(-5)
-            make.width.height.equalTo(30)
-            make.top.equalTo(self.firstChoiceLabel)
-        }
         
         self.secondImageView.snp.remakeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.top.equalTo(self.firstChoiceButton.snp.bottom).offset(10)
+            make.top.equalTo(self.questionTextView.snp.bottom).offset(10)
             make.width.equalTo(80)
             make.height.equalTo(80)
         }
@@ -263,8 +209,6 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     var originalQuestions: [Questions] = [Questions]()
 
     var listOfQuestionIds: [Int64] = [Int64]()
-    
-    
     
     var categories: [Categories] = [Categories]()
     
@@ -361,49 +305,21 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
             cell.setupLayoutForAddingComment()
         }
         
-        if questions[indexPath.row].questionChoice == 1 {
-            
-            cell.firstChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
-            cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
-            cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
-           
-            cell.secondChoiceButton.isHidden = false
-            cell.secondChoiceLabel.isHidden = false
-            cell.thirdChoiceButton.isHidden = false
-            cell.thirdChoiceLabel.isHidden = false
-            
-        }
+        cell.choiceLabel.text = String(questions[indexPath.row].questionChoice)
         
-        if questions[indexPath.row].questionChoice == 2 {
-            cell.secondChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
-            cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
-            cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
         
-            cell.firstChoiceButton.isHidden = false
-            cell.firstChoiceLabel.isHidden = false
-            cell.thirdChoiceButton.isHidden = false
-            cell.thirdChoiceLabel.isHidden = false
-        }
         
-        if questions[indexPath.row].questionChoice == 3 {
-            cell.thirdChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
-            cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
-            cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
-          
-            cell.firstChoiceButton.isHidden = false
-            cell.firstChoiceLabel.isHidden = false
-            cell.secondChoiceButton.isHidden = false
-            cell.secondChoiceLabel.isHidden = false
+        if (questions[indexPath.row].numberOfCapturedImg > 0) {
+            cell.firstImageView.image =  questions[indexPath.row].imgCaptured[0]
+            if (questions[indexPath.row].numberOfCapturedImg % 3 == 1) {
+                cell.secondImageView.image =  questions[indexPath.row].imgCaptured[1]
+            } else if (questions[indexPath.row].numberOfCapturedImg % 3 == 2) {
+                cell.secondImageView.image =  questions[indexPath.row].imgCaptured[1]
+                cell.thirdImageView.image =  questions[indexPath.row].imgCaptured[2]
+            }
         }
         
         
-        cell.firstChoiceButton.isUserInteractionEnabled = false
-        cell.secondChoiceButton.isUserInteractionEnabled = false
-        cell.thirdChoiceButton.isUserInteractionEnabled = false
-        
-        cell.firstImageView.image =  questions[indexPath.row].imgCaptured[0]
-        cell.secondImageView.image =  questions[indexPath.row].imgCaptured[1]
-        cell.thirdImageView.image =  questions[indexPath.row].imgCaptured[2]
         
         return cell
     }
