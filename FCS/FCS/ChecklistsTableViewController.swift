@@ -170,6 +170,7 @@ class NewChecklistTableViewCell: UITableViewCell {
         self.questionTextView.addShadow()
         
         self.questionIdxLabel.textAlignment = .center
+        self.questionIdxLabel.font = UIFont(name: "Georgia-Bold", size: 12)
         
         
     }
@@ -192,7 +193,7 @@ class NewChecklistTableViewCell: UITableViewCell {
         self.questionIdxLabel.snp.remakeConstraints { (make) in
             make.leading.equalToSuperview().offset(10)
             make.width.equalTo(20)
-            make.top.equalToSuperview().offset(5)
+            make.centerY.equalTo(self.questionTextView)
             make.height.equalTo(20)
         }
         
@@ -308,7 +309,7 @@ class NewChecklistTableViewCell: UITableViewCell {
         self.questionIdxLabel.layer.cornerRadius = CGFloat(size / 2)
         self.questionIdxLabel.layer.borderWidth = 1.0
         self.questionIdxLabel.layer.backgroundColor = UIColor.clear.cgColor
-        self.questionIdxLabel.layer.borderColor = UIColor.green.cgColor
+        self.questionIdxLabel.layer.borderColor = UIColor.black.cgColor
     }
     
 }
