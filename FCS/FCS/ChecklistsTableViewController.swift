@@ -349,6 +349,10 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     var branchId: Int64 = 0
     
+    var commonCommentLabel: UILabel = UILabel()
+    
+    var commonCommentTextView: UITextView = UITextView()
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let heightOfQuestion = calculateHeightOfQuestion(question: questions[indexPath.row], width: tableView.frame.width - 55)
         questions[indexPath.row].heightOfQuestion = heightOfQuestion
@@ -517,7 +521,6 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             self.originalQuestions = questions
         }
         
-        
         setupView()
         
         self.imagePicker.delegate = self
@@ -534,7 +537,6 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.checklistTableView.separatorStyle = .none
         self.checklistTableView.showsVerticalScrollIndicator = false
         self.checklistTableView.register(NewChecklistTableViewCell.self, forCellReuseIdentifier: NewChecklistTableViewCell.CELL_IDENTIFIER)
-        
 
         
         setupLayout()
@@ -598,6 +600,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.view.addSubview(self.checklistTableView)
         self.view.addSubview(self.completedButton)
         self.view.addSubview(self.customView)
+        self.view.addSubview(self.commonCommentTextView)
+        self.view.addSubview(self.commonCommentLabel)
         self.customView.addSubview(self.backButton)
         //self.customView.addSubview(self.changeLanguageButton)
 
@@ -624,6 +628,13 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.titleLabel.textColor = .white
         self.titleLabel.text = "Check List"
         self.titleLabel.textAlignment = .center
+        
+        self.commonCommentLabel.font = UIFont(name: "Georgia-Bold", size: 12)
+        self.commonCommentLabel.text = "Common Comment"
+        self.commonCommentTextView.font = UIFont(name: "Georgia-Bold", size: 12)
+        
+        self.commonCommentTextView.backgroundColor = .black
+        self.commonCommentLabel.backgroundColor = .red
     }
     
     func setupLayout() {
@@ -663,7 +674,21 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.checklistTableView.snp.remakeConstraints { (make) in
             make.top.equalTo(self.dropDownMenu.snp.bottom)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(self.completedButton.snp.top).offset(-10)
+            make.bottom.equalTo(self.commonCommentTextView.snp.top).offset(-20)
+        }
+        
+        self.commonCommentLabel.snp.remakeConstraints { (make) in
+            make.leading.equalToSuperview().offset(10)
+            make.centerY.equalTo(self.commonCommentTextView)
+            make.height.equalTo(15)
+            make.width.equalTo(100)
+        }
+        
+        self.commonCommentTextView.snp.remakeConstraints { (make) in
+            make.bottom.equalTo(self.completedButton.snp.top).offset(-5)
+            make.trailing.equalToSuperview().offset(-10)
+            make.height.equalTo(50)
+            make.leading.equalTo(self.commonCommentLabel.snp.trailing).offset(5)
         }
         
     }
