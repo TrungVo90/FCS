@@ -28,6 +28,11 @@ struct GeneralData {
     }
 }
 
+struct QuestionData {
+    var answer: Int
+    var comment: String
+}
+
 class Companies:  NSObject, NSCoding {
     var id: Int64 = 0
     var name = ""
@@ -443,6 +448,7 @@ class DoneChecklist: NSObject, NSCoding {
     var end_time: Date = Date()
     var lang: String = "en" // Default is english
     var comment: String = "This is a comment"
+    var checklist_id: Int64 = 0
     var doneQuestions: [Questions] = [Questions]()
     
     override init() {
@@ -452,6 +458,7 @@ class DoneChecklist: NSObject, NSCoding {
         self.end_time = Date(timeIntervalSince1970: 0)
         self.lang = "en"
         self.comment = "This is a comment"
+        self.checklist_id = 0
         self.doneQuestions = [Questions]()
     }
     
@@ -612,6 +619,44 @@ open class DataManager: NSObject, Codable {
         }
         task.resume()
     }
+    
+    func pushData(doneChecklist: DoneChecklist) {
+        //declare parameter as a dictionary which contains string as key and value combination. considering inputs are valid
+        
+        /*
+         company_id
+         branch_id
+         checklist_id
+         start_time
+         end_time
+         lang
+         comment
+         */
+        
+        var postURL = URL(string: "https://httpbin.org/post?param1=value1")!
+        var postRequest = URLRequest(url: postURL, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 60.0)
+        postRequest.httpMethod = "POST"
+        postRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        postRequest.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+        var parameters: [String: Any] = ["company_id": doneChecklist.company_id, "branch_id": doneChecklist.branch_id, "checklist_id": doneChecklist.checklist_id, "start_time": doneChecklist.start_time, "end_time":doneChecklist.end_time, "lang": doneChecklist.lang, "comment": doneChecklist.comment]
+        
+        for q in doneChecklist.doneQuestions {
+            let questionData = QuestionData(answer: q.questionChoice, comment: q.review)
+            let key = "item[" + String(q.question_id) + "]"
+            parameters.updateValue(questionData, forKey: key )
+        }
+        
+        
+        
+        
+        do {
+            let jsonParams = try JSONSerialization.data(withJSONObject: parameters, options: [])
+            postRequest.httpBody = jsonParams
+        } catch { print("Error: unable to add parameters to POST request.")}
+    }
+    
+    
 }
 
 

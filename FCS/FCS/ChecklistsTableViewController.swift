@@ -353,7 +353,12 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     var commonCommentTextView: UITextView = UITextView()
     
+    var commonReview: String = ""
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row > questions.count {
+            return 0
+        }
         let heightOfQuestion = calculateHeightOfQuestion(question: questions[indexPath.row], width: tableView.frame.width - 55)
         questions[indexPath.row].heightOfQuestion = heightOfQuestion
         if questions[indexPath.row].review == "" {
@@ -635,6 +640,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         
         self.commonCommentTextView.backgroundColor = .black
         self.commonCommentLabel.backgroundColor = .red
+        
+        self.commonCommentTextView.delegate = self
     }
     
     func setupLayout() {
@@ -707,7 +714,12 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         vc.companyId = self.companyId
         vc.companyQuestions = self.companyQuestions
         vc.categories = self.categories
-        
+        vc.commonReview = self.commonReview
+        vc.defaultLang = "vn"
+        vc.questions = self.questions
+        if self.defaultLanguage == 1 {
+            vc.defaultLang = "en"
+        }
         self.present(vc, animated: false, completion: nil)
     }
     
@@ -726,6 +738,13 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "UserInfoViewController")
         self.present(vc, animated: true, completion: nil)
+    }
+}
+
+extension ChecklistsTableViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        // Your code here
+        self.commonReview = textView.text
     }
 }
 

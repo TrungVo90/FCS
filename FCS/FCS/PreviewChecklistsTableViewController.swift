@@ -216,6 +216,12 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     
     var companyId: Int64 = 0
     
+    var commonReview: String = ""
+    
+    var defaultLang: String = "en"
+    
+    var branchId: Int64 = 0
+    
     private func calculateHeightOfQuestion(question: Questions, width: CGFloat) -> CGFloat {
         let label:UILabel = UILabel(frame: CGRect.init(x: 0, y: 0, width: width, height: CGFloat.greatestFiniteMagnitude))
         label.numberOfLines = 0
@@ -545,12 +551,14 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         
         var doneChecklist = DoneChecklist()
         doneChecklist.start_time = start_time
-        doneChecklist.comment = ""
+        doneChecklist.comment = commonReview
         doneChecklist.end_time = end_time
-        doneChecklist.branch_id = 0
-        doneChecklist.company_id = self.companyId
-        doneChecklist.doneQuestions = self.originalQuestions
-        doneChecklist.lang = "en"
+        doneChecklist.branch_id = branchId
+        doneChecklist.company_id = companyId
+        doneChecklist.doneQuestions = self.questions
+        doneChecklist.lang = defaultLang
+        
+        doneChecklist.checklist_id = 0
         
         
         let kUserDefault = UserDefaults.standard
@@ -561,6 +569,9 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         
         var questions = kUserDefault.array(forKey: "doneChecklistQuestions")
         let a = 10
+        
+        
+        
     }
     
     @objc func backButtonOnClick() {
