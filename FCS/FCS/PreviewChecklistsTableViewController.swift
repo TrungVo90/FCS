@@ -570,7 +570,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         var questions = kUserDefault.array(forKey: "doneChecklistQuestions")
         let a = 10
         
-        
+        DataManager.sharedInstance.pushData(doneChecklist: doneChecklist)
         
     }
     

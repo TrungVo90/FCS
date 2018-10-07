@@ -7,6 +7,8 @@
 
 import Foundation
 import UIKit
+import MobileCoreServices
+
 let HOST: String = "http://35.225.247.85/"
 let DOMAIN: String = "product/fcsapp/demo/fcsapp/api/web/index.php/"
 
@@ -633,18 +635,46 @@ open class DataManager: NSObject, Codable {
          comment
          */
         
-        var postURL = URL(string: "https://httpbin.org/post?param1=value1")!
-        var postRequest = URLRequest(url: postURL, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 60.0)
+        let session = URLSession(configuration: URLSessionConfiguration.default)
+
+        let urlString =  HOST + DOMAIN + "checklist"
+        guard let url = URL(string: urlString) else {
+            return
+        }
+        
+        var postRequest = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 60.0)
         postRequest.httpMethod = "POST"
+        var headers = postRequest.allHTTPHeaderFields ?? [:]
+        headers["Content-Type"] = "application/json"
+        postRequest.allHTTPHeaderFields = headers
         postRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         postRequest.setValue("application/json", forHTTPHeaderField: "Accept")
         
-        var parameters: [String: Any] = ["company_id": doneChecklist.company_id, "branch_id": doneChecklist.branch_id, "checklist_id": doneChecklist.checklist_id, "start_time": doneChecklist.start_time, "end_time":doneChecklist.end_time, "lang": doneChecklist.lang, "comment": doneChecklist.comment]
+        let boundary = "Boundary-\(UUID().uuidString)"
+        postRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        var parameters: [String: Any] = ["company_id": doneChecklist.company_id as NSNumber, "branch_id": doneChecklist.branch_id as NSNumber, "checklist_id": doneChecklist.checklist_id as NSNumber, "start_time": convertDateToString(date: doneChecklist.start_time) as NSString, "end_time":convertDateToString(date:doneChecklist.end_time) as NSString, "lang": doneChecklist.lang as NSString, "comment": doneChecklist.comment as NSString]
         
         for q in doneChecklist.doneQuestions {
-            let questionData = QuestionData(answer: q.questionChoice, comment: q.review)
+            //let questionData = QuestionData(answer: q.questionChoice, comment: q.review) // "answer":1,"comment":"noi dung tra loi"
+            let questionData: NSDictionary = ["answer": q.questionChoice as NSNumber, "comment":q.review as NSString]
             let key = "item[" + String(q.question_id) + "]"
-            parameters.updateValue(questionData, forKey: key )
+            
+            //Do, try , catch
+            do {
+                //this is your json data as NSData that will be your payload for your REST HTTP call.
+                let JSONPayload: NSData = try JSONSerialization.data(withJSONObject: questionData, options: JSONSerialization.WritingOptions.prettyPrinted) as NSData
+                
+                //This is unnecessary, but I'm echo-checking the data from the step above.  You don't need to do this in production.  Just to see the JSON in native format.
+                let JSONString = NSString(data: JSONPayload as Data, encoding: String.Encoding.utf8.rawValue)
+                parameters.updateValue(JSONString ?? "", forKey: key)
+                
+                //From here you should carry on with your task or assign JSONPayload to a varialble outside of this block
+            } catch {//catch errors thrown by the NSJSONSerialization.dataWithJSONObject func above.
+                let err = error as NSError
+                NSLog("\(err.localizedDescription)")
+            }
+            
         }
         
         
@@ -652,11 +682,175 @@ open class DataManager: NSObject, Codable {
         
         do {
             let jsonParams = try JSONSerialization.data(withJSONObject: parameters, options: [])
+            postRequest.httpBody = createBody(parameters: parameters,
+                                    boundary: boundary,
+                                    data: UIImageJPEGRepresentation(UIImage(named: "icon_changeLanguage")!, 0.8)!,
+                                    mimeType: "image/png",
+                                    filename: "hello.png")
             postRequest.httpBody = jsonParams
         } catch { print("Error: unable to add parameters to POST request.")}
+        
+        
+        let task = session.dataTask(with: postRequest, completionHandler: { (data, response, error) -> Void in
+            if error == nil {
+                // Image uploaded
+            }
+        })
+        
+        task.resume()
     }
     
+    func createBody(parameters: [String: Any],
+                    boundary: String,
+                    data: Data,
+                    mimeType: String,
+                    filename: String) -> Data {
+        let body = NSMutableData()
+        
+        let boundaryPrefix = "--\(boundary)\r\n"
+        
+        for (key, value) in parameters {
+            body.appendString(boundaryPrefix)
+            body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+            body.appendString("\(value)\r\n")
+        }
+        
+        body.appendString(boundaryPrefix)
+        body.appendString("Content-Disposition: form-data; name=\"file\"; filename=\"\(filename)\"\r\n")
+        body.appendString("Content-Type: \(mimeType)\r\n\r\n")
+        body.append(data)
+        body.appendString("\r\n")
+        body.appendString("--".appending(boundary.appending("--")))
+        
+        return body as Data
+    }
+    
+//
+//    /// Create request
+//    ///
+//    /// - parameter userid:   The userid to be passed to web service
+//    /// - parameter password: The password to be passed to web service
+//    /// - parameter email:    The email address to be passed to web service
+//    ///
+//    /// - returns:            The `URLRequest` that was created
+//
+//    func createRequest(userid: String, password: String, email: String) throws -> URLRequest {
+//        let parameters = [
+//            "user_id"  : userid,
+//            "email"    : email,
+//            "password" : password]  // build your dictionary however appropriate
+//
+//        let boundary = generateBoundaryString()
+//
+//        let url = URL(string: "https://example.com/imageupload.php")!
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "POST"
+//        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+//
+//        let path1 = Bundle.main.path(forResource: "image1", ofType: "png")!
+//        request.httpBody = try createBody(with: parameters, filePathKey: "file", paths: [path1], boundary: boundary)
+//
+//        return request
+//    }
+//
+//    /// Create body of the `multipart/form-data` request
+//    ///
+//    /// - parameter parameters:   The optional dictionary containing keys and values to be passed to web service
+//    /// - parameter filePathKey:  The optional field name to be used when uploading files. If you supply paths, you must supply filePathKey, too.
+//    /// - parameter paths:        The optional array of file paths of the files to be uploaded
+//    /// - parameter boundary:     The `multipart/form-data` boundary
+//    ///
+//    /// - returns:                The `Data` of the body of the request
+//
+//    private func createBody(with parameters: [String: Any]?, filePathKey: String, paths: [String], boundary: String) throws -> Data {
+//        var body = Data()
+//
+//        if parameters != nil {
+//            for (key, value) in parameters! {
+//                body.append("--\(boundary)\r\n")
+//                body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+//                body.append("\(value)\r\n")
+//            }
+//        }
+//
+//        for path in paths {
+//            let url = URL(fileURLWithPath: path)
+//            let filename = url.lastPathComponent
+//            let data = try Data(contentsOf: url)
+//            let mimetype = mimeType(for: path)
+//
+//            body.append("--\(boundary)\r\n")
+//            body.append("Content-Disposition: form-data; name=\"\(filePathKey)\"; filename=\"\(filename)\"\r\n")
+//            body.append("Content-Type: \(mimetype)\r\n\r\n")
+//            body.append(data)
+//            body.append("\r\n")
+//        }
+//
+//        body.append("--\(boundary)--\r\n")
+//        return body
+//    }
+//
+//    /// Create boundary string for multipart/form-data request
+//    ///
+//    /// - returns:            The boundary string that consists of "Boundary-" followed by a UUID string.
+//
+//    private func generateBoundaryString() -> String {
+//        return "Boundary-\(UUID().uuidString)"
+//    }
+//
+//    /// Determine mime type on the basis of extension of a file.
+//    ///
+//    /// This requires `import MobileCoreServices`.
+//    ///
+//    /// - parameter path:         The path of the file for which we are going to determine the mime type.
+//    ///
+//    /// - returns:                Returns the mime type if successful. Returns `application/octet-stream` if unable to determine mime type.
+//
+//    private func mimeType(for path: String) -> String {
+//        let url = URL(fileURLWithPath: path)
+//        let pathExtension = url.pathExtension
+//
+//        if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue() {
+//            if let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
+//                return mimetype as String
+//            }
+//        }
+//        return "application/octet-stream"
+//    }
+    
+    func convertDateToString(date: Date) -> String {
+        let formatter = DateFormatter()
+        // initially set the format based on your datepicker date / server String
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let myString = formatter.string(from: date) // string purpose I add here
+        
+        return myString
+    }
     
 }
+
+extension Data {
+    
+    /// Append string to Data
+    ///
+    /// Rather than littering my code with calls to `data(using: .utf8)` to convert `String` values to `Data`, this wraps it in a nice convenient little extension to Data. This defaults to converting using UTF-8.
+    ///
+    /// - parameter string:       The string to be added to the `Data`.
+    
+    mutating func append(_ string: String, using encoding: String.Encoding = .utf8) {
+        if let data = string.data(using: encoding) {
+            append(data)
+        }
+    }
+}
+
+extension NSMutableData {
+    func appendString(_ string: String) {
+        let data = string.data(using: String.Encoding.utf8, allowLossyConversion: false)
+        append(data!)
+    }
+}
+
+
 
 
