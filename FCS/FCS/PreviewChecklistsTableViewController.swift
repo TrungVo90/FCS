@@ -47,7 +47,6 @@ class PreviewCheckListTableViewCell: UITableViewCell {
         self._contentView.addSubview(self.questionTextView)
         self._contentView.addSubview(self.choiceLabel)
         
-        
         self._contentView.addSubview(self.reviewTextView)
         self._contentView.addSubview(self.firstImageView)
         self._contentView.addSubview(self.secondImageView)
@@ -62,10 +61,6 @@ class PreviewCheckListTableViewCell: UITableViewCell {
         self.questionTextView.text = "Question 1?"
         
         self.choiceLabel.font = UIFont(name: "Georgia-Bold", size: 12)
-    
-        self.firstImageView.image = UIImage.init(named: "ic_image")
-        self.secondImageView.image = UIImage.init(named: "ic_image")
-        self.thirdImageView.image = UIImage.init(named: "ic_image")
         
         self.firstImageView.contentMode = .scaleAspectFit
         self.secondImageView.contentMode = .scaleAspectFit
@@ -87,10 +82,12 @@ class PreviewCheckListTableViewCell: UITableViewCell {
         
         let size = 20.0
         self.choiceLabel.bounds = CGRect.init(x: 0, y: 0, width: size, height: size)
-        self.choiceLabel.layer.cornerRadius = CGFloat(size / 2)
+        self.choiceLabel.layer.cornerRadius = 2.0//CGFloat(size / 2)
         self.choiceLabel.layer.borderWidth = 1.0
         self.choiceLabel.layer.backgroundColor = UIColor.clear.cgColor
         self.choiceLabel.layer.borderColor = UIColor.black.cgColor
+        
+        self.choiceLabel.textAlignment = .center
     }
     
     func setupLayout() {
@@ -112,12 +109,13 @@ class PreviewCheckListTableViewCell: UITableViewCell {
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalToSuperview().offset(-40)
             make.top.equalToSuperview().offset(5)
-            make.height.equalTo(10)
+            make.height.equalTo(20)
         }
         
         self.choiceLabel.snp.remakeConstraints { (make) in
             make.trailing.equalToSuperview().offset(-10)
-            make.centerY.equalTo(self.questionTextView)
+//            make.centerY.equalTo(self.questionTextView)
+            make.top.equalTo(self.questionTextView).offset(3)
             make.height.equalTo(20)
             make.width.equalTo(20)
         }
@@ -160,12 +158,92 @@ class PreviewCheckListTableViewCell: UITableViewCell {
         }
     }
     
+    func setupLayoutForAddingCommentNoneImage() {
+        self.reviewTextView.snp.remakeConstraints { (make) in
+            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-10)
+            make.top.equalTo(self.questionTextView.snp.bottom).offset(25)
+            make.height.equalTo(self.heightOfReviewLabel)
+        }
+    }
+    
     func setupLayoutForQuestion() {
         self.questionTextView.snp.remakeConstraints { (make) in
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalToSuperview().offset(-10)
             make.top.equalToSuperview().offset(5)
             make.height.equalTo(self.heightOfQuestionLabel)
+        }
+    }
+    
+    func hideImageViews() {
+        self.secondImageView.snp.remakeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(self.questionTextView.snp.bottom).offset(40)
+            make.width.equalTo(0)
+            make.height.equalTo(0)
+        }
+        
+        self.thirdImageView.snp.remakeConstraints { (make) in
+            make.leading.equalTo(self.secondImageView.snp.trailing).offset(10)
+            make.top.equalTo(self.secondImageView)
+            make.width.equalTo(0)
+            make.height.equalTo(0)
+        }
+        
+        self.firstImageView.snp.remakeConstraints { (make) in
+            make.trailing.equalTo(self.secondImageView.snp.leading).offset(-10)
+            make.top.equalTo(self.secondImageView)
+            make.width.equalTo(0)
+            make.height.equalTo(0)
+        }
+    }
+    
+    func hideImageViewsWithIdx(idx: Int) {
+        if idx == 0 {
+            self.firstImageView.snp.remakeConstraints { (make) in
+                make.trailing.equalTo(self.secondImageView.snp.leading).offset(-10)
+                make.top.equalTo(self.secondImageView)
+                make.width.equalTo(0)
+                make.height.equalTo(0)
+            }
+        } else if idx == 1 {
+            self.secondImageView.snp.remakeConstraints { (make) in
+                make.centerX.equalToSuperview()
+                make.top.equalTo(self.questionTextView.snp.bottom).offset(40)
+                make.width.equalTo(0)
+                make.height.equalTo(0)
+            }
+        } else if idx == 2 {
+            self.thirdImageView.snp.remakeConstraints { (make) in
+                make.leading.equalTo(self.secondImageView.snp.trailing).offset(10)
+                make.top.equalTo(self.secondImageView)
+                make.width.equalTo(0)
+                make.height.equalTo(0)
+            }
+        }
+    }
+    
+    func showImageViews() {
+        self.secondImageView.snp.remakeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(self.questionTextView.snp.bottom).offset(40)
+            make.width.equalTo(80)
+            make.height.equalTo(80)
+        }
+        
+        self.thirdImageView.snp.remakeConstraints { (make) in
+            make.leading.equalTo(self.secondImageView.snp.trailing).offset(10)
+            make.top.equalTo(self.secondImageView)
+            make.width.equalTo(80)
+            make.height.equalTo(80)
+        }
+        
+        self.firstImageView.snp.remakeConstraints { (make) in
+            make.trailing.equalTo(self.secondImageView.snp.leading).offset(-10)
+            make.top.equalTo(self.secondImageView)
+            make.width.equalTo(80)
+            make.height.equalTo(80)
         }
     }
 }
@@ -181,31 +259,43 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     var customView: UIView = UIView()
     
     var questions: [Questions] = [Questions]()
-    
+
+    var totalQuestions: Int = 0
+
     var defaultLanguage: Int = 0 // 0: vn 1: en
     
     var doneQuestions: Int = 0
     
     var finishedPercentLabel: UILabel = UILabel()
-    
-    var highLabel: UILabel = UILabel()
-    
-    var mediumLabel: UILabel = UILabel()
-    
-    var lowLabel: UILabel = UILabel()
 
-    var veryLowLabel: UILabel = UILabel()
+    var actualPercentLabel: UILabel = UILabel()
+
+    var percentLabel: UILabel = UILabel()
     
-    var greenLabel: UILabel = UILabel()
+    var finishedPercentValue: UILabel = UILabel()
     
-    var yellowLabel: UILabel = UILabel()
+    var actualPercentValue: UILabel = UILabel()
     
-    var purpleLabel: UILabel = UILabel()
+    var percentValue: UILabel = UILabel()
     
-    var redLabel: UILabel = UILabel()
+    var colorLabel: UILabel = UILabel()
     
     var summarizationView: UIView = UIView()
-    
+
+    var leftVerticalLine: UIView = UIView()
+
+    var middleVerticalLine: UIView = UIView()
+
+    var rightVerticalLine: UIView = UIView()
+
+    var topHorizontalLine: UIView = UIView()
+
+    var topMiddleHorizontalLine: UIView = UIView()
+
+    var bottomMiddleHorizontalLine: UIView = UIView()
+
+    var bottomHorizontalLine: UIView = UIView()
+
     var originalQuestions: [Questions] = [Questions]()
 
     var listOfQuestionIds: [Int64] = [Int64]()
@@ -231,7 +321,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         
         label.sizeToFit()
         
-        return label.frame.height + 10
+        return label.frame.height + 20
     }
     
     private func filterListOfCompanyQuestionIds(companyId: Int64, categoryId: Int64) {
@@ -251,7 +341,6 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
                 result.append(q)
             }
         }
-        
         return result
     }
     
@@ -260,12 +349,23 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         if indexPath.row > questions.count {
             return 0
         }
-        let heightOfQuestion = calculateHeightOfQuestion(question: questions[indexPath.row], width: tableView.frame.width - 10)
+        var heightOfQuestion: CGFloat = 0;
+        
+        if (indexPath.row < questions.count) {
+            heightOfQuestion = calculateHeightOfQuestion(question: questions[(indexPath.row)], width: tableView.frame.width - 10)
+        }
         questions[indexPath.row].heightOfQuestion = heightOfQuestion
+        
         if questions[indexPath.row].review == "" {
-            return 200
+            if questions[indexPath.row].numberOfCapturedImg == 0 {
+                return heightOfQuestion + 20
+            }
+            return heightOfQuestion + 100
         } else {
-            return 200 + questions[indexPath.row].heightOfComment
+            if questions[indexPath.row].numberOfCapturedImg == 0 {
+                return heightOfQuestion + questions[indexPath.row].heightOfComment + 20
+            }
+            return heightOfQuestion + questions[indexPath.row].heightOfComment + 120
         }
     }
     
@@ -300,33 +400,46 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         } else {
             cell.questionTextView.text = question.title_en
         }
-        
         cell.heightOfReviewLabel = question.heightOfComment
-        
+        cell.choiceLabel.text = String(question.questionChoice)
         if question.review != "" {
             cell.reviewTextView.text = question.review
             cell.reviewTextView.numberOfLines = 0
             cell.reviewTextView.setContentCompressionResistancePriority(UILayoutPriority.init(1000), for: UILayoutConstraintAxis.horizontal)
             cell.reviewTextView.setContentHuggingPriority(UILayoutPriority.init(1000), for: UILayoutConstraintAxis.horizontal)
-            cell.setupLayoutForAddingComment()
+            if (questions[indexPath.row].numberOfCapturedImg > 0) {
+                cell.setupLayoutForAddingComment()
+            } else {
+                cell.setupLayoutForAddingCommentNoneImage()
+            }
         }
         
         cell.choiceLabel.text = String(questions[indexPath.row].questionChoice)
         
-        
-        
+        cell.firstImageView.isHidden = true
+        cell.secondImageView.isHidden = true
+        cell.thirdImageView.isHidden = true
         if (questions[indexPath.row].numberOfCapturedImg > 0) {
-            cell.firstImageView.image =  questions[indexPath.row].imgCaptured[0]
+            
             if (questions[indexPath.row].numberOfCapturedImg % 3 == 1) {
+                cell.firstImageView.image =  questions[indexPath.row].imgCaptured[0]
+                cell.firstImageView.isHidden = false
+            }
+            else if (questions[indexPath.row].numberOfCapturedImg % 3 == 2) {
+                cell.secondImageView.isHidden = false
+                cell.firstImageView.isHidden = false
+                cell.firstImageView.image =  questions[indexPath.row].imgCaptured[0]
                 cell.secondImageView.image =  questions[indexPath.row].imgCaptured[1]
-            } else if (questions[indexPath.row].numberOfCapturedImg % 3 == 2) {
+                
+            } else if (questions[indexPath.row].numberOfCapturedImg % 3 == 0) {
+                cell.firstImageView.image =  questions[indexPath.row].imgCaptured[0]
                 cell.secondImageView.image =  questions[indexPath.row].imgCaptured[1]
                 cell.thirdImageView.image =  questions[indexPath.row].imgCaptured[2]
+                cell.secondImageView.isHidden = false
+                cell.thirdImageView.isHidden = false
+                cell.firstImageView.isHidden = false
             }
         }
-        
-        
-        
         return cell
     }
     
@@ -372,17 +485,52 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    }
+    
+    func countForTotalQuestion() {
+        totalQuestions = 0
+        for category in self.categories {
+            filterListOfCompanyQuestionIds(companyId: companyId, categoryId: category.id)
+            totalQuestions += filterQuestions().count
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self._isStatusBarHidden = false
         self.setNeedsStatusBarAppearanceUpdate()
         
         ///
         
-        var string: String = "Tổng số điểm thực tế: " + self.doneQuestions.description + "Tổng số điểm yêu cầu: " + self.questions.count.description
-
-        let percent = CGFloat(self.doneQuestions)/CGFloat(self.questions.count)
+        var string: String = "Tổng số điểm thực tế"
+        
+        //+ self.doneQuestions.description + "Tổng số điểm yêu cầu: " + self.questions.count.description
+        
+        countForTotalQuestion()
+        
+        let percent = CGFloat(self.doneQuestions)/CGFloat(self.totalQuestions)
         string = string + "\n" + percent.description + "%"
         
-        self.finishedPercentLabel.text = string
+        self.finishedPercentLabel.text =  "Tổng số điểm thực tế"
+        self.actualPercentLabel.text = "Tổng số điểm yêu cầu"
+        self.percentLabel.text =  "%"
+        
+        self.finishedPercentValue.text = self.doneQuestions.description
+        self.actualPercentValue.text = self.totalQuestions.description
+        self.percentValue.text = (Int(100 * percent)).description + "%" 
+        setUpColorPercent(100 * Int(percent))
+    }
+    
+    func setUpColorPercent(_ percent: Int) {
+        if (percent <= 75){
+            colorLabel.backgroundColor =   UIColor.red
+        } else if (percent <= 80) {
+            colorLabel.backgroundColor = UIColor.purple
+        } else if (percent <= 90) {
+            colorLabel.backgroundColor = UIColor.yellow
+        } else if (percent <= 100) {
+            colorLabel.backgroundColor = UIColor.green
+        }
     }
     
     func setupView() {
@@ -391,16 +539,12 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         self.view.addSubview(self.submitButton)
         self.view.addSubview(self.customView)
         self.customView.addSubview(self.backButton)
-        //        self.customView.addSubview(self.userInfoButton)
         self.customView.backgroundColor = UIColor.init(red: 78/255, green: 181/255, blue: 251/255, alpha: 1.0)
         
         self.backButton.setImage(UIImage(named: "ic_back_white"), for: .normal)
-        //        self.userInfoButton.setImage(UIImage(named: "ic_user"), for: .normal)
         
         self.backButton.addTarget(self, action: #selector(backButtonOnClick), for: .touchUpInside)
         self.submitButton.addTarget(self, action: #selector(submitButtonOnClick), for: .touchUpInside)
-        
-        //        self.userInfoButton.addTarget(self, action: #selector(userInfoButtonOnClick), for: .touchUpInside)
         
         self.customView.addSubview(self.titleLabel)
         self.titleLabel.font = UIFont(name: "Georgia-Bold", size: 22)
@@ -408,25 +552,49 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         self.titleLabel.text = "Preview Check List"
         self.titleLabel.textAlignment = .center
         
+        self.finishedPercentLabel.font = UIFont(name: "Georgia-Bold", size: 15)
+        self.actualPercentLabel.font = UIFont(name: "Georgia-Bold", size: 15)
+        self.percentLabel.font = UIFont(name: "Georgia-Bold", size: 18)
+        self.colorLabel.backgroundColor = UIColor.green
+        
+        
+        self.finishedPercentValue.font = UIFont(name: "Georgia-Bold", size: 15)
+        self.actualPercentValue.font = UIFont(name: "Georgia-Bold", size: 15)
+        self.percentValue.font = UIFont(name: "Georgia-Bold", size: 18)
+
+        self.leftVerticalLine.backgroundColor = UIColor.black
+
+        self.middleVerticalLine.backgroundColor = UIColor.black
+
+        self.rightVerticalLine.backgroundColor = UIColor.black
+
+        self.topHorizontalLine.backgroundColor = UIColor.black
+
+        self.topMiddleHorizontalLine.backgroundColor = UIColor.black
+
+        self.bottomMiddleHorizontalLine.backgroundColor = UIColor.black
+
+        self.bottomHorizontalLine.backgroundColor = UIColor.black
+
+        
         self.summarizationView.addSubview(self.finishedPercentLabel)
-        self.summarizationView.addSubview(self.highLabel)
-        self.summarizationView.addSubview(self.mediumLabel)
-        self.summarizationView.addSubview(self.lowLabel)
-        self.summarizationView.addSubview(self.veryLowLabel)
-        self.summarizationView.addSubview(self.greenLabel)
-        self.summarizationView.addSubview(self.yellowLabel)
-        self.summarizationView.addSubview(self.purpleLabel)
-        self.summarizationView.addSubview(self.redLabel)
+        self.summarizationView.addSubview(self.actualPercentLabel)
+        self.summarizationView.addSubview(self.percentLabel)
+        self.summarizationView.addSubview(self.colorLabel)
         
-        self.greenLabel.backgroundColor = UIColor.green
-        self.yellowLabel.backgroundColor = UIColor.yellow
-        self.purpleLabel.backgroundColor = UIColor.purple
-        self.redLabel.backgroundColor = UIColor.red
         
-        self.highLabel.text = "91-100%"
-        self.mediumLabel.text = "81-90%"
-        self.lowLabel.text = "75-80%"
-        self.veryLowLabel.text = "0-74%"
+        self.summarizationView.addSubview(self.finishedPercentValue)
+        self.summarizationView.addSubview(self.actualPercentValue)
+        self.summarizationView.addSubview(self.percentValue)
+        
+        self.summarizationView.addSubview(self.leftVerticalLine)
+        self.summarizationView.addSubview(self.middleVerticalLine)
+        self.summarizationView.addSubview(self.rightVerticalLine)
+
+        self.summarizationView.addSubview(self.topHorizontalLine)
+        self.summarizationView.addSubview(self.topMiddleHorizontalLine)
+        self.summarizationView.addSubview(self.bottomMiddleHorizontalLine)
+        self.summarizationView.addSubview(self.bottomHorizontalLine)
         
         self.view.addSubview(self.summarizationView)
     }
@@ -471,73 +639,110 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     
     func setupLayoutSummarizationView() {
         self.summarizationView.snp.remakeConstraints { (make) in
-            make.height.equalTo(90)
+            make.height.equalTo(130)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(self.submitButton.snp.top).offset(-5)
         }
         
+        self.leftVerticalLine.snp.remakeConstraints { (make) in
+            make.leading.equalToSuperview().offset(5)
+            make.top.equalToSuperview().offset(5)
+            make.width.equalTo(1)
+            make.height.equalToSuperview().offset(-5)
+        }
+        
+        self.middleVerticalLine.snp.remakeConstraints { (make) in
+            make.centerX.equalToSuperview().offset(70)
+            make.top.equalToSuperview().offset(5)
+            make.width.equalTo(1)
+            make.height.equalToSuperview().offset(-5)
+        }
+        
+        self.rightVerticalLine.snp.remakeConstraints { (make) in
+            make.trailing.equalToSuperview().offset(-5)
+            make.top.equalToSuperview().offset(5)
+            make.width.equalTo(1)
+            make.height.equalToSuperview().offset(-5)
+        }
+        
+        self.topHorizontalLine.snp.remakeConstraints { (make) in
+            make.top.equalToSuperview().offset(5)
+            make.leading.equalToSuperview().offset(5)
+            make.trailing.equalToSuperview().offset(-5)
+            make.height.equalTo(1)
+        }
+        
+        self.topMiddleHorizontalLine.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.topHorizontalLine.snp.bottom).offset(35)
+            make.leading.equalToSuperview().offset(5)
+            make.trailing.equalToSuperview().offset(-5)
+            make.height.equalTo(1)
+        }
+        
+        self.bottomMiddleHorizontalLine.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.topMiddleHorizontalLine.snp.bottom) .offset(35)
+            make.leading.equalToSuperview().offset(5)
+            make.trailing.equalToSuperview().offset(-5)
+            make.height.equalTo(1)
+        }
+        
+        self.bottomHorizontalLine.snp.remakeConstraints { (make) in
+            make.bottom.equalToSuperview()
+            make.leading.equalToSuperview().offset(5)
+            make.trailing.equalToSuperview().offset(-5)
+            make.height.equalTo(1)
+        }
+        
+        self.colorLabel.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.bottomMiddleHorizontalLine.snp.bottom)
+            make.bottom.equalTo(self.bottomHorizontalLine.snp.bottom).offset(-1)
+            make.leading.equalTo(self.middleVerticalLine.snp.trailing)
+            make.trailing.equalTo(self.rightVerticalLine.snp.leading).offset(-1)
+        }
+        
         self.finishedPercentLabel.snp.remakeConstraints { (make) in
-            make.top.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.4)
-            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(self.topHorizontalLine.snp.bottom).offset(10)
+            make.leading.equalToSuperview().offset(55)
+            make.trailing.equalTo(self.middleVerticalLine.snp.leading).offset(-10)
+            make.bottom.equalTo(self.topMiddleHorizontalLine.snp.top).offset(-10)
         }
         
-        self.highLabel.snp.remakeConstraints { (make) in
-            make.top.equalTo(self.finishedPercentLabel.snp.bottom)
-            make.leading.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalToSuperview().multipliedBy(0.15)
+        self.actualPercentLabel.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.topMiddleHorizontalLine.snp.bottom).offset(10)
+            make.leading.equalToSuperview().offset(55)
+            make.trailing.equalTo(self.middleVerticalLine.snp.leading).offset(-10)
+            make.bottom.equalTo(self.bottomMiddleHorizontalLine.snp.top).offset(-10)
         }
         
-        self.greenLabel.snp.remakeConstraints { (make) in
-            make.top.equalTo(self.finishedPercentLabel.snp.bottom)
-            make.trailing.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalToSuperview().multipliedBy(0.15)
+        self.percentLabel.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.bottomMiddleHorizontalLine.snp.bottom).offset(10)
+            make.leading.equalToSuperview().offset(125)
+            make.trailing.equalTo(self.middleVerticalLine.snp.leading).offset(-10)
+            make.bottom.equalTo(self.bottomHorizontalLine.snp.top).offset(-10)
         }
         
-        self.mediumLabel.snp.remakeConstraints { (make) in
-            make.top.equalTo(self.highLabel.snp.bottom)
-            make.leading.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalToSuperview().multipliedBy(0.15)
+        self.finishedPercentValue.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.topHorizontalLine.snp.bottom).offset(10)
+            make.leading.equalTo(self.middleVerticalLine.snp.trailing).offset(50)
+            make.trailing.equalTo(self.rightVerticalLine.snp.leading).offset(-10)
+            make.bottom.equalTo(self.topMiddleHorizontalLine.snp.top).offset(-10)
         }
         
-        self.yellowLabel.snp.remakeConstraints { (make) in
-            make.top.equalTo(self.greenLabel.snp.bottom)
-            make.trailing.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalToSuperview().multipliedBy(0.15)
+        self.actualPercentValue.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.topMiddleHorizontalLine.snp.bottom).offset(10)
+            make.leading.equalTo(self.middleVerticalLine.snp.trailing).offset(50)
+            make.trailing.equalTo(self.rightVerticalLine.snp.leading).offset(-10)
+            make.bottom.equalTo(self.bottomMiddleHorizontalLine.snp.top).offset(-10)
         }
         
-        self.lowLabel.snp.remakeConstraints { (make) in
-            make.top.equalTo(self.mediumLabel.snp.bottom)
-            make.leading.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalToSuperview().multipliedBy(0.15)
+        self.percentValue.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.bottomMiddleHorizontalLine.snp.bottom).offset(10)
+            make.leading.equalTo(self.middleVerticalLine.snp.trailing).offset(40)
+            make.trailing.equalTo(self.rightVerticalLine.snp.leading).offset(-10)
+            make.bottom.equalTo(self.bottomHorizontalLine.snp.top).offset(-10)
         }
-        
-        self.purpleLabel.snp.remakeConstraints { (make) in
-            make.top.equalTo(self.yellowLabel.snp.bottom)
-            make.trailing.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalToSuperview().multipliedBy(0.15)
-        }
-        
-        self.veryLowLabel.snp.remakeConstraints { (make) in
-            make.top.equalTo(self.lowLabel.snp.bottom)
-            make.leading.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalToSuperview().multipliedBy(0.15)
-        }
-        
-        self.redLabel.snp.remakeConstraints { (make) in
-            make.top.equalTo(self.purpleLabel.snp.bottom)
-            make.trailing.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalToSuperview().multipliedBy(0.15)
-        }
-        
+    
+      
     }
     
     override func didReceiveMemoryWarning() {
@@ -549,7 +754,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         
         end_time = Date(timeIntervalSince1970: 0)
         
-        var doneChecklist = DoneChecklist()
+        let doneChecklist = DoneChecklist()
         doneChecklist.start_time = start_time
         doneChecklist.comment = commonReview
         doneChecklist.end_time = end_time
@@ -560,18 +765,15 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         
         doneChecklist.checklist_id = 0
         
-        
         let kUserDefault = UserDefaults.standard
         /// Store data
-        var encodedData = NSKeyedArchiver.archivedData(withRootObject: self.originalQuestions as NSArray) as NSData
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: self.originalQuestions as NSArray) as NSData
         kUserDefault.set(encodedData, forKey: "doneChecklistQuestions")
         kUserDefault.synchronize()
         
         var questions = kUserDefault.array(forKey: "doneChecklistQuestions")
         let a = 10
-        
         DataManager.sharedInstance.pushData(doneChecklist: doneChecklist)
-        
     }
     
     @objc func backButtonOnClick() {

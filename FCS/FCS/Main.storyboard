@@ -432,6 +432,28 @@
                                     <constraint firstAttribute="height" constant="1" id="H3D-DQ-TwE"/>
                                 </constraints>
                             </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="KV4-MR-FVs">
+                                <rect key="frame" x="118" y="381.66666666666669" width="139" height="49"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EWN-os-iec">
+                                        <rect key="frame" x="0.0" y="0.0" width="139" height="49"/>
+                                        <color key="backgroundColor" red="0.25882352939999997" green="0.72941176470000002" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="139" id="tfW-oy-c4x"/>
+                                            <constraint firstAttribute="height" constant="49" id="tg2-vg-Fkg"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Georgia-Bold" family="Georgia" pointSize="19"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Log out">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="completedButtonOnClick:" destination="xAk-Wr-g45" eventType="touchUpInside" id="0BR-9w-TAc"/>
+                                            <action selector="logoutButtonTouch:" destination="10z-4e-E4q" eventType="touchUpInside" id="hst-Ec-B7i"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -461,7 +483,9 @@
                             <constraint firstItem="WQY-d6-Qf8" firstAttribute="top" secondItem="cqa-1Q-XYH" secondAttribute="top" constant="31" id="l5N-Nm-bGY"/>
                             <constraint firstItem="5cF-gW-U2p" firstAttribute="top" secondItem="iYB-Fo-2Md" secondAttribute="bottom" constant="16" id="n6V-Sj-3Zi"/>
                             <constraint firstItem="Vp6-Lr-MWd" firstAttribute="trailing" secondItem="iwT-Z0-VYm" secondAttribute="trailing" constant="21" id="onl-G3-hK5"/>
+                            <constraint firstItem="KV4-MR-FVs" firstAttribute="centerY" secondItem="cqa-1Q-XYH" secondAttribute="centerY" id="rJG-BJ-KWX"/>
                             <constraint firstItem="WQY-d6-Qf8" firstAttribute="leading" secondItem="cqa-1Q-XYH" secondAttribute="leading" id="t4x-8B-geb"/>
+                            <constraint firstItem="KV4-MR-FVs" firstAttribute="centerX" secondItem="cqa-1Q-XYH" secondAttribute="centerX" id="yI5-lq-bpJ"/>
                             <constraint firstItem="5cF-gW-U2p" firstAttribute="leading" secondItem="iYB-Fo-2Md" secondAttribute="leading" id="yTH-Pw-TmK"/>
                             <constraint firstItem="gOz-c2-2gs" firstAttribute="top" secondItem="hni-8q-gOC" secondAttribute="bottom" constant="16" id="zfj-Nk-jPB"/>
                         </constraints>
@@ -471,6 +495,7 @@
                     <connections>
                         <outlet property="address" destination="5cF-gW-U2p" id="NtP-qQ-sbS"/>
                         <outlet property="email" destination="gOz-c2-2gs" id="4CU-l7-qIm"/>
+                        <outlet property="logOutBtn" destination="EWN-os-iec" id="TON-Y8-Tdc"/>
                         <outlet property="phoneNumber" destination="iYB-Fo-2Md" id="5ZI-8n-Cbt"/>
                         <outlet property="userName" destination="hni-8q-gOC" id="15V-Pt-ctr"/>
                     </connections>

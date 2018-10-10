@@ -249,7 +249,7 @@ class Questions: NSObject, NSCoding {
     var title_vn: String = ""
     var title_en: String = ""
     
-    var questionChoice: Int = 0
+    var questionChoice: Int = 1
     var review: String = ""
     var imgCaptured: [UIImage] = [UIImage]()
     var numberOfCapturedImg: Int = 0
@@ -271,7 +271,7 @@ class Questions: NSObject, NSCoding {
         self.title_en = ""
         
         /// Addtional properties
-        self.questionChoice = 0
+        self.questionChoice = 1
         self.review = ""
         self.imgCaptured = [UIImage]()
         self.imgCaptured.append(UIImage(named:"ic_image")!)
@@ -296,7 +296,7 @@ class Questions: NSObject, NSCoding {
         self.title_vn = title_vn
         
         /// Addtional properties
-        self.questionChoice = 0
+        self.questionChoice = 1
         self.review = ""
         self.imgCaptured = [UIImage]()
         self.imgCaptured.append(UIImage(named:"ic_image")!)

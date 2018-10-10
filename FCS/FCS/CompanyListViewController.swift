@@ -57,8 +57,15 @@ class CompanyListViewController: UIViewController, UITableViewDelegate, UITableV
         dropMenu?.add(names: ["Vi", "En"])
         
         dropMenu?.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(userLogout), name: NSNotification.Name(rawValue: "Logout"), object: nil)
     }
     
+    @objc func userLogout() {
+        self.dismiss(animated: true) {
+            print("logout success")
+        }
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

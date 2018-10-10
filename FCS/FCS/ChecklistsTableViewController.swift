@@ -359,7 +359,11 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         if indexPath.row > questions.count {
             return 0
         }
-        let heightOfQuestion = calculateHeightOfQuestion(question: questions[indexPath.row], width: tableView.frame.width - 55)
+        var heightOfQuestion: CGFloat = 0;
+        
+        if (indexPath.row < questions.count) {
+            heightOfQuestion = calculateHeightOfQuestion(question: questions[(indexPath.row)], width: tableView.frame.width - 10)
+        }
         questions[indexPath.row].heightOfQuestion = heightOfQuestion
         if questions[indexPath.row].review == "" {
             return 160 + heightOfQuestion //230
@@ -635,11 +639,11 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.titleLabel.textAlignment = .center
         
         self.commonCommentLabel.font = UIFont(name: "Georgia-Bold", size: 12)
-        self.commonCommentLabel.text = "Common Comment"
+        self.commonCommentLabel.text = "Comment"
         self.commonCommentTextView.font = UIFont(name: "Georgia-Bold", size: 12)
         
-        self.commonCommentTextView.backgroundColor = .black
-        self.commonCommentLabel.backgroundColor = .red
+        self.commonCommentTextView.backgroundColor = .lightGray
+        self.commonCommentLabel.backgroundColor = .clear
         
         self.commonCommentTextView.delegate = self
     }
