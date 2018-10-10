@@ -650,8 +650,14 @@ open class DataManager: NSObject, Codable {
         postRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         postRequest.setValue("application/json", forHTTPHeaderField: "Accept")
         
+        if let token = UserDefaults.standard.object(forKey:ACCESS_TOKEN_KEY ) {
+            postRequest.setValue(token as! String, forHTTPHeaderField: "Authorization")
+        }
+        
+        
         let boundary = "Boundary-\(UUID().uuidString)"
         postRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
         
         var parameters: [String: Any] = ["company_id": doneChecklist.company_id as NSNumber, "branch_id": doneChecklist.branch_id as NSNumber, "checklist_id": doneChecklist.checklist_id as NSNumber, "start_time": convertDateToString(date: doneChecklist.start_time) as NSString, "end_time":convertDateToString(date:doneChecklist.end_time) as NSString, "lang": doneChecklist.lang as NSString, "comment": doneChecklist.comment as NSString]
         
@@ -682,22 +688,61 @@ open class DataManager: NSObject, Codable {
         
         do {
             let jsonParams = try JSONSerialization.data(withJSONObject: parameters, options: [])
+            let imgData = UIImageJPEGRepresentation(UIImage(named: "icon_changeLanguage")!, 0.8)!
             postRequest.httpBody = createBody(parameters: parameters,
                                     boundary: boundary,
-                                    data: UIImageJPEGRepresentation(UIImage(named: "icon_changeLanguage")!, 0.8)!,
+                                    data: imgData,
                                     mimeType: "image/png",
                                     filename: "hello.png")
-            postRequest.httpBody = jsonParams
+            
         } catch { print("Error: unable to add parameters to POST request.")}
         
         
         let task = session.dataTask(with: postRequest, completionHandler: { (data, response, error) -> Void in
             if error == nil {
-                // Image uploaded
+                
+                if let httpResponse = response as? HTTPURLResponse {
+                    if httpResponse.statusCode == 200 {
+                        /// Uploaded successfully
+                        
+                    } else {
+                        
+                    }
+                } else {
+                    
+                }
             }
         })
         
         task.resume()
+    }
+    
+    func createBodyWithParameters(parameters: [String: Any]?, filePathKey: String?, imageDataKey: NSData, boundary: String) -> NSData {
+        let body = NSMutableData();
+        
+        if parameters != nil {
+            for (key, value) in parameters! {
+                body.appendString("--\(boundary)\r\n")
+                body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+                body.appendString("\(value)\r\n")
+            }
+        }
+        
+        let filename = "user-profile.jpg"
+        let mimetype = "image/jpg"
+        
+        body.appendString("--\(boundary)\r\n")
+        body.appendString("Content-Disposition: form-data; name=\"\(filePathKey!)\"; filename=\"\(filename)\"\r\n")
+        body.appendString("Content-Type: \(mimetype)\r\n\r\n")
+
+        body.append(imageDataKey as Data)
+        body.appendString("\r\n")
+        
+        
+        
+        body.appendString("--\(boundary)--\r\n")
+        
+        return body
     }
     
     func createBody(parameters: [String: Any],
@@ -716,7 +761,7 @@ open class DataManager: NSObject, Codable {
         }
         
         body.appendString(boundaryPrefix)
-        body.appendString("Content-Disposition: form-data; name=\"file\"; filename=\"\(filename)\"\r\n")
+        body.appendString("Content-Disposition: form-data; name=\"file_1\"; filename=\"\(filename)\"\r\n")
         body.appendString("Content-Type: \(mimeType)\r\n\r\n")
         body.append(data)
         body.appendString("\r\n")

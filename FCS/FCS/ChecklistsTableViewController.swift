@@ -717,6 +717,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         vc.commonReview = self.commonReview
         vc.defaultLang = "vn"
         vc.questions = self.questions
+        vc.branchId = self.branchId
         if self.defaultLanguage == 1 {
             vc.defaultLang = "en"
         }
