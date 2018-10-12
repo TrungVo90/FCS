@@ -260,11 +260,9 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     
     var questions: [Questions] = [Questions]()
 
-    var totalQuestions: Int = 0
-
     var defaultLanguage: Int = 0 // 0: vn 1: en
     
-    var doneQuestions: Int = 0
+    var doneQuestions: [Questions] = [Questions]()
     
     var finishedPercentLabel: UILabel = UILabel()
 
@@ -312,6 +310,8 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     
     var branchId: Int64 = 0
     
+    var totalQuestions = [Questions]()
+    
     private func calculateHeightOfQuestion(question: Questions, width: CGFloat) -> CGFloat {
         let label:UILabel = UILabel(frame: CGRect.init(x: 0, y: 0, width: width, height: CGFloat.greatestFiniteMagnitude))
         label.numberOfLines = 0
@@ -346,7 +346,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row > questions.count {
+        if indexPath.row >= questions.count {
             return 0
         }
         var heightOfQuestion: CGFloat = 0;
@@ -487,38 +487,29 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         super.viewWillAppear(animated)
     }
     
-    func countForTotalQuestion() {
-        totalQuestions = 0
-        for category in self.categories {
-            filterListOfCompanyQuestionIds(companyId: companyId, categoryId: category.id)
-            totalQuestions += filterQuestions().count
-        }
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self._isStatusBarHidden = false
         self.setNeedsStatusBarAppearanceUpdate()
-        
-        ///
-        
-        var string: String = "Tổng số điểm thực tế"
-        
-        //+ self.doneQuestions.description + "Tổng số điểm yêu cầu: " + self.questions.count.description
-        
-        countForTotalQuestion()
-        
-        let percent = CGFloat(self.doneQuestions)/CGFloat(self.totalQuestions)
-        string = string + "\n" + percent.description + "%"
-        
+
         self.finishedPercentLabel.text =  "Tổng số điểm thực tế"
         self.actualPercentLabel.text = "Tổng số điểm yêu cầu"
-        self.percentLabel.text =  "%"
+        self.percentLabel.text =  " %"
+       
+        var finishScore: Int = 0;
         
-        self.finishedPercentValue.text = self.doneQuestions.description
-        self.actualPercentValue.text = self.totalQuestions.description
-        self.percentValue.text = (Int(100 * percent)).description + "%" 
-        setUpColorPercent(100 * Int(percent))
+        for q in self.doneQuestions {
+           finishScore +=  q.questionChoice
+        }
+        self.finishedPercentValue.text = finishScore.description
+
+        self.actualPercentValue.text = (self.totalQuestions.count * 3).description
+    
+        let percent = CGFloat(finishScore)/CGFloat((self.totalQuestions.count * 3))
+    
+        self.percentValue.text = (Int(100 * percent)).description + "%"
+        
+        setUpColorPercent(Int(100.0 * (percent)))
     }
     
     func setUpColorPercent(_ percent: Int) {
@@ -639,7 +630,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     
     func setupLayoutSummarizationView() {
         self.summarizationView.snp.remakeConstraints { (make) in
-            make.height.equalTo(130)
+            make.height.equalTo(135)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(self.submitButton.snp.top).offset(-5)
         }
@@ -673,14 +664,14 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         }
         
         self.topMiddleHorizontalLine.snp.remakeConstraints { (make) in
-            make.top.equalTo(self.topHorizontalLine.snp.bottom).offset(35)
+            make.top.equalTo(self.topHorizontalLine.snp.bottom).offset(40)
             make.leading.equalToSuperview().offset(5)
             make.trailing.equalToSuperview().offset(-5)
             make.height.equalTo(1)
         }
         
         self.bottomMiddleHorizontalLine.snp.remakeConstraints { (make) in
-            make.top.equalTo(self.topMiddleHorizontalLine.snp.bottom) .offset(35)
+            make.top.equalTo(self.topMiddleHorizontalLine.snp.bottom).offset(45)
             make.leading.equalToSuperview().offset(5)
             make.trailing.equalToSuperview().offset(-5)
             make.height.equalTo(1)
@@ -697,7 +688,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
             make.top.equalTo(self.bottomMiddleHorizontalLine.snp.bottom)
             make.bottom.equalTo(self.bottomHorizontalLine.snp.bottom).offset(-1)
             make.leading.equalTo(self.middleVerticalLine.snp.trailing)
-            make.trailing.equalTo(self.rightVerticalLine.snp.leading).offset(-1)
+            make.trailing.equalTo(self.rightVerticalLine.snp.leading)
         }
         
         self.finishedPercentLabel.snp.remakeConstraints { (make) in
@@ -771,8 +762,8 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         kUserDefault.set(encodedData, forKey: "doneChecklistQuestions")
         kUserDefault.synchronize()
         
-        var questions = kUserDefault.array(forKey: "doneChecklistQuestions")
-        let a = 10
+//        var questions = kUserDefault.array(forKey: "doneChecklistQuestions")
+//        let a = 10
         DataManager.sharedInstance.pushData(doneChecklist: doneChecklist)
     }
     
@@ -784,6 +775,11 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "UserInfoViewController")
         self.present(vc, animated: true, completion: nil)
+    }
+    
+    func checkInteretConnectionSuccess() -> Bool {
+        
+        return true
     }
     
 }

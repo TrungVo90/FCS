@@ -339,7 +339,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     var defaultLanguage: Int = 0 // 0: vn 1: en
     
-    var doneQuestions: [Int64] = [Int64]()
+    var doneQuestions: [Questions] = [Questions]()
     
     var categories: [Categories] = [Categories]()
     
@@ -355,8 +355,10 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     var commonReview: String = ""
     
+    var totalQuestions: [Questions] = [Questions]()
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row > questions.count {
+        if indexPath.row >= questions.count {
             return 0
         }
         var heightOfQuestion: CGFloat = 0;
@@ -379,6 +381,12 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         filterListOfCompanyQuestionIds(companyId: companyId, categoryId: Int64(self.categories[section].id))
         self.questions = filterQuestions()
+        for q in self.questions {
+            if !totalQuestions.contains(q) {
+                totalQuestions.append(q)
+                doneQuestions.append(q)
+            }
+        }
         return self.questions.count
     }
     
@@ -388,8 +396,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if !doneQuestions.contains(questions[indexPath.row].question_id) {
-            doneQuestions.append(questions[indexPath.row].question_id)
+        if !doneQuestions.contains(questions[indexPath.row]) {
+            doneQuestions.append(questions[indexPath.row])
         }
     }
     
@@ -432,9 +440,6 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             self.filterListOfCompanyQuestionIds(companyId: self.companyId, categoryId: Int64(self.categories[indexPath.section].id))
             self.questions = self.filterQuestions()
             
-            if !self.doneQuestions.contains(self.questions[indexPath.row].question_id) {
-                self.doneQuestions.append(self.questions[indexPath.row].question_id)
-            }
             self.questions[indexPath.row].questionChoice = 1
             self.replaceQuestionById(question: self.questions[indexPath.row])
             
@@ -448,9 +453,6 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             self.filterListOfCompanyQuestionIds(companyId: self.companyId, categoryId: Int64(self.categories[indexPath.section].id))
             self.questions = self.filterQuestions()
             
-            if !self.doneQuestions.contains(self.questions[indexPath.row].question_id) {
-                self.doneQuestions.append(self.questions[indexPath.row].question_id)
-            }
             self.questions[indexPath.row].questionChoice = 2
             self.replaceQuestionById(question: self.questions[indexPath.row])
         }
@@ -463,11 +465,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             self.filterListOfCompanyQuestionIds(companyId: self.companyId, categoryId: Int64(self.categories[indexPath.section].id))
             self.questions = self.filterQuestions()
             
-            if !self.doneQuestions.contains(self.questions[indexPath.row].question_id) {
-                self.doneQuestions.append(self.questions[indexPath.row].question_id)
-            }
-            self.questions[indexPath.row].questionChoice = 3
-            self.replaceQuestionById(question: self.questions[indexPath.row])
+            question.questionChoice = 3
+            self.replaceQuestionById(question: question)
         }
         
         cell.reviewButtonTapped = {
@@ -714,7 +713,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         vc.modalPresentationCapturesStatusBarAppearance = true
         vc.originalQuestions = self.originalQuestions
         vc.defaultLanguage = self.defaultLanguage
-        vc.doneQuestions = self.doneQuestions.count
+        vc.doneQuestions = self.doneQuestions
         vc.companyId = self.companyId
         vc.companyQuestions = self.companyQuestions
         vc.categories = self.categories
@@ -722,9 +721,11 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         vc.defaultLang = "vn"
         vc.questions = self.questions
         vc.branchId = self.branchId
+        vc.totalQuestions = self.totalQuestions
         if self.defaultLanguage == 1 {
             vc.defaultLang = "en"
         }
+        
         self.present(vc, animated: false, completion: nil)
     }
     
@@ -760,10 +761,6 @@ extension ChecklistsTableViewController: ReviewViewProtocol {
         
         self.checklistTableView.reloadData()
         
-        if !doneQuestions.contains(question.question_id) {
-            doneQuestions.append(question.question_id)
-        }
-        
     }
     
     func replaceQuestionById(question: Questions) {
@@ -771,6 +768,15 @@ extension ChecklistsTableViewController: ReviewViewProtocol {
         for q in self.originalQuestions {
             if q.question_id == question.question_id {
                 self.originalQuestions[idx] = question
+                break
+            }
+            idx += 1
+        }
+        
+        idx = 0
+        for q in self.doneQuestions {
+            if q.question_id == question.question_id {
+                self.doneQuestions[idx] = question
                 break
             }
             idx += 1
@@ -785,10 +791,6 @@ extension ChecklistsTableViewController: ImageReviewViewProtocol {
         replaceQuestionById(question: question)
         
         self.checklistTableView.reloadData()
-        
-        if !doneQuestions.contains(question.question_id) {
-            doneQuestions.append(question.question_id)
-        }
     }
 }
 
