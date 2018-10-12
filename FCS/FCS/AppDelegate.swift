@@ -14,6 +14,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         self.window?.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         fetchAllData()
+        
+        /// Check exist any done checklist in DB
+        if let data = UserDefaults.standard.data(forKey: "doneChecklist"),
+        let doneChecklist = NSKeyedUnarchiver.unarchiveObject(with: data) as? DoneChecklist{
+            if Reachability.isConnectedToNetwork() == true {
+                DataManager.sharedInstance.pushData(doneChecklist: doneChecklist,  completionHandler: {
+                    (result: String) in
+                    print("result: \(result)")
+                })
+                
+            }
+        }
         return true
     }
 

@@ -758,11 +758,34 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         
         let kUserDefault = UserDefaults.standard
         /// Store data
-        let encodedData = NSKeyedArchiver.archivedData(withRootObject: self.originalQuestions as NSArray) as NSData
-        kUserDefault.set(encodedData, forKey: "doneChecklistQuestions")
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: doneChecklist) as NSData
+        kUserDefault.set(encodedData, forKey: "doneChecklist")
         kUserDefault.synchronize()
-
-        DataManager.sharedInstance.pushData(doneChecklist: doneChecklist)
+        
+        if Reachability.isConnectedToNetwork() == true {
+            DataManager.sharedInstance.pushData(doneChecklist: doneChecklist,  completionHandler: {
+                (result: String) in
+                if result == "OK" {
+                    /// Turn off loading indicator
+                    self.dismiss(animated: true, completion: nil)
+                } else {
+                    /// Show pop up or alert view to warn
+                    
+                }
+            })
+        } else {
+            
+            /// Show alert view to inform user that network error
+            
+            let kUserDefault = UserDefaults.standard
+            /// Store data
+            let encodedData = NSKeyedArchiver.archivedData(withRootObject: doneChecklist) as NSData
+            kUserDefault.set(encodedData, forKey: "doneChecklist")
+            kUserDefault.synchronize()
+            
+            
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     @objc func backButtonOnClick() {
