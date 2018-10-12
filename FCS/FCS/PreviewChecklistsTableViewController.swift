@@ -751,7 +751,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         doneChecklist.end_time = end_time
         doneChecklist.branch_id = branchId
         doneChecklist.company_id = companyId
-        doneChecklist.doneQuestions = self.questions
+        doneChecklist.doneQuestions = self.doneQuestions
         doneChecklist.lang = defaultLang
         
         doneChecklist.checklist_id = 0
@@ -761,9 +761,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         let encodedData = NSKeyedArchiver.archivedData(withRootObject: self.originalQuestions as NSArray) as NSData
         kUserDefault.set(encodedData, forKey: "doneChecklistQuestions")
         kUserDefault.synchronize()
-        
-//        var questions = kUserDefault.array(forKey: "doneChecklistQuestions")
-//        let a = 10
+
         DataManager.sharedInstance.pushData(doneChecklist: doneChecklist)
     }
     

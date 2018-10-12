@@ -624,17 +624,7 @@ open class DataManager: NSObject, Codable {
     
     func pushData(doneChecklist: DoneChecklist) {
         //declare parameter as a dictionary which contains string as key and value combination. considering inputs are valid
-        
-        /*
-         company_id
-         branch_id
-         checklist_id
-         start_time
-         end_time
-         lang
-         comment
-         */
-        
+
         let session = URLSession(configuration: URLSessionConfiguration.default)
 
         let urlString =  HOST + DOMAIN + "checklist"
@@ -650,10 +640,9 @@ open class DataManager: NSObject, Codable {
         postRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         postRequest.setValue("application/json", forHTTPHeaderField: "Accept")
         
-        if let token = UserDefaults.standard.object(forKey:ACCESS_TOKEN_KEY ) {
-            postRequest.setValue(token as! String, forHTTPHeaderField: "Authorization")
+        if let token = UserDefaults.standard.object(forKey:ACCESS_TOKEN_KEY) {
+            postRequest.setValue(token as? String, forHTTPHeaderField: "Authorization")
         }
-        
         
         let boundary = "Boundary-\(UUID().uuidString)"
         postRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
@@ -682,10 +671,6 @@ open class DataManager: NSObject, Codable {
             }
             
         }
-        
-        
-        
-        
         do {
             let jsonParams = try JSONSerialization.data(withJSONObject: parameters, options: [])
             let imgData = UIImageJPEGRepresentation(UIImage(named: "icon_changeLanguage")!, 0.8)!
@@ -761,10 +746,17 @@ open class DataManager: NSObject, Codable {
         }
         
         body.appendString(boundaryPrefix)
+        
         body.appendString("Content-Disposition: form-data; name=\"file_1\"; filename=\"\(filename)\"\r\n")
         body.appendString("Content-Type: \(mimeType)\r\n\r\n")
         body.append(data)
         body.appendString("\r\n")
+        
+        body.appendString("Content-Disposition: form-data; name=\"file_1\"; filename=\"\(filename)\"\r\n")
+        body.appendString("Content-Type: \(mimeType)\r\n\r\n")
+        body.append(data)
+        body.appendString("\r\n")
+        
         body.appendString("--".appending(boundary.appending("--")))
         
         return body as Data
