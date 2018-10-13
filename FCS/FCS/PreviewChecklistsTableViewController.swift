@@ -756,12 +756,6 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         
         doneChecklist.checklist_id = 0
         
-        let kUserDefault = UserDefaults.standard
-        /// Store data
-        let encodedData = NSKeyedArchiver.archivedData(withRootObject: doneChecklist) as NSData
-        kUserDefault.set(encodedData, forKey: "doneChecklist")
-        kUserDefault.synchronize()
-        
         if Reachability.isConnectedToNetwork() == true {
             DataManager.sharedInstance.pushData(doneChecklist: doneChecklist,  completionHandler: {
                 (result: String) in
@@ -770,21 +764,46 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
                     self.dismiss(animated: true, completion: nil)
                 } else {
                     /// Show pop up or alert view to warn
-                    
+                    let alert = UIAlertController(title: "Error", message: "Failed to complete survey.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                        switch action.style{
+                        case .default:
+                            self.dismiss(animated: true, completion: nil)
+                            break
+                        case .cancel:
+                            /// Implement later
+                            break
+                        case .destructive:
+                            /// Implement later
+                            break
+                        }}))
+                    self.present(alert, animated: true, completion: nil)
                 }
             })
         } else {
             
             /// Show alert view to inform user that network error
+            let alert = UIAlertController(title: "Error", message: "Network error", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                switch action.style{
+                case .default:
+                    let kUserDefault = UserDefaults.standard
+                    /// Store data
+                    let encodedData = NSKeyedArchiver.archivedData(withRootObject: doneChecklist) as NSData
+                    kUserDefault.set(encodedData, forKey: "doneChecklist")
+                    kUserDefault.synchronize()
+                    
+                    self.dismiss(animated: true, completion: nil)
+                    break
+                case .cancel:
+                    /// Implement later
+                    break
+                case .destructive:
+                    /// Implement later
+                    break
+                }}))
+            self.present(alert, animated: true, completion: nil)
             
-            let kUserDefault = UserDefaults.standard
-            /// Store data
-            let encodedData = NSKeyedArchiver.archivedData(withRootObject: doneChecklist) as NSData
-            kUserDefault.set(encodedData, forKey: "doneChecklist")
-            kUserDefault.synchronize()
-            
-            
-            self.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -797,10 +816,4 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         let vc = storyboard.instantiateViewController(withIdentifier: "UserInfoViewController")
         self.present(vc, animated: true, completion: nil)
     }
-    
-    func checkInteretConnectionSuccess() -> Bool {
-        
-        return true
-    }
-    
 }

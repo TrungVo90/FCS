@@ -22,6 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 DataManager.sharedInstance.pushData(doneChecklist: doneChecklist,  completionHandler: {
                     (result: String) in
                     print("result: \(result)")
+                    if result == "OK" {
+                        UserDefaults.standard.removeObject(forKey: "doneChecklist")
+                        UserDefaults.standard.synchronize()
+                    }
                 })
                 
             }
