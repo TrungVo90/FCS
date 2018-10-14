@@ -77,9 +77,6 @@ class PreviewCheckListTableViewCell: UITableViewCell {
         self.reviewTextView.isUserInteractionEnabled = false
         self.reviewTextView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         
-        //Add Shadow Here
-        self.questionTextView.addShadow();
-        
         let size = 20.0
         self.choiceLabel.bounds = CGRect.init(x: 0, y: 0, width: size, height: size)
         self.choiceLabel.layer.cornerRadius = 2.0//CGFloat(size / 2)
@@ -88,6 +85,8 @@ class PreviewCheckListTableViewCell: UITableViewCell {
         self.choiceLabel.layer.borderColor = UIColor.black.cgColor
         
         self.choiceLabel.textAlignment = .center
+        
+        self.questionTextView.addShadow()
     }
     
     func setupLayout() {
@@ -114,12 +113,10 @@ class PreviewCheckListTableViewCell: UITableViewCell {
         
         self.choiceLabel.snp.remakeConstraints { (make) in
             make.trailing.equalToSuperview().offset(-10)
-//            make.centerY.equalTo(self.questionTextView)
             make.top.equalTo(self.questionTextView).offset(3)
             make.height.equalTo(20)
             make.width.equalTo(20)
         }
-        
         
         self.secondImageView.snp.remakeConstraints { (make) in
             make.centerX.equalToSuperview()
@@ -146,7 +143,7 @@ class PreviewCheckListTableViewCell: UITableViewCell {
             make.leading.trailing.bottom.equalToSuperview()
             make.height.equalTo(1)
         }
-        
+
     }
     
     func setupLayoutForAddingComment() {
@@ -170,7 +167,7 @@ class PreviewCheckListTableViewCell: UITableViewCell {
     func setupLayoutForQuestion() {
         self.questionTextView.snp.remakeConstraints { (make) in
             make.leading.equalToSuperview().offset(10)
-            make.trailing.equalToSuperview().offset(-10)
+            make.trailing.equalToSuperview().offset(-40)
             make.top.equalToSuperview().offset(5)
             make.height.equalTo(self.heightOfQuestionLabel)
         }
@@ -352,7 +349,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         var heightOfQuestion: CGFloat = 0;
         
         if (indexPath.row < questions.count) {
-            heightOfQuestion = calculateHeightOfQuestion(question: questions[(indexPath.row)], width: tableView.frame.width - 10)
+            heightOfQuestion = calculateHeightOfQuestion(question: questions[(indexPath.row)], width: tableView.frame.width - 10) + 5
         }
         questions[indexPath.row].heightOfQuestion = heightOfQuestion
         
@@ -407,34 +404,34 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
             cell.reviewTextView.numberOfLines = 0
             cell.reviewTextView.setContentCompressionResistancePriority(UILayoutPriority.init(1000), for: UILayoutConstraintAxis.horizontal)
             cell.reviewTextView.setContentHuggingPriority(UILayoutPriority.init(1000), for: UILayoutConstraintAxis.horizontal)
-            if (questions[indexPath.row].numberOfCapturedImg > 0) {
+            if (question.numberOfCapturedImg > 0) {
                 cell.setupLayoutForAddingComment()
             } else {
                 cell.setupLayoutForAddingCommentNoneImage()
             }
         }
         
-        cell.choiceLabel.text = String(questions[indexPath.row].questionChoice)
+        cell.choiceLabel.text = String(question.questionChoice)
         
         cell.firstImageView.isHidden = true
         cell.secondImageView.isHidden = true
         cell.thirdImageView.isHidden = true
-        if (questions[indexPath.row].numberOfCapturedImg > 0) {
+        if (question.numberOfCapturedImg > 0) {
             
-            if (questions[indexPath.row].numberOfCapturedImg % 3 == 1) {
-                cell.firstImageView.image =  questions[indexPath.row].imgCaptured[0]
+            if (question.numberOfCapturedImg % 3 == 1) {
+                cell.firstImageView.image =  question.imgCaptured[0]
                 cell.firstImageView.isHidden = false
             }
-            else if (questions[indexPath.row].numberOfCapturedImg % 3 == 2) {
+            else if (question.numberOfCapturedImg % 3 == 2) {
                 cell.secondImageView.isHidden = false
                 cell.firstImageView.isHidden = false
-                cell.firstImageView.image =  questions[indexPath.row].imgCaptured[0]
-                cell.secondImageView.image =  questions[indexPath.row].imgCaptured[1]
+                cell.firstImageView.image =  question.imgCaptured[0]
+                cell.secondImageView.image =  question.imgCaptured[1]
                 
-            } else if (questions[indexPath.row].numberOfCapturedImg % 3 == 0) {
-                cell.firstImageView.image =  questions[indexPath.row].imgCaptured[0]
-                cell.secondImageView.image =  questions[indexPath.row].imgCaptured[1]
-                cell.thirdImageView.image =  questions[indexPath.row].imgCaptured[2]
+            } else if (question.numberOfCapturedImg % 3 == 0) {
+                cell.firstImageView.image =  question.imgCaptured[0]
+                cell.secondImageView.image =  question.imgCaptured[1]
+                cell.thirdImageView.image =  question.imgCaptured[2]
                 cell.secondImageView.isHidden = false
                 cell.thirdImageView.isHidden = false
                 cell.firstImageView.isHidden = false
@@ -473,6 +470,9 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         self.checklistTableView.register(PreviewCheckListTableViewCell.self, forCellReuseIdentifier: PreviewCheckListTableViewCell.CELL_IDENTIFIER)
     }
     
+    
+    let pushingDataIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+    
     fileprivate var _isStatusBarHidden = false
     
     override var prefersStatusBarHidden: Bool {
@@ -485,6 +485,10 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        pushingDataIndicator.center = view.center
+        
+        // If needed, prevent Indicator from hiding when stopAnimating() is called
+        pushingDataIndicator.hidesWhenStopped = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -588,6 +592,8 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         self.summarizationView.addSubview(self.bottomHorizontalLine)
         
         self.view.addSubview(self.summarizationView)
+        
+        self.view.addSubview(pushingDataIndicator)
     }
     
     func setupLayout() {
@@ -743,7 +749,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     
     @objc func submitButtonOnClick() {
         
-        end_time = Date(timeIntervalSince1970: 0)
+        end_time = Date()
         
         let doneChecklist = DoneChecklist()
         doneChecklist.start_time = start_time
@@ -756,19 +762,31 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         
         doneChecklist.checklist_id = 0
         
+        pushingDataIndicator.stopAnimating()
+        // Start Activity Indicator
+        pushingDataIndicator.startAnimating()
+        
         if Reachability.isConnectedToNetwork() == true {
+            
             DataManager.sharedInstance.pushData(doneChecklist: doneChecklist,  completionHandler: {
                 (result: String) in
                 if result == "OK" {
+                    DispatchQueue.global().async {
                     /// Turn off loading indicator
-                    self.dismiss(animated: true, completion: nil)
+                        self.pushingDataIndicator.stopAnimating()
+                        self.dismiss(animated: true, completion: nil)
+                    }
                 } else {
                     /// Show pop up or alert view to warn
                     let alert = UIAlertController(title: "Error", message: "Failed to complete survey.", preferredStyle: UIAlertControllerStyle.alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
                         switch action.style{
                         case .default:
-                            self.dismiss(animated: true, completion: nil)
+                            DispatchQueue.global().async {
+                                /// Turn off loading indicator
+                                self.pushingDataIndicator.stopAnimating()
+                                self.dismiss(animated: true, completion: nil)
+                            }
                             break
                         case .cancel:
                             /// Implement later
@@ -792,8 +810,12 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
                     let encodedData = NSKeyedArchiver.archivedData(withRootObject: doneChecklist) as NSData
                     kUserDefault.set(encodedData, forKey: "doneChecklist")
                     kUserDefault.synchronize()
-                    
-                    self.dismiss(animated: true, completion: nil)
+                    DispatchQueue.global().async {
+                        /// Turn off loading indicator
+                        self.pushingDataIndicator.stopAnimating()
+                        self.dismiss(animated: true, completion: nil)
+                        
+                    }
                     break
                 case .cancel:
                     /// Implement later

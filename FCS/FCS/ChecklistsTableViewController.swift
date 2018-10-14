@@ -166,9 +166,6 @@ class NewChecklistTableViewCell: UITableViewCell {
         self.reviewTextView.isUserInteractionEnabled = false
         self.reviewTextView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         
-        //Add Shadow Here
-        self.questionTextView.addShadow()
-        
         self.questionIdxLabel.textAlignment = .center
         self.questionIdxLabel.font = UIFont(name: "Georgia-Bold", size: 12)
         
@@ -196,7 +193,6 @@ class NewChecklistTableViewCell: UITableViewCell {
             make.centerY.equalTo(self.questionTextView)
             make.height.equalTo(20)
         }
-        
         
         self.questionTextView.snp.remakeConstraints { (make) in
             make.leading.equalToSuperview().offset(35)
@@ -303,6 +299,8 @@ class NewChecklistTableViewCell: UITableViewCell {
             make.top.equalToSuperview().offset(5)
             make.height.equalTo(self.heightOfQuestionLabel)
         }
+        //Add Shadow Here
+        self.questionTextView.addShadow()
         
         let size = 20.0
         self.questionIdxLabel.bounds = CGRect.init(x: 0, y: 0, width: size, height: size)
@@ -424,7 +422,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         cell.heightOfReviewLabel = question.heightOfComment
         cell.heightOfQuestionLabel = question.heightOfQuestion
         cell.setupLayoutForQuestion()
-        if questions[indexPath.row].review != "" {
+        if question.review != "" {
             cell.reviewTextView.text = question.review
             cell.reviewTextView.numberOfLines = 0
             cell.reviewTextView.setContentCompressionResistancePriority(UILayoutPriority.init(1000), for: UILayoutConstraintAxis.horizontal)
@@ -440,8 +438,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             self.filterListOfCompanyQuestionIds(companyId: self.companyId, categoryId: Int64(self.categories[indexPath.section].id))
             self.questions = self.filterQuestions()
             
-            self.questions[indexPath.row].questionChoice = 1
-            self.replaceQuestionById(question: self.questions[indexPath.row])
+            question.questionChoice = 1
+            self.replaceQuestionById(question: question)
             
         }
         
@@ -453,8 +451,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             self.filterListOfCompanyQuestionIds(companyId: self.companyId, categoryId: Int64(self.categories[indexPath.section].id))
             self.questions = self.filterQuestions()
             
-            self.questions[indexPath.row].questionChoice = 2
-            self.replaceQuestionById(question: self.questions[indexPath.row])
+            question.questionChoice = 2
+            self.replaceQuestionById(question: question)
         }
         
         cell.thirdChoiceButtonTapped = {
@@ -491,9 +489,9 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         }
 
         
-        cell.firstImageView.image = questions[indexPath.row].imgCaptured[0]
-        cell.secondImageView.image = questions[indexPath.row].imgCaptured[1]
-        cell.thirdImageView.image = questions[indexPath.row].imgCaptured[2]
+        cell.firstImageView.image = question.imgCaptured[0]
+        cell.secondImageView.image = question.imgCaptured[1]
+        cell.thirdImageView.image = question.imgCaptured[2]
         
         
         return cell
@@ -506,13 +504,14 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        start_time = Date()
         
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        start_time = Date(timeIntervalSince1970: 0)
+        
         
         if let unarchivedObject = UserDefaults.standard.object(forKey: "question_categories") as? Data {
             self.categories = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [Categories])!

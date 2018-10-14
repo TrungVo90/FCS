@@ -1,8 +1,8 @@
 
 import UIKit
 
-var start_time = Date(timeIntervalSince1970: 0)
-var end_time = Date(timeIntervalSince1970: 0)
+var start_time = Date()
+var end_time = Date()
 @UIApplicationMain
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
