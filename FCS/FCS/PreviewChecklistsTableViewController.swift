@@ -398,6 +398,8 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
             cell.questionTextView.text = question.title_en
         }
         cell.heightOfReviewLabel = question.heightOfComment
+        cell.heightOfQuestionLabel = question.heightOfQuestion
+        cell.setupLayoutForQuestion()
         cell.choiceLabel.text = String(question.questionChoice)
         if question.review != "" {
             cell.reviewTextView.text = question.review
