@@ -136,13 +136,14 @@ class StoreListViewController: UIViewController, UITableViewDelegate, UITableVie
         
         cell.branchId = branch.id
         cell.storeNameLabel.text = branch.name
-        cell.storeDescription.text = "Address: " + branch.address + " - Phone: " + branch.phone + "\n Email: " + branch.email
+//        cell.storeDescription.text = "Address: " + branch.address + " - Phone: " + branch.phone + "\n Email: " + branch.email
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "DetailStoreTableViewController")        
-        self.present(vc!, animated: true, completion: nil)
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "DetailStoreTableViewController") as! DetailStoreViewController
+         vc.branch = self._branchs[indexPath.row]
+        self.present(vc, animated: true, completion: nil)
     }
     
     @IBAction func userInfoButtonOnClick(_ sender: Any) {

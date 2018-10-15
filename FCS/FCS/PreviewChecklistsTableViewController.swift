@@ -85,8 +85,6 @@ class PreviewCheckListTableViewCell: UITableViewCell {
         self.choiceLabel.layer.borderColor = UIColor.black.cgColor
         
         self.choiceLabel.textAlignment = .center
-        
-        self.questionTextView.addShadow()
     }
     
     func setupLayout() {

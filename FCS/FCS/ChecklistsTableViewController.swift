@@ -34,9 +34,9 @@ class NewChecklistTableViewCell: UITableViewCell {
     var reviewTextView: UILabel = UILabel()
     
     var imageButton: UIButton = UIButton()
-    var firstImageView: UIImageView =  UIImageView(image: UIImage(named:"ic_image"))
-    var secondImageView: UIImageView = UIImageView(image: UIImage(named:"ic_image"))
-    var thirdImageView: UIImageView = UIImageView(image:UIImage(named:"ic_image"))
+    var firstImageView: UIImageView =  UIImageView()
+    var secondImageView: UIImageView = UIImageView()
+    var thirdImageView: UIImageView = UIImageView()
     
     var dashedLineView: UIView = UIView()
     
@@ -144,7 +144,7 @@ class NewChecklistTableViewCell: UITableViewCell {
         self.thirdChoiceLabel.font = UIFont(name: "Georgia-Bold", size: 20.0)
         self.thirdChoiceLabel.font = UIFont.systemFont(ofSize: 20.0)
         
-        self.firstChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
+        self.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
         self.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
         self.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
         
@@ -202,7 +202,7 @@ class NewChecklistTableViewCell: UITableViewCell {
         }
         
         self.firstChoiceLabel.snp.remakeConstraints { (make) in
-            make.leading.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().offset(40)
             make.width.equalTo(30)
             make.height.equalTo(30)
             make.top.equalTo(self.questionTextView.snp.bottom).offset(10)
@@ -216,21 +216,21 @@ class NewChecklistTableViewCell: UITableViewCell {
         }
         
         self.secondChoiceLabel.snp.remakeConstraints { (make) in
-            make.trailing.equalTo(self._contentView.snp.centerX).offset(-2)
+            make.leading.equalTo(self.firstChoiceButton.snp.trailing).offset(40)
             make.top.equalTo(self.questionTextView.snp.bottom).offset(10)
             make.height.equalTo(30)
             make.width.equalTo(30)
         }
         
         self.secondChoiceButton.snp.remakeConstraints { (make) in
-            make.leading.equalTo(self._contentView.snp.centerX).offset(3)
+            make.leading.equalTo(self.secondChoiceLabel.snp.trailing).offset(5)
             make.top.equalTo(self.questionTextView.snp.bottom).offset(10)
             make.height.equalTo(30)
             make.width.equalTo(30)
         }
         
         self.thirdChoiceButton.snp.remakeConstraints { (make) in
-            make.trailing.equalToSuperview().offset(-10)
+            make.trailing.equalToSuperview().offset(-50)
             make.width.height.equalTo(30)
             make.top.equalTo(self.questionTextView.snp.bottom).offset(10)
         }
@@ -250,14 +250,14 @@ class NewChecklistTableViewCell: UITableViewCell {
         
         self.imageButton.snp.remakeConstraints { (make) in
             make.leading.equalTo(reviewButton.snp.trailing).offset(10)
-            make.top.equalTo(self.reviewButton.snp.top)
+            make.top.equalTo(self.firstChoiceButton.snp.bottom).offset(8)
             make.height.equalTo(45)
             make.width.equalTo(45)
         }
         
         self.thirdImageView.snp.remakeConstraints { (make) in
             make.trailing.equalToSuperview().offset(-50)
-            make.top.equalTo(self.reviewButton.snp.top)
+            make.top.equalTo(self.reviewButton.snp.top).offset(-2)
             make.width.equalTo(40)
             make.height.equalTo(40)
         }
@@ -299,8 +299,7 @@ class NewChecklistTableViewCell: UITableViewCell {
             make.top.equalToSuperview().offset(5)
             make.height.equalTo(self.heightOfQuestionLabel)
         }
-        //Add Shadow Here
-        self.questionTextView.addShadow()
+    
         
         let size = 20.0
         self.questionIdxLabel.bounds = CGRect.init(x: 0, y: 0, width: size, height: size)
@@ -340,6 +339,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     var doneQuestions: [Questions] = [Questions]()
     
     var categories: [Categories] = [Categories]()
+    
+    var categoriesName: [String] = [String]()
     
     var companyQuestions: [CompanyQuestions] = [CompanyQuestions]()
     
@@ -493,7 +494,6 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         cell.secondImageView.image = question.imgCaptured[1]
         cell.thirdImageView.image = question.imgCaptured[2]
         
-        
         return cell
     }
 
@@ -511,11 +511,10 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
         if let unarchivedObject = UserDefaults.standard.object(forKey: "question_categories") as? Data {
             self.categories = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [Categories])!
         }
+        
         
         /// Load list of company question
         if let unarchivedObject = UserDefaults.standard.object(forKey: "company_questions") as? Data {

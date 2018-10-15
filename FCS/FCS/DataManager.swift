@@ -271,13 +271,13 @@ class Questions: NSObject, NSCoding {
         self.title_en = ""
         
         /// Addtional properties
-        self.questionChoice = 1
+        self.questionChoice = 0
         self.review = ""
         self.imgCaptured = [UIImage]()
-        self.imgCaptured.append(UIImage(named:"ic_image")!)
-        self.imgCaptured.append(UIImage(named:"ic_image")!)
-        self.imgCaptured.append(UIImage(named:"ic_image")!)
-        
+        self.imgCaptured.append(UIImage())
+        self.imgCaptured.append(UIImage())
+        self.imgCaptured.append(UIImage())
+    
         self.numberOfCapturedImg = 0
         self.latestImage = UIImage()
         self.heightOfComment = 0.0
@@ -296,12 +296,12 @@ class Questions: NSObject, NSCoding {
         self.title_vn = title_vn
         
         /// Addtional properties
-        self.questionChoice = 1
+        self.questionChoice = 0
         self.review = ""
         self.imgCaptured = [UIImage]()
-        self.imgCaptured.append(UIImage(named:"ic_image")!)
-        self.imgCaptured.append(UIImage(named:"ic_image")!)
-        self.imgCaptured.append(UIImage(named:"ic_image")!)
+        self.imgCaptured.append(UIImage())
+        self.imgCaptured.append(UIImage())
+        self.imgCaptured.append(UIImage())
         
         self.numberOfCapturedImg = 0
         self.latestImage = UIImage()

@@ -16,7 +16,6 @@ class DetailStoreTableViewCell: UITableViewCell {
     @IBOutlet weak var storeName: UILabel!
     @IBOutlet weak var storeDescription: UILabel!
     
-    
     override func awakeFromNib() {
         storeImg.layer.borderWidth = 1
         storeImg.layer.masksToBounds = false
@@ -32,26 +31,29 @@ class DetailStoreTableViewCell: UITableViewCell {
 class DetailStoreViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var detailStoreTableView: UITableView!
-    
-    
+    var branch: Branchs!
+
+
     override func viewDidLoad() {
         detailStoreTableView.delegate = self
         detailStoreTableView.dataSource = self
-        //        detailStoreTableView.register(DetailStoreTableViewCell.self, forCellReuseIdentifier: DetailStoreTableViewCell.CELL_IDENTIFIER )
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 150
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DetailStoreTableViewCell.CELL_IDENTIFIER, for: indexPath)
             as! DetailStoreTableViewCell
         cell.selectionStyle = .none
+        cell.storeName.text = branch.name
+        cell.storeDescription.text = "Address: " + branch.address + " - Phone: " + branch.phone + "\n Email: " + branch.email
+
         return cell
     }
     
