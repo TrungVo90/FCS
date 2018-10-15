@@ -242,38 +242,38 @@ class NewChecklistTableViewCell: UITableViewCell {
         }
         
         self.reviewButton.snp.remakeConstraints { (make) in
-            make.leading.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().offset(50)
             make.width.equalTo(45)
             make.height.equalTo(45)
             make.top.equalTo(self.firstChoiceButton.snp.bottom).offset(10)
         }
         
         self.imageButton.snp.remakeConstraints { (make) in
-            make.leading.equalToSuperview().offset(10)
-            make.top.equalTo(self.reviewButton.snp.bottom).offset(0)
+            make.leading.equalTo(reviewButton.snp.trailing).offset(10)
+            make.top.equalTo(self.reviewButton.snp.top)
             make.height.equalTo(45)
             make.width.equalTo(45)
         }
         
         self.thirdImageView.snp.remakeConstraints { (make) in
-            make.trailing.equalToSuperview().offset(-10)
+            make.trailing.equalToSuperview().offset(-50)
             make.top.equalTo(self.reviewButton.snp.top)
-            make.width.equalTo(80)
-            make.height.equalTo(80)
+            make.width.equalTo(40)
+            make.height.equalTo(40)
         }
         
         self.secondImageView.snp.remakeConstraints { (make) in
             make.trailing.equalTo(self.thirdImageView.snp.leading).offset(-10)
             make.top.equalTo(self.reviewButton.snp.top)
-            make.width.equalTo(80)
-            make.height.equalTo(80)
+            make.width.equalTo(40)
+            make.height.equalTo(40)
         }
         
         self.firstImageView.snp.remakeConstraints { (make) in
             make.trailing.equalTo(self.secondImageView.snp.leading).offset(-10)
             make.top.equalTo(self.reviewButton.snp.top)
-            make.width.equalTo(80)
-            make.height.equalTo(80)
+            make.width.equalTo(40)
+            make.height.equalTo(40)
         }
         
         self.dashedLineView.snp.remakeConstraints { (make) in
@@ -366,9 +366,9 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         }
         questions[indexPath.row].heightOfQuestion = heightOfQuestion
         if questions[indexPath.row].review == "" {
-            return 160 + heightOfQuestion //230
+            return 120 + heightOfQuestion //230
         } else {
-            return 170 + questions[indexPath.row].heightOfComment + heightOfQuestion//240
+            return 120 + questions[indexPath.row].heightOfComment + heightOfQuestion//240
         }
     }
     
