@@ -773,7 +773,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
             DataManager.sharedInstance.pushData(doneChecklist: doneChecklist,  completionHandler: {
                 (result: String) in
                 if result == "OK" {
-                    DispatchQueue.global().async {
+                    DispatchQueue.main.async {
                     /// Turn off loading indicator
                         self.pushingDataIndicator.stopAnimating()
                         self.dismiss(animated: true, completion: nil)
@@ -784,7 +784,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
                         switch action.style{
                         case .default:
-                            DispatchQueue.global().async {
+                            DispatchQueue.main.async {
                                 /// Turn off loading indicator
                                 self.pushingDataIndicator.stopAnimating()
                                 self.dismiss(animated: true, completion: nil)
@@ -812,7 +812,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
                     let encodedData = NSKeyedArchiver.archivedData(withRootObject: doneChecklist) as NSData
                     kUserDefault.set(encodedData, forKey: "doneChecklist")
                     kUserDefault.synchronize()
-                    DispatchQueue.global().async {
+                    DispatchQueue.main.async {
                         /// Turn off loading indicator
                         self.pushingDataIndicator.stopAnimating()
                         self.dismiss(animated: true, completion: nil)

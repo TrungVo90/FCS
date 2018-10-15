@@ -661,11 +661,18 @@ open class DataManager: NSObject, Codable {
             //Do, try , catch
             do {
                 //this is your json data as NSData that will be your payload for your REST HTTP call.
-                let JSONPayload: NSData = try JSONSerialization.data(withJSONObject: questionData, options: JSONSerialization.WritingOptions.prettyPrinted) as NSData
+                let JSONData: NSData = try JSONSerialization.data(withJSONObject: questionData, options: JSONSerialization.WritingOptions.prettyPrinted) as NSData
                 
                 //This is unnecessary, but I'm echo-checking the data from the step above.  You don't need to do this in production.  Just to see the JSON in native format.
-                let JSONString = NSString(data: JSONPayload as Data, encoding: String.Encoding.utf8.rawValue)
-                parameters.updateValue(JSONString ?? "", forKey: key)
+                let JSONString = String(data: JSONData as Data, encoding: String.Encoding(rawValue: String.Encoding.utf8.rawValue))
+                
+                let theJSONText = NSString(data: JSONData as Data,
+                                           encoding: String.Encoding.ascii.rawValue)
+                print("JSON string = \(theJSONText!)")
+                
+                parameters.updateValue(theJSONText ?? "", forKey: key)
+                
+                
                 
                 //From here you should carry on with your task or assign JSONPayload to a varialble outside of this block
             } catch {//catch errors thrown by the NSJSONSerialization.dataWithJSONObject func above.
@@ -680,8 +687,7 @@ open class DataManager: NSObject, Codable {
             postRequest.httpBody = createBody(parameters: parameters,
                                     boundary: boundary,
                                     data: imgData,
-                                    mimeType: "image/png",
-                                    filename: "hello.png")
+                                    mimeType: "image/png",doneChecklist: doneChecklist)
             
         } catch { print("Error: unable to add parameters to POST request.")}
         
@@ -737,8 +743,7 @@ open class DataManager: NSObject, Codable {
     func createBody(parameters: [String: Any],
                     boundary: String,
                     data: Data,
-                    mimeType: String,
-                    filename: String) -> Data {
+                    mimeType: String, doneChecklist: DoneChecklist) -> Data {
         let body = NSMutableData()
         
         let boundaryPrefix = "--\(boundary)\r\n"
@@ -750,19 +755,25 @@ open class DataManager: NSObject, Codable {
         }
         
         body.appendString(boundaryPrefix)
+
         
-        let filename1 = "hello1.png"
         let filename2 = "hello2.png"
-        body.appendString("Content-Disposition: form-data; name=\"file_1\"; filename=\"\(filename1)\"\r\n")
-        body.appendString("Content-Type: \(mimeType)\r\n\r\n")
-        body.append(data)
-        body.appendString("\r\n")
         
-        body.appendString("Content-Disposition: form-data; name=\"file_1\"; filename=\"\(filename2)\"\r\n")
-        body.appendString("Content-Type: \(mimeType)\r\n\r\n")
-        body.append(data)
-        body.appendString("\r\n")
-        
+        for q in doneChecklist.doneQuestions {
+            let nameFile = "file_" + String(q.question_id)
+            if q.numberOfCapturedImg > 0 {
+                var idx = 0
+                while idx < q.numberOfCapturedImg {
+                    let contentString = "Content-Disposition: form-data; name=\"" + nameFile + "\"; filename=\"\(filename2)\"\r\n"
+                    body.appendString(contentString)
+                    body.appendString("Content-Type: \(mimeType)\r\n\r\n")
+                    let data = UIImageJPEGRepresentation(q.imgCaptured[idx], 0.9)!
+                    body.append(data)
+                    body.appendString("\r\n")
+                    idx = idx + 1
+                }
+            }
+        }
         body.appendString("--".appending(boundary.appending("--")))
         
         return body as Data
