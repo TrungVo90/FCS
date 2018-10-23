@@ -124,7 +124,7 @@ class ImageReviewViewController: UIViewController, UIImagePickerControllerDelega
             let idx = self.question.numberOfCapturedImg
             
             self.question.imgCaptured[idx % 3] = pickedImage
-            self.question.numberOfCapturedImg = (self.question.numberOfCapturedImg + 1)
+            self.question.numberOfCapturedImg = (self.question.numberOfCapturedImg + 1) % 3
             self.question.latestImage = pickedImage
             
 

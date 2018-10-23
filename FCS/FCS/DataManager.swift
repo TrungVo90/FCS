@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 import MobileCoreServices
 
-let HOST: String = "http://35.225.247.85/"
-let DOMAIN: String = "product/fcsapp/demo/fcsapp/api/web/index.php/"
+let HOST: String = "http://35.240.254.124/"
+let DOMAIN: String = "product/fcsapp/api/web/index.php/"
 
 enum BackendError: Error {
     case urlError(reason: String)
@@ -239,6 +239,7 @@ class Categories: NSObject, NSCoding {
 }
 
 class Questions: NSObject, NSCoding {
+    var currentIdx: Int64 = 0
     var company_id: Int64 = 0
     var checklist_id: Int64 = 0
     var category_id: Int64 = 0
@@ -712,34 +713,6 @@ open class DataManager: NSObject, Codable {
         task.resume()
     }
     
-    func createBodyWithParameters(parameters: [String: Any]?, filePathKey: String?, imageDataKey: NSData, boundary: String) -> NSData {
-        let body = NSMutableData();
-        
-        if parameters != nil {
-            for (key, value) in parameters! {
-                body.appendString("--\(boundary)\r\n")
-                body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
-                body.appendString("\(value)\r\n")
-            }
-        }
-        
-        let filename = "user-profile.jpg"
-        let mimetype = "image/jpg"
-        
-        body.appendString("--\(boundary)\r\n")
-        body.appendString("Content-Disposition: form-data; name=\"\(filePathKey!)\"; filename=\"\(filename)\"\r\n")
-        body.appendString("Content-Type: \(mimetype)\r\n\r\n")
-
-        body.append(imageDataKey as Data)
-        body.appendString("\r\n")
-        
-        
-        
-        body.appendString("--\(boundary)--\r\n")
-        
-        return body
-    }
-    
     func createBody(parameters: [String: Any],
                     boundary: String,
                     data: Data,
@@ -759,22 +732,63 @@ open class DataManager: NSObject, Codable {
         
         let filename2 = "hello2.png"
         
-        for q in doneChecklist.doneQuestions {
-            let nameFile = "file_" + String(q.question_id)
-            if q.numberOfCapturedImg > 0 {
-                var idx = 0
-                while idx < q.numberOfCapturedImg {
-                    let contentString = "Content-Disposition: form-data; name=\"" + nameFile + "\"; filename=\"\(filename2)\"\r\n"
-                    body.appendString(contentString)
-                    body.appendString("Content-Type: \(mimeType)\r\n\r\n")
-                    let data = UIImageJPEGRepresentation(q.imgCaptured[idx], 0.9)!
-                    body.append(data)
-                    body.appendString("\r\n")
-                    idx = idx + 1
-                }
-            }
-        }
-        body.appendString("--".appending(boundary.appending("--")))
+//        for q in doneChecklist.doneQuestions {
+//            let nameFile = "file_" + String(q.question_id)
+//            if q.numberOfCapturedImg > 0 {
+//                var idx = 0
+//                while idx < q.numberOfCapturedImg {
+//                    let data = UIImageJPEGRepresentation(q.imgCaptured[idx % 3], 0.9)!
+//
+//                    body.appendString("--".appending(boundary.appending("\r\n")))
+//
+//                    let contentString = "Content-Disposition: form-data; name=\"" + nameFile + "\"; filename=\"\(filename2)\"\r\n"
+//                    body.appendString(contentString)
+//                    body.appendString("Content-Type: \(mimeType)\r\n\r\n")
+//                    body.append(data)
+//                    body.appendString("\r\n")
+//
+//                    idx = idx + 1
+//                }
+//            }
+//        }
+
+        var nameFile = "file_" + String(doneChecklist.doneQuestions[9].question_id)
+        var img = doneChecklist.doneQuestions[9].imgCaptured[0 % 3]
+        
+        let imgData = UIImageJPEGRepresentation(UIImage(named: "icon_changeLanguage")!, 0.8)!
+        
+        var data = UIImageJPEGRepresentation(img, 0.9)!
+//        body.appendString("--".appending(boundary.appending("\r\n")))
+//        var contentString = "Content-Disposition: form-data; name=\"" + nameFile + "\"; filename=\"\(filename2)\"\r\n"
+//        body.appendString(contentString)
+//        body.appendString("Content-Type: \(mimeType)\r\n\r\n")
+//        body.append(data)
+//        body.appendString("\r\n")
+        
+        body.appendString("--\(boundary)\r\n")
+        body.appendString("Content-Disposition: form-data; name=\"\(nameFile)\"; filename=\"\(filename2)\"\r\n")
+        body.appendString("Content-Type: \(mimeType)\r\n\r\n")
+        body.append(imgData)
+        body.appendString("\r\n")
+        
+        
+        nameFile = "file_" + String(doneChecklist.doneQuestions[10].question_id)
+        var img2 = doneChecklist.doneQuestions[10].imgCaptured[0 % 3]
+        var data2 = UIImageJPEGRepresentation(img2, 0.9)!
+//        body.appendString("--".appending(boundary.appending("\r\n")))
+//        contentString = "Content-Disposition: form-data; name=\"" + nameFile + "\"; filename=\"\(filename2)\"\r\n"
+//        body.appendString(contentString)
+//        body.appendString("Content-Type: \(mimeType)\r\n\r\n")
+//        body.append(data)
+//        body.appendString("\r\n")
+        
+        body.appendString("--\(boundary)\r\n")
+        body.appendString("Content-Disposition: form-data; name=\"\(nameFile)\"; filename=\"\(filename2)\"\r\n")
+        body.appendString("Content-Type: \(mimeType)\r\n\r\n")
+        body.append(data2)
+        body.appendString("\r\n")
+        
+        body.appendString("--".appending(boundary.appending("--\r\n")))
         
         return body as Data
     }

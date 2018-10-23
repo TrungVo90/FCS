@@ -356,6 +356,9 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     var totalQuestions: [Questions] = [Questions]()
     
+    var appearedQuestionIds: [Int64] = [Int64]()
+    var countOfQuestion: Int = 0
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row >= questions.count {
             return 0
@@ -381,12 +384,21 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         filterListOfCompanyQuestionIds(companyId: companyId, categoryId: Int64(self.categories[section].id))
         self.questions = filterQuestions()
         for q in self.questions {
-            if !totalQuestions.contains(q) {
+            if !checkQuestionIsExist(q: q, questions: totalQuestions) {
                 totalQuestions.append(q)
                 doneQuestions.append(q)
             }
         }
         return self.questions.count
+    }
+    
+    func checkQuestionIsExist(q: Questions, questions: [Questions]) -> Bool {
+        for question in questions {
+            if question.question_id == q.question_id {
+                return true
+            }
+        }
+        return false
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -395,9 +407,9 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if !doneQuestions.contains(questions[indexPath.row]) {
-            doneQuestions.append(questions[indexPath.row])
-        }
+//        if !doneQuestions.contains(questions[indexPath.row]) {
+//            doneQuestions.append(questions[indexPath.row])
+//        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -412,13 +424,16 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         questions[indexPath.row].heightOfQuestion = heightOfQuestion
         
         let question = questions[indexPath.row]
+
+        setIdxForQuestion(question: question)
+        
         if defaultLanguage == 0 {
             cell.questionTextView.text = question.title_vn
         } else {
             cell.questionTextView.text = question.title_en
         }
         
-        cell.questionIdxLabel.text =  String(indexPath.row + 1)
+        cell.questionIdxLabel.text = String(question.currentIdx + 1) //String(indexPath.row + 1)
         
         cell.heightOfReviewLabel = question.heightOfComment
         cell.heightOfQuestionLabel = question.heightOfQuestion
@@ -525,6 +540,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         if let unarchivedObject = UserDefaults.standard.object(forKey: "questions") as? Data {
             let questions = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [Questions])!
             self.originalQuestions = questions
+//            self.doneQuestions = questions
         }
         
         setupView()
@@ -560,6 +576,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         return label.frame.height + 10
     }
     
+    var currentIdx: Int64 = 0
+    
     private func filterListOfCompanyQuestionIds(companyId: Int64, categoryId: Int64) {
         self.listOfQuestionIds = [Int64]()
         for q in self.companyQuestions {
@@ -582,6 +600,19 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             }
         
         return result
+    }
+    
+    func setIdxForQuestion(question: Questions) {
+        
+        for q in self.questions {
+            if q.question_id == question.question_id && question.currentIdx == 0 {
+                question.currentIdx = currentIdx
+                currentIdx = currentIdx + 1
+            }
+        
+        }
+        
+        
     }
     
     fileprivate var _isStatusBarHidden = false
