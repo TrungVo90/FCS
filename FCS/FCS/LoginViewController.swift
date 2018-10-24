@@ -58,9 +58,9 @@ class LoginViewController: UIViewController {
                 return
             }
             if let dic: [String: Any] = data {
-                self.fetchAllData({
-                    let accessToken: String = dic[ACCESS_TOKEN_KEY] as! String
-                    self.saveLoginDate(accessToken, completionHandler: {
+                let accessToken: String = dic[ACCESS_TOKEN_KEY] as! String
+                self.saveLoginDate(accessToken, completionHandler: {
+                    self.fetchAllData({
                         DispatchQueue.main.async {
                             print("navigation to company view controller")
                             self.navigationToOtherView()
