@@ -394,6 +394,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         for q in self.questions {
             if !checkQuestionIsExist(q: q, questions: totalQuestions) {
                 doneQuestions.append(q)
+                totalQuestions.append(q)
             }
         }
 
