@@ -430,9 +430,9 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         let heightOfQuestion = calculateHeightOfQuestion(question: questions[indexPath.row], width: tableView.frame.width - 10)
         questions[indexPath.row].heightOfQuestion = heightOfQuestion
         
-        let question = questions[indexPath.row]
+        var question = questions[indexPath.row]
 
-        setIdxForQuestion(question: question)
+        question = setIdxForQuestion(question: question)
         
         if defaultLanguage == 0 {
             cell.questionTextView.text = question.title_vn
@@ -440,7 +440,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             cell.questionTextView.text = question.title_en
         }
         
-        cell.questionIdxLabel.text = String(question.currentIdx + 1) //String(indexPath.row + 1)
+        cell.questionIdxLabel.text = String(question.currentIdx) //String(indexPath.row + 1)
         
         cell.heightOfReviewLabel = question.heightOfComment
         cell.heightOfQuestionLabel = question.heightOfQuestion
@@ -609,17 +609,24 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         return result
     }
     
-    func setIdxForQuestion(question: Questions) {
+    func setIdxForQuestion(question: Questions) -> Questions{
         
-        for q in self.questions {
-            if q.question_id == question.question_id && question.currentIdx == 0 {
-                question.currentIdx = currentIdx
-                currentIdx = currentIdx + 1
+        var idx = 0
+        for q in self.originalQuestions {
+            if q.question_id == question.question_id {
+                break
             }
-        
+            idx += 1
         }
         
+        for q in self.questions {
+            if q.question_id == self.originalQuestions[idx].question_id && self.originalQuestions[idx].currentIdx == 0 {
+                self.originalQuestions[idx].currentIdx = currentIdx + 1
+                currentIdx = currentIdx + 1
+            }
+        }
         
+        return self.originalQuestions[idx]
     }
     
     fileprivate var _isStatusBarHidden = false
