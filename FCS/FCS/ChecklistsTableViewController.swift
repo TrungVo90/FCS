@@ -245,7 +245,7 @@ class NewChecklistTableViewCell: UITableViewCell {
             make.leading.equalToSuperview().offset(50)
             make.width.equalTo(45)
             make.height.equalTo(45)
-            make.top.equalTo(self.firstChoiceButton.snp.bottom).offset(10)
+            make.top.equalTo(self.firstChoiceButton.snp.bottom).offset(12)
         }
         
         self.imageButton.snp.remakeConstraints { (make) in
@@ -287,8 +287,22 @@ class NewChecklistTableViewCell: UITableViewCell {
         self.reviewTextView.snp.remakeConstraints { (make) in
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalToSuperview().offset(-10)
-            make.top.equalTo(self.imageButton.snp.bottom).offset(5)
+            make.top.equalTo(self.firstChoiceButton.snp.bottom).offset(2)
             make.height.equalTo(self.heightOfReviewLabel)
+        }
+        
+        self.reviewButton.snp.remakeConstraints { (make) in
+            make.leading.equalToSuperview().offset(50)
+            make.width.equalTo(45)
+            make.height.equalTo(45)
+            make.top.equalTo(self.reviewTextView.snp.bottom).offset(10)
+        }
+        
+        self.imageButton.snp.remakeConstraints { (make) in
+            make.leading.equalTo(reviewButton.snp.trailing).offset(10)
+            make.top.equalTo(self.reviewTextView.snp.bottom).offset(6)
+            make.height.equalTo(45)
+            make.width.equalTo(45)
         }
     }
     
@@ -299,20 +313,14 @@ class NewChecklistTableViewCell: UITableViewCell {
             make.top.equalToSuperview().offset(5)
             make.height.equalTo(self.heightOfQuestionLabel)
         }
-    
-        
-        let size = 20.0
-        self.questionIdxLabel.bounds = CGRect.init(x: 0, y: 0, width: size, height: size)
-        self.questionIdxLabel.layer.cornerRadius = CGFloat(size / 2)
-        self.questionIdxLabel.layer.borderWidth = 1.0
-        self.questionIdxLabel.layer.backgroundColor = UIColor.clear.cgColor
-        self.questionIdxLabel.layer.borderColor = UIColor.black.cgColor
     }
     
 }
 
 
 class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    var totalRowInTableView: Int = 0;
     
     var backButton: UIButton = UIButton()
     
@@ -385,10 +393,10 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.questions = filterQuestions()
         for q in self.questions {
             if !checkQuestionIsExist(q: q, questions: totalQuestions) {
-                totalQuestions.append(q)
                 doneQuestions.append(q)
             }
         }
+
         return self.questions.count
     }
     
@@ -413,7 +421,6 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewChecklistTableViewCell", for: indexPath)
             as! NewChecklistTableViewCell
 
@@ -666,11 +673,12 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         self.titleLabel.text = "Check List"
         self.titleLabel.textAlignment = .center
         
-        self.commonCommentLabel.font = UIFont(name: "Georgia-Bold", size: 12)
+        self.commonCommentLabel.font = UIFont(name: "Georgia-Bold", size: 10)
         self.commonCommentLabel.text = "Comment"
-        self.commonCommentTextView.font = UIFont(name: "Georgia-Bold", size: 12)
+        self.commonCommentTextView.font = UIFont(name: "Georgia-Bold", size: 10)
         
         self.commonCommentTextView.backgroundColor = .lightGray
+        self.commonCommentTextView.alpha = 0.6
         self.commonCommentLabel.backgroundColor = .clear
         
         self.commonCommentTextView.delegate = self
@@ -720,7 +728,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             make.leading.equalToSuperview().offset(10)
             make.centerY.equalTo(self.commonCommentTextView)
             make.height.equalTo(15)
-            make.width.equalTo(100)
+            make.width.equalTo(80)
         }
         
         self.commonCommentTextView.snp.remakeConstraints { (make) in

@@ -136,7 +136,6 @@ class StoreListViewController: UIViewController, UITableViewDelegate, UITableVie
         
         cell.branchId = branch.id
         cell.storeNameLabel.text = branch.name
-//        cell.storeDescription.text = "Address: " + branch.address + " - Phone: " + branch.phone + "\n Email: " + branch.email
         return cell
     }
     
