@@ -317,7 +317,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         
         label.sizeToFit()
         
-        return label.frame.height + 20
+        return label.frame.height + 10
     }
     
     private func filterListOfCompanyQuestionIds(companyId: Int64, categoryId: Int64) {
@@ -354,12 +354,12 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         
         if questions[indexPath.row].review == "" {
             if questions[indexPath.row].numberOfCapturedImg == 0 {
-                return heightOfQuestion + 20
+                return heightOfQuestion + 10
             }
             return heightOfQuestion + 100
         } else {
             if questions[indexPath.row].numberOfCapturedImg == 0 {
-                return heightOfQuestion + questions[indexPath.row].heightOfComment + 20
+                return heightOfQuestion + questions[indexPath.row].heightOfComment + 10
             }
             return heightOfQuestion + questions[indexPath.row].heightOfComment + 120
         }
@@ -503,15 +503,22 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
        
         var finishScore: Int = 0;
         
+        
+        var actualDoneQuestions = 0
         for q in self.doneQuestions {
            finishScore +=  q.questionChoice
+            if q.questionChoice != 0 {
+                actualDoneQuestions += 1
+            }
         }
         self.finishedPercentValue.text = finishScore.description
 
-        self.actualPercentValue.text = (self.totalQuestions.count * 3).description
-    
-        let percent = CGFloat(finishScore)/CGFloat((self.totalQuestions.count * 3))
-    
+        self.actualPercentValue.text = (actualDoneQuestions * 3).description
+        var percent :CGFloat = 0.0
+        if actualDoneQuestions != 0 {
+            percent = CGFloat(finishScore)/CGFloat((actualDoneQuestions * 3))
+        }
+        
         self.percentValue.text = (Int(100 * percent)).description + "%"
         
         setUpColorPercent(Int(100.0 * (percent)))

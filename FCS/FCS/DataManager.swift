@@ -757,7 +757,7 @@ open class DataManager: NSObject, Codable {
         
         let imgData = UIImageJPEGRepresentation(UIImage(named: "icon_changeLanguage")!, 0.8)!
         
-        var data = UIImageJPEGRepresentation(img, 0.9)!
+        
 //        body.appendString("--".appending(boundary.appending("\r\n")))
 //        var contentString = "Content-Disposition: form-data; name=\"" + nameFile + "\"; filename=\"\(filename2)\"\r\n"
 //        body.appendString(contentString)
@@ -773,8 +773,8 @@ open class DataManager: NSObject, Codable {
         
         
         nameFile = "file_" + String(doneChecklist.doneQuestions[10].question_id)
-        var img2 = doneChecklist.doneQuestions[10].imgCaptured[0 % 3]
-        var data2 = UIImageJPEGRepresentation(img2, 0.9)!
+        var data2 = UIImageJPEGRepresentation(UIImage(named: "ic_user")!, 0.8)!
+        
 //        body.appendString("--".appending(boundary.appending("\r\n")))
 //        contentString = "Content-Disposition: form-data; name=\"" + nameFile + "\"; filename=\"\(filename2)\"\r\n"
 //        body.appendString(contentString)
