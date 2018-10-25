@@ -1059,7 +1059,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="G3W-JU-ZkZ">
-                                                    <rect key="frame" x="22" y="59.666666666666657" width="51" height="50"/>
+                                                    <rect key="frame" x="22" y="46.666666666666629" width="51" height="50"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_avatar" translatesAutoresizingMaskIntoConstraints="NO" id="19e-5k-f26">
                                                             <rect key="frame" x="0.0" y="0.0" width="51" height="50"/>
@@ -1071,8 +1071,9 @@
                                                     </subviews>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" misplaced="YES" text="HighLand" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Br5-vA-xul">
-                                                    <rect key="frame" x="97" y="59" width="273" height="33"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <rect key="frame" x="97" y="46" width="263" height="33"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <fontDescription key="fontDescription" name="Georgia-Bold" family="Georgia" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -1084,29 +1085,41 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="st8-Rx-4kW">
-                                                    <rect key="frame" x="97" y="100" width="263" height="50"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <rect key="frame" x="97" y="93" width="263" height="29"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <fontDescription key="fontDescription" name="Georgia" family="Georgia" pointSize="14"/>
                                                     <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" misplaced="YES" text="sdfsdfsd" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4no-7u-rd4">
+                                                    <rect key="frame" x="97" y="130" width="263" height="29"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <fontDescription key="fontDescription" name="Georgia" family="Georgia" pointSize="14"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Br5-vA-xul" firstAttribute="top" secondItem="19e-5k-f26" secondAttribute="top" id="0GJ-I6-4eJ"/>
                                                 <constraint firstItem="G3W-JU-ZkZ" firstAttribute="leading" secondItem="oKb-xI-8G1" secondAttribute="leading" constant="22" id="2ja-ZJ-fJJ"/>
-                                                <constraint firstItem="G3W-JU-ZkZ" firstAttribute="centerY" secondItem="oKb-xI-8G1" secondAttribute="centerY" id="7bm-CW-MJd"/>
-                                                <constraint firstItem="st8-Rx-4kW" firstAttribute="top" secondItem="Br5-vA-xul" secondAttribute="bottom" constant="8" id="8G1-RC-4o2"/>
+                                                <constraint firstItem="G3W-JU-ZkZ" firstAttribute="centerY" secondItem="oKb-xI-8G1" secondAttribute="centerY" constant="-12.833333333333371" id="7bm-CW-MJd"/>
+                                                <constraint firstItem="st8-Rx-4kW" firstAttribute="top" secondItem="Br5-vA-xul" secondAttribute="bottom" constant="14" id="8G1-RC-4o2"/>
                                                 <constraint firstItem="Br5-vA-xul" firstAttribute="leading" secondItem="G3W-JU-ZkZ" secondAttribute="trailing" constant="24" id="C1m-UE-2fk"/>
-                                                <constraint firstAttribute="trailing" secondItem="Br5-vA-xul" secondAttribute="trailing" constant="5" id="Lwi-TC-oA7"/>
-                                                <constraint firstItem="OVL-eo-ssR" firstAttribute="top" secondItem="st8-Rx-4kW" secondAttribute="bottom" constant="18" id="STu-bs-f5Z"/>
+                                                <constraint firstAttribute="trailing" secondItem="Br5-vA-xul" secondAttribute="trailing" constant="15" id="Lwi-TC-oA7"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="OVL-eo-ssR" secondAttribute="trailing" constant="-45" id="UDq-XS-PbH"/>
                                                 <constraint firstItem="OVL-eo-ssR" firstAttribute="leading" secondItem="oKb-xI-8G1" secondAttribute="leading" id="XKQ-wX-Lfb"/>
+                                                <constraint firstItem="4no-7u-rd4" firstAttribute="trailing" secondItem="Br5-vA-xul" secondAttribute="trailing" id="XYL-Q5-rtx"/>
                                                 <constraint firstAttribute="bottom" secondItem="OVL-eo-ssR" secondAttribute="bottom" id="dfj-jq-kuR"/>
+                                                <constraint firstItem="4no-7u-rd4" firstAttribute="top" secondItem="st8-Rx-4kW" secondAttribute="bottom" constant="8" id="g0O-50-cgN"/>
+                                                <constraint firstItem="4no-7u-rd4" firstAttribute="leading" secondItem="Br5-vA-xul" secondAttribute="leading" id="gsw-SG-mdN"/>
                                                 <constraint firstItem="st8-Rx-4kW" firstAttribute="leading" secondItem="Br5-vA-xul" secondAttribute="leading" id="lXY-S8-kzZ"/>
-                                                <constraint firstItem="st8-Rx-4kW" firstAttribute="trailing" secondItem="Br5-vA-xul" secondAttribute="trailing" constant="-10" id="nat-hH-YKO"/>
+                                                <constraint firstItem="st8-Rx-4kW" firstAttribute="trailing" secondItem="Br5-vA-xul" secondAttribute="trailing" id="nat-hH-YKO"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="storeDescription" destination="st8-Rx-4kW" id="2Qr-GM-Q5G"/>
+                                            <outlet property="storeDescrition2" destination="4no-7u-rd4" id="YGP-pQ-xaK"/>
                                             <outlet property="storeImg" destination="19e-5k-f26" id="TXH-fk-aid"/>
                                             <outlet property="storeName" destination="Br5-vA-xul" id="2Gf-Pz-1R2"/>
                                         </connections>

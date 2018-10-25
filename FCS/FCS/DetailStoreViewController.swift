@@ -15,6 +15,7 @@ class DetailStoreTableViewCell: UITableViewCell {
     @IBOutlet weak var storeImg: UIImageView!
     @IBOutlet weak var storeName: UILabel!
     @IBOutlet weak var storeDescription: UILabel!
+    @IBOutlet weak var storeDescrition2: UILabel!
     
     override func awakeFromNib() {
         storeImg.layer.borderWidth = 1
@@ -50,9 +51,11 @@ class DetailStoreViewController: UIViewController, UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DetailStoreTableViewCell.CELL_IDENTIFIER, for: indexPath)
             as! DetailStoreTableViewCell
+        
         cell.selectionStyle = .none
         cell.storeName.text = branch.name
-        cell.storeDescription.text = "Address: " + branch.address + " - Phone: " + branch.phone + "\n Email: " + branch.email
+        cell.storeDescription.text = "Address: " + branch.address
+        cell.storeDescrition2.text = "Phone: " + branch.phone + " " + "- Email: " +  branch.email
 
         return cell
     }

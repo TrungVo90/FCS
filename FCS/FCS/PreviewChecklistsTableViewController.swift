@@ -43,6 +43,7 @@ class PreviewCheckListTableViewCell: UITableViewCell {
         
         self.containerView.addSubview(self.scrollView)
         
+        self.scrollView.isScrollEnabled = false
         self.scrollView.addSubview(self._contentView)
         self._contentView.addSubview(self.questionTextView)
         self._contentView.addSubview(self.choiceLabel)
