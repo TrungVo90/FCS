@@ -316,8 +316,10 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         label.font = UIFont(name:"Georgia", size: 15.0)
         
         label.sizeToFit()
-        
-        return label.frame.height + 10
+        if question.questionChoice > 0 {
+            return label.frame.height + 10
+        }
+        return 0
     }
     
     private func filterListOfCompanyQuestionIds(companyId: Int64, categoryId: Int64) {
@@ -352,17 +354,20 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         }
         questions[indexPath.row].heightOfQuestion = heightOfQuestion
         
-        if questions[indexPath.row].review == "" {
-            if questions[indexPath.row].numberOfCapturedImg == 0 {
-                return heightOfQuestion + 10
+        if questions[indexPath.row].questionChoice > 0 {
+            if questions[indexPath.row].review == "" {
+                if questions[indexPath.row].numberOfCapturedImg == 0 {
+                    return heightOfQuestion + 10
+                }
+                return heightOfQuestion + 100
+            } else {
+                if questions[indexPath.row].numberOfCapturedImg == 0 {
+                    return heightOfQuestion + questions[indexPath.row].heightOfComment + 10
+                }
+                return heightOfQuestion + questions[indexPath.row].heightOfComment + 120
             }
-            return heightOfQuestion + 100
-        } else {
-            if questions[indexPath.row].numberOfCapturedImg == 0 {
-                return heightOfQuestion + questions[indexPath.row].heightOfComment + 10
-            }
-            return heightOfQuestion + questions[indexPath.row].heightOfComment + 120
         }
+        return 0
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
