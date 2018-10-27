@@ -43,6 +43,8 @@ class NewChecklistTableViewCell: UITableViewCell {
     var heightOfReviewLabel: CGFloat = 0
     var heightOfQuestionLabel: CGFloat = 0
     
+    var question: Questions = Questions()
+    
     static var CELL_IDENTIFIER: String = "NewChecklistTableViewCell"
     
     @objc func imageButtonOnClick() {
@@ -378,9 +380,9 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         }
         questions[indexPath.row].heightOfQuestion = heightOfQuestion
         if questions[indexPath.row].review == "" {
-            return 120 + heightOfQuestion //230
+            return 120 + heightOfQuestion
         } else {
-            return 120 + questions[indexPath.row].heightOfComment + heightOfQuestion//240
+            return 120 + questions[indexPath.row].heightOfComment + heightOfQuestion
         }
     }
     
@@ -416,15 +418,13 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if !doneQuestions.contains(questions[indexPath.row]) {
-//            doneQuestions.append(questions[indexPath.row])
-//        }
+
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewChecklistTableViewCell", for: indexPath)
             as! NewChecklistTableViewCell
-
+        
         filterListOfCompanyQuestionIds(companyId: companyId, categoryId: Int64(self.categories[indexPath.section].id))
         self.questions = filterQuestions()
         
@@ -432,9 +432,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         questions[indexPath.row].heightOfQuestion = heightOfQuestion
         
         var question = questions[indexPath.row]
-
         question = setIdxForQuestion(question: question)
-        
+        cell.question = question
         if defaultLanguage == 0 {
             cell.questionTextView.text = question.title_vn
         } else {
@@ -454,29 +453,43 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             cell.setupLayoutForAddingComment()
         }
         
+        cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+        cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+        cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+        
+        
+        if cell.question.questionChoice == 1 {
+            cell.firstChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
+            cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+            cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+        } else if cell.question.questionChoice == 2 {
+            cell.secondChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
+            cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+            cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+        } else if cell.question.questionChoice == 3 {
+            cell.thirdChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
+            cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+            cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+        }
+        
         cell.fisrtChoiceButtonTapped = {
             cell.firstChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
             cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             
-            self.filterListOfCompanyQuestionIds(companyId: self.companyId, categoryId: Int64(self.categories[indexPath.section].id))
-            self.questions = self.filterQuestions()
-            
-            question.questionChoice = 1
-            self.replaceQuestionById(question: question)
-            
+            cell.question.questionChoice = 1
+            self.replaceQuestionById(question: cell.question)
+            self.checklistTableView.reloadData()
         }
         
         cell.secondChoiceButtonTapped = {
             cell.secondChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
             cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
-            
-            self.filterListOfCompanyQuestionIds(companyId: self.companyId, categoryId: Int64(self.categories[indexPath.section].id))
-            self.questions = self.filterQuestions()
-            
-            question.questionChoice = 2
-            self.replaceQuestionById(question: question)
+
+            cell.question.questionChoice = 2
+            self.replaceQuestionById(question: cell.question)
+            self.checklistTableView.reloadData()
         }
         
         cell.thirdChoiceButtonTapped = {
@@ -484,11 +497,9 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             
-            self.filterListOfCompanyQuestionIds(companyId: self.companyId, categoryId: Int64(self.categories[indexPath.section].id))
-            self.questions = self.filterQuestions()
-            
-            question.questionChoice = 3
-            self.replaceQuestionById(question: question)
+            cell.question.questionChoice = 3
+            self.replaceQuestionById(question: cell.question)
+            self.checklistTableView.reloadData()
         }
         
         cell.reviewButtonTapped = {
@@ -512,7 +523,6 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             self.present(vc, animated: true, completion: nil)
         }
 
-        
         cell.firstImageView.image = question.imgCaptured[0]
         cell.secondImageView.image = question.imgCaptured[1]
         cell.thirdImageView.image = question.imgCaptured[2]

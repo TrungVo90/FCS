@@ -20,6 +20,7 @@ class PreviewCheckListTableViewCell: UITableViewCell {
     var thirdImageView: UIImageView = UIImageView()
     
     var dashedLineView: UIView = UIView()
+    var questionIdxLabel: UILabel = UILabel()
     
     var heightOfReviewLabel: CGFloat = 0
     var heightOfQuestionLabel: CGFloat = 0
@@ -46,6 +47,7 @@ class PreviewCheckListTableViewCell: UITableViewCell {
         self.scrollView.isScrollEnabled = false
         self.scrollView.addSubview(self._contentView)
         self._contentView.addSubview(self.questionTextView)
+        self._contentView.addSubview(self.questionIdxLabel)
         self._contentView.addSubview(self.choiceLabel)
         
         self._contentView.addSubview(self.reviewTextView)
@@ -86,6 +88,9 @@ class PreviewCheckListTableViewCell: UITableViewCell {
         self.choiceLabel.layer.borderColor = UIColor.black.cgColor
         
         self.choiceLabel.textAlignment = .center
+        
+        self.questionIdxLabel.textAlignment = .center
+        self.questionIdxLabel.font = UIFont(name: "Georgia-Bold", size: 12)
     }
     
     func setupLayout() {
@@ -103,8 +108,15 @@ class PreviewCheckListTableViewCell: UITableViewCell {
             make.bottom.equalTo(self.firstImageView.snp.bottom)
         }
         
-        self.questionTextView.snp.remakeConstraints { (make) in
+        self.questionIdxLabel.snp.remakeConstraints { (make) in
             make.leading.equalToSuperview().offset(10)
+            make.width.equalTo(20)
+            make.centerY.equalTo(self.questionTextView)
+            make.height.equalTo(20)
+        }
+        
+        self.questionTextView.snp.remakeConstraints { (make) in
+            make.leading.equalToSuperview().offset(35)
             make.trailing.equalToSuperview().offset(-40)
             make.top.equalToSuperview().offset(5)
             make.height.equalTo(20)
@@ -147,7 +159,7 @@ class PreviewCheckListTableViewCell: UITableViewCell {
     
     func setupLayoutForAddingComment() {
         self.reviewTextView.snp.remakeConstraints { (make) in
-            make.leading.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().offset(35)
             make.trailing.equalToSuperview().offset(-10)
             make.top.equalTo(self.firstImageView.snp.bottom).offset(5)
             make.height.equalTo(self.heightOfReviewLabel)
@@ -165,7 +177,7 @@ class PreviewCheckListTableViewCell: UITableViewCell {
     
     func setupLayoutForQuestion() {
         self.questionTextView.snp.remakeConstraints { (make) in
-            make.leading.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().offset(35)
             make.trailing.equalToSuperview().offset(-40)
             make.top.equalToSuperview().offset(5)
             make.height.equalTo(self.heightOfQuestionLabel)
@@ -342,6 +354,29 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         return result
     }
     
+    var currentIdx : Int64 = 0
+    
+    func setIdxForQuestion(question: Questions) -> Questions{
+        
+        var idx = 0
+        for q in self.originalQuestions {
+            if q.question_id == question.question_id {
+                break
+            }
+            idx += 1
+        }
+        
+        for q in self.questions {
+            if q.question_id == self.originalQuestions[idx].question_id && self.originalQuestions[idx].currentIdxPreview == 0 && self.originalQuestions[idx].questionChoice > 0{
+                self.originalQuestions[idx].currentIdxPreview = currentIdx + 1
+                currentIdx = currentIdx + 1
+            }
+        }
+        
+        return self.originalQuestions[idx]
+    }
+    
+    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row >= questions.count {
@@ -350,7 +385,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         var heightOfQuestion: CGFloat = 0;
         
         if (indexPath.row < questions.count) {
-            heightOfQuestion = calculateHeightOfQuestion(question: questions[(indexPath.row)], width: tableView.frame.width - 10) + 5
+            heightOfQuestion = calculateHeightOfQuestion(question: questions[(indexPath.row)], width: tableView.frame.width - 55) + 5
         }
         questions[indexPath.row].heightOfQuestion = heightOfQuestion
         
@@ -395,12 +430,18 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         filterListOfCompanyQuestionIds(companyId: companyId, categoryId: Int64(self.categories[indexPath.section].id))
         self.questions = filterQuestions()
         
-        let question = self.questions[indexPath.row]
+        var question = questions[indexPath.row]
+        
+        question = setIdxForQuestion(question: question)
+        
         if defaultLanguage == 0 {
             cell.questionTextView.text = question.title_vn
         } else {
             cell.questionTextView.text = question.title_en
         }
+        
+        cell.questionIdxLabel.text = String(questions[indexPath.row].currentIdxPreview)
+        
         cell.heightOfReviewLabel = question.heightOfComment
         cell.heightOfQuestionLabel = question.heightOfQuestion
         cell.setupLayoutForQuestion()
@@ -422,6 +463,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         cell.firstImageView.isHidden = true
         cell.secondImageView.isHidden = true
         cell.thirdImageView.isHidden = true
+        
         if (question.numberOfCapturedImg > 0) {
             
             if (question.numberOfCapturedImg % 3 == 1) {

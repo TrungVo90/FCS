@@ -239,6 +239,7 @@ class Categories: NSObject, NSCoding {
 }
 
 class Questions: NSObject, NSCoding {
+    var currentIdxPreview: Int64 = 0
     var currentIdx: Int64 = 0
     var company_id: Int64 = 0
     var checklist_id: Int64 = 0
