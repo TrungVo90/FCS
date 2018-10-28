@@ -196,6 +196,7 @@ class Categories: NSObject, NSCoding {
     var status = 0
     var created_at: Date = Date()
     var updated_at: Date = Date()
+    var isQuestionChoosen: Bool = false
     
     override init() {
         self.id = 0
@@ -204,7 +205,7 @@ class Categories: NSObject, NSCoding {
         self.status = 0
         self.created_at = Date(timeIntervalSince1970: 0)
         self.updated_at = Date(timeIntervalSince1970: 0)
-        
+        self.isQuestionChoosen = false
     }
     
     init(id: Int64, checklist_id: Int64 = 0, name: String, status: Int = 0, created_at: Date = Date(timeIntervalSince1970: 0), updated_at: Date = Date(timeIntervalSince1970: 0)) {

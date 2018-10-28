@@ -4,12 +4,13 @@ import Foundation
 import SnapKit
 
 protocol ReviewViewProtocol {
-    func didTapDoneButton(question: Questions)
+    func didTapDoneButton(question: Questions, idxCategory: Int64)
 }
 
 class ReviewViewController: UIViewController {
     
     var idxCheckList: Int = 0
+    var idCategory: Int64 = 0
     var lastOffset: CGPoint!
     var keyboardHeight: CGFloat!
     
@@ -116,7 +117,7 @@ class ReviewViewController: UIViewController {
         self.question.heightOfComment = heightOfComment
         self.question.review = self.comment
         
-        self.delegate?.didTapDoneButton(question: self.question)
+        self.delegate?.didTapDoneButton(question: self.question, idxCategory: self.idCategory)
     }
     
     override func viewDidAppear(_ animated: Bool) {

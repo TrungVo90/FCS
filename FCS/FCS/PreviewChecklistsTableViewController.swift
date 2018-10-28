@@ -376,9 +376,24 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         return self.originalQuestions[idx]
     }
     
-    
+    func getIndexOfCategory(idCategory: Int64) -> Int {
+        var idx = 0
+        for c in self.categories {
+            if c.id == idCategory {
+                return idx
+            }
+            idx += 1
+        }
+        return -1
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        let idxCategory = getIndexOfCategory(idCategory: self.categories[indexPath.section].id)
+        if self.categories[idxCategory].isQuestionChoosen == false {
+            return 0
+        }
+        
         if indexPath.row >= questions.count {
             return 0
         }
@@ -416,6 +431,10 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let idxCategory = getIndexOfCategory(idCategory: self.categories[section].id)
+        if self.categories[idxCategory].isQuestionChoosen == false {
+            return ""
+        }
         return self.categories[section].name
     }
     

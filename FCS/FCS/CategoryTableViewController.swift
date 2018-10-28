@@ -141,8 +141,6 @@ class CategoryTableViewController: UIViewController, UITableViewDelegate, UITabl
             make.width.equalTo(44)
         }
         
-        
-        
         self.titleLabel.snp.remakeConstraints { (make) in
             make.center.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.4)
@@ -154,7 +152,6 @@ class CategoryTableViewController: UIViewController, UITableViewDelegate, UITabl
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview().offset(-10)
         }
-        
     }
     
     

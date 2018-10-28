@@ -44,6 +44,7 @@ class NewChecklistTableViewCell: UITableViewCell {
     var heightOfQuestionLabel: CGFloat = 0
     
     var question: Questions = Questions()
+    var categoryId: Int64 = 0
     
     static var CELL_IDENTIFIER: String = "NewChecklistTableViewCell"
     
@@ -421,6 +422,17 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
 
     }
     
+    func getIdxOfCategory(id: Int64) -> Int {
+        var idx = 0
+        for c in self.categories {
+            if c.id == id {
+                return idx
+            }
+            idx += 1
+        }
+        return -1
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewChecklistTableViewCell", for: indexPath)
             as! NewChecklistTableViewCell
@@ -456,12 +468,13 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
         cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
         cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
-        
+        cell.categoryId = self.categories[indexPath.section].id
         
         if cell.question.questionChoice == 1 {
             cell.firstChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
             cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
+            
         } else if cell.question.questionChoice == 2 {
             cell.secondChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
             cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
@@ -476,8 +489,9 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             cell.firstChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
             cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
-            
             cell.question.questionChoice = 1
+            let idx = self.getIdxOfCategory(id: cell.categoryId)
+            self.categories[idx].isQuestionChoosen = true
             self.replaceQuestionById(question: cell.question)
             self.checklistTableView.reloadData()
         }
@@ -486,8 +500,9 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             cell.secondChoiceButton.setImage(UIImage(named:"ic_check"), for: .normal)
             cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             cell.thirdChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
-
             cell.question.questionChoice = 2
+            let idx = self.getIdxOfCategory(id: cell.categoryId)
+            self.categories[idx].isQuestionChoosen = true
             self.replaceQuestionById(question: cell.question)
             self.checklistTableView.reloadData()
         }
@@ -498,6 +513,8 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
             
             cell.question.questionChoice = 3
+            let idx = self.getIdxOfCategory(id: cell.categoryId)
+            self.categories[idx].isQuestionChoosen = true
             self.replaceQuestionById(question: cell.question)
             self.checklistTableView.reloadData()
         }
@@ -506,6 +523,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             let vc = ReviewViewController()
             vc.question = question
             vc.idxCheckList = indexPath.row
+            vc.idCategory = Int64(indexPath.section)
             vc.comment = question.review
             vc.modalPresentationCapturesStatusBarAppearance = true
             vc.delegate = self
@@ -516,7 +534,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             let vc = ImageReviewViewController()
             vc.idxQuestion = question.question_id
             vc.idxCheckList = indexPath.row
-            vc.idxCategory = indexPath.section
+            vc.idCategory = Int64(indexPath.section)
             vc.modalPresentationCapturesStatusBarAppearance = true
             vc.question = question
             vc.delegate = self
@@ -800,6 +818,17 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
         let vc = storyboard.instantiateViewController(withIdentifier: "UserInfoViewController")
         self.present(vc, animated: true, completion: nil)
     }
+    
+    func getIndexOfCategory(idCategory: Int64) -> Int {
+        var idx = 0
+        for c in self.categories {
+            if c.id == idCategory {
+                return idx
+            }
+            idx += 1
+        }
+        return -1
+    }
 }
 
 extension ChecklistsTableViewController: UITextViewDelegate {
@@ -810,10 +839,12 @@ extension ChecklistsTableViewController: UITextViewDelegate {
 }
 
 extension ChecklistsTableViewController: ReviewViewProtocol {
-    func didTapDoneButton(question: Questions) {
-        
+    
+    
+    func didTapDoneButton(question: Questions, idxCategory: Int64) {
+        let idxCategory = getIndexOfCategory(idCategory: idxCategory)
+        self.categories[idxCategory].isQuestionChoosen = true
         replaceQuestionById(question: question)
-        
         self.checklistTableView.reloadData()
         
     }
@@ -841,10 +872,10 @@ extension ChecklistsTableViewController: ReviewViewProtocol {
 }
 
 extension ChecklistsTableViewController: ImageReviewViewProtocol {
-    
-    func didFinishChoosingImage(question: Questions) {
+    func didFinishChoosingImage(question: Questions, idxCategory: Int64) {
+        let idxCategory = getIndexOfCategory(idCategory: idxCategory)
+        self.categories[idxCategory].isQuestionChoosen = true
         replaceQuestionById(question: question)
-        
         self.checklistTableView.reloadData()
     }
 }
