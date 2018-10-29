@@ -102,11 +102,15 @@ class CompanyListViewController: UIViewController, UITableViewDelegate, UITableV
             let range = tmp.range(of: searchText, options: String.CompareOptions.caseInsensitive)
             return range?.isEmpty == false
         })
-        if(filtered.count == 0){
-            searchActive = false
-        } else {
-            searchActive = true
+
+        
+        searchActive = true
+        if filtered.count == 0 {
+            if searchText.isEmpty {
+                filtered = self._companies
+            }
         }
+        
         self.companyTableView.reloadData()
     }
     
