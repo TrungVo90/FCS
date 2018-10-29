@@ -35,6 +35,71 @@ struct QuestionData {
     var comment: String
 }
 
+class UserProfile: NSObject, NSCoding {
+    var id: Int64 = 0
+    var userName = ""
+    var name = ""
+    var email = ""
+    var auth_key = ""
+    var password_hash = ""
+    var password_reset_token = ""
+    var status: Int = 0
+    var created_at: Date = Date()
+    var updated_at: Date = Date()
+    
+    override init() {
+        self.id = 0
+        self.name = ""
+        self.email = ""
+        self.auth_key = ""
+        self.password_hash = ""
+        self.password_reset_token = ""
+        self.status = 0
+        self.created_at = Date(timeIntervalSince1970: 0)
+        self.updated_at = Date(timeIntervalSince1970: 0)
+    }
+    
+    init(id: Int64, name: String, email: String, auth_key: String, password_hash: String = "",
+         password_reset_token: String = "", status: Int = 0, created_at: Date = Date(timeIntervalSince1970: 0), updated_at: Date = Date(timeIntervalSince1970: 0)) {
+        self.id = id
+        self.name = name
+        self.email = email
+        self.auth_key = auth_key
+        self.password_hash = password_hash
+        self.password_reset_token = password_reset_token
+        self.status = status
+        self.created_at = created_at
+        self.updated_at = updated_at
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        let id = aDecoder.decodeInt64(forKey: "id")
+        let name = aDecoder.decodeObject(forKey: "name") as! String
+        let email = aDecoder.decodeObject(forKey: "email") as! String
+        let auth_key = aDecoder.decodeObject(forKey: "auth_key") as! String
+        let password_hash = aDecoder.decodeObject(forKey: "password_hash") as! String
+        let password_reset_token = aDecoder.decodeObject(forKey: "password_reset_token") as! String
+        let status = aDecoder.decodeInteger(forKey: "status")
+        let created_at = aDecoder.decodeObject(forKey: "created_at") as! Date
+        let updated_at = aDecoder.decodeObject(forKey: "updated_at") as! Date
+        self.init(id: id, name: name, email: email, auth_key: auth_key, password_hash: password_hash, password_reset_token: password_reset_token, status: status, created_at: created_at, updated_at: updated_at)
+    }
+    
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.id, forKey: "id")
+        aCoder.encode(self.name, forKey: "name")
+        aCoder.encode(self.email, forKey: "email")
+        aCoder.encode(self.auth_key, forKey: "auth_key")
+        aCoder.encode(self.password_hash, forKey: "password_hash")
+        aCoder.encode(self.password_reset_token, forKey: "password_reset_token")
+        aCoder.encode(self.status, forKey: "status")
+        aCoder.encode(self.created_at, forKey: "created_at")
+        aCoder.encode(self.updated_at, forKey: "updated_at")
+    }
+}
+
+
 class Companies:  NSObject, NSCoding {
     var id: Int64 = 0
     var name = ""
