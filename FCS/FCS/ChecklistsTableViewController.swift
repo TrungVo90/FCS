@@ -523,7 +523,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             let vc = ReviewViewController()
             vc.question = question
             vc.idxCheckList = indexPath.row
-            vc.idCategory = Int64(indexPath.section)
+            vc.idCategory = cell.categoryId
             vc.comment = question.review
             vc.modalPresentationCapturesStatusBarAppearance = true
             vc.delegate = self
@@ -534,7 +534,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             let vc = ImageReviewViewController()
             vc.idxQuestion = question.question_id
             vc.idxCheckList = indexPath.row
-            vc.idCategory = Int64(indexPath.section)
+            vc.idCategory = cell.categoryId
             vc.modalPresentationCapturesStatusBarAppearance = true
             vc.question = question
             vc.delegate = self

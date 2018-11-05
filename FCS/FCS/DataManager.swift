@@ -722,32 +722,28 @@ open class DataManager: NSObject, Codable {
         var parameters: [String: Any] = ["company_id": doneChecklist.company_id as NSNumber, "branch_id": doneChecklist.branch_id as NSNumber, "checklist_id": doneChecklist.checklist_id as NSNumber, "start_time": convertDateToString(date: doneChecklist.start_time) as NSString, "end_time":convertDateToString(date:doneChecklist.end_time) as NSString, "lang": doneChecklist.lang as NSString, "comment": doneChecklist.comment as NSString]
         
         for q in doneChecklist.doneQuestions {
-            //let questionData = QuestionData(answer: q.questionChoice, comment: q.review) // "answer":1,"comment":"noi dung tra loi"
-            let questionData: NSDictionary = ["answer": q.questionChoice as NSNumber, "comment":q.review as NSString]
-            let key = "item[" + String(q.question_id) + "]"
-            
-            //Do, try , catch
-            do {
-                //this is your json data as NSData that will be your payload for your REST HTTP call.
-                let JSONData: NSData = try JSONSerialization.data(withJSONObject: questionData, options: JSONSerialization.WritingOptions.prettyPrinted) as NSData
+            if q.questionChoice > 0 {
+                //let questionData = QuestionData(answer: q.questionChoice, comment: q.review) // "answer":1,"comment":"noi dung tra loi"
+                let questionData: NSDictionary = ["answer": q.questionChoice as NSNumber, "comment":q.review as NSString]
+                let key = "item[" + String(q.question_id) + "]"
                 
-                //This is unnecessary, but I'm echo-checking the data from the step above.  You don't need to do this in production.  Just to see the JSON in native format.
-                let JSONString = String(data: JSONData as Data, encoding: String.Encoding(rawValue: String.Encoding.utf8.rawValue))
-                
-                let theJSONText = NSString(data: JSONData as Data,
-                                           encoding: String.Encoding.ascii.rawValue)
-                print("JSON string = \(theJSONText!)")
-                
-                parameters.updateValue(theJSONText ?? "", forKey: key)
-                
-                
-                
-                //From here you should carry on with your task or assign JSONPayload to a varialble outside of this block
-            } catch {//catch errors thrown by the NSJSONSerialization.dataWithJSONObject func above.
-                let err = error as NSError
-                NSLog("\(err.localizedDescription)")
+                //Do, try , catch
+                do {
+                    //this is your json data as NSData that will be your payload for your REST HTTP call.
+                    let JSONData: NSData = try JSONSerialization.data(withJSONObject: questionData, options: JSONSerialization.WritingOptions.prettyPrinted) as NSData
+                    
+                    //This is unnecessary, but I'm echo-checking the data from the step above.  You don't need to do this in production.  Just to see the JSON in native format.
+                    let JSONString = String(data: JSONData as Data, encoding: String.Encoding(rawValue: String.Encoding.utf8.rawValue))
+                    
+                    let theJSONText = NSString(data: JSONData as Data,
+                                               encoding: String.Encoding.ascii.rawValue)
+
+                    parameters.updateValue(theJSONText ?? "", forKey: key)
+                } catch {//catch errors thrown by the NSJSONSerialization.dataWithJSONObject func above.
+                    let err = error as NSError
+                    NSLog("\(err.localizedDescription)")
+                }
             }
-            
         }
         do {
             let jsonParams = try JSONSerialization.data(withJSONObject: parameters, options: [])
@@ -795,65 +791,27 @@ open class DataManager: NSObject, Codable {
         }
         
         body.appendString(boundaryPrefix)
+        
+        for q in doneChecklist.doneQuestions {
+            let nameFile = "file_" + String(q.question_id)
+            if q.numberOfCapturedImg > 0 {
+                var idx = 0
+                while idx < q.numberOfCapturedImg {
+                    let filename2 = nameFile + ".jpeg"
+                    let data = UIImageJPEGRepresentation(q.imgCaptured[idx % 3], 0.9)!
 
-        
-        let filename2 = "hello2.png"
-        
-//        for q in doneChecklist.doneQuestions {
-//            let nameFile = "file_" + String(q.question_id)
-//            if q.numberOfCapturedImg > 0 {
-//                var idx = 0
-//                while idx < q.numberOfCapturedImg {
-//                    let data = UIImageJPEGRepresentation(q.imgCaptured[idx % 3], 0.9)!
-//
-//                    body.appendString("--".appending(boundary.appending("\r\n")))
-//
-//                    let contentString = "Content-Disposition: form-data; name=\"" + nameFile + "\"; filename=\"\(filename2)\"\r\n"
-//                    body.appendString(contentString)
-//                    body.appendString("Content-Type: \(mimeType)\r\n\r\n")
-//                    body.append(data)
-//                    body.appendString("\r\n")
-//
-//                    idx = idx + 1
-//                }
-//            }
-//        }
+                    body.appendString("--".appending(boundary.appending("\r\n")))
 
-        var nameFile = "file_" + String(doneChecklist.doneQuestions[9].question_id)
-        var img = doneChecklist.doneQuestions[9].imgCaptured[0 % 3]
-        
-        let imgData = UIImageJPEGRepresentation(UIImage(named: "icon_changeLanguage")!, 0.8)!
-        
-        
-//        body.appendString("--".appending(boundary.appending("\r\n")))
-//        var contentString = "Content-Disposition: form-data; name=\"" + nameFile + "\"; filename=\"\(filename2)\"\r\n"
-//        body.appendString(contentString)
-//        body.appendString("Content-Type: \(mimeType)\r\n\r\n")
-//        body.append(data)
-//        body.appendString("\r\n")
-        
-        body.appendString("--\(boundary)\r\n")
-        body.appendString("Content-Disposition: form-data; name=\"\(nameFile)\"; filename=\"\(filename2)\"\r\n")
-        body.appendString("Content-Type: \(mimeType)\r\n\r\n")
-        body.append(imgData)
-        body.appendString("\r\n")
-        
-        
-        nameFile = "file_" + String(doneChecklist.doneQuestions[10].question_id)
-        var data2 = UIImageJPEGRepresentation(UIImage(named: "ic_user")!, 0.8)!
-        
-//        body.appendString("--".appending(boundary.appending("\r\n")))
-//        contentString = "Content-Disposition: form-data; name=\"" + nameFile + "\"; filename=\"\(filename2)\"\r\n"
-//        body.appendString(contentString)
-//        body.appendString("Content-Type: \(mimeType)\r\n\r\n")
-//        body.append(data)
-//        body.appendString("\r\n")
-        
-        body.appendString("--\(boundary)\r\n")
-        body.appendString("Content-Disposition: form-data; name=\"\(nameFile)\"; filename=\"\(filename2)\"\r\n")
-        body.appendString("Content-Type: \(mimeType)\r\n\r\n")
-        body.append(data2)
-        body.appendString("\r\n")
+                    let contentString = "Content-Disposition: form-data; name=\"" + nameFile + "\"; filename=\"\(filename2)\"\r\n"
+                    body.appendString(contentString)
+                    body.appendString("Content-Type: \(mimeType)\r\n\r\n")
+                    body.append(data)
+                    body.appendString("\r\n")
+
+                    idx = idx + 1
+                }
+            }
+        }
         
         body.appendString("--".appending(boundary.appending("--\r\n")))
         
