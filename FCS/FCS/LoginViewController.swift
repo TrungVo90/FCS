@@ -106,6 +106,7 @@ class LoginViewController: UIViewController {
                 var categories = kUserDefault.array(forKey: "question_categories")
                 var companyQuestions = kUserDefault.array(forKey: "company_questions")
                 var checklists = kUserDefault.array(forKey: "checklist")
+                var userProfile = kUserDefault.object(forKey: "userProfile")
                 
                 questions = self.parseAllQuestions(listOfQuestion: data["questions"] as! [AnyObject])
                 companies = self.parseAllCompanies(listOfCompanies: data["companies"] as! [AnyObject])
@@ -113,6 +114,8 @@ class LoginViewController: UIViewController {
                 categories = self.parseAllCategories(listOfCategories: data["question_categories"] as! [AnyObject])
                 companyQuestions = self.parseAllCompanyQuestions(listOfCompanyQuestions: data["company_questions"] as! [AnyObject])
                 checklists = self.parseAllChecklist(checklists: data["checklist"] as! [AnyObject])
+                userProfile = self.parseUserProfile(userInfos: data["user"] as AnyObject)
+                
                 /// to do parse checklist to store data
                 
                 /// Store data
@@ -128,6 +131,9 @@ class LoginViewController: UIViewController {
                 kUserDefault.set(encodedData, forKey: "company_questions")
                 encodedData = NSKeyedArchiver.archivedData(withRootObject: checklists! as Array) as NSData
                 kUserDefault.set(encodedData, forKey: "checklist")
+                encodedData = NSKeyedArchiver.archivedData(withRootObject: userProfile! as!
+                    UserProfile) as NSData
+                kUserDefault.set(encodedData, forKey: "userProfile")
                 
                 kUserDefault.synchronize()
                 completionHandler()
@@ -329,6 +335,43 @@ class LoginViewController: UIViewController {
             listOfChecklists.append(checklist)
         }
         return listOfChecklists
+    }
+    
+    fileprivate func parseUserProfile(userInfos: AnyObject) -> UserProfile {
+    
+        let userProfile = UserProfile()
+        
+        userProfile.id = (userInfos["id"] as? Int64)!
+        userProfile.userName = (userInfos["username"] as? String)!
+        userProfile.name = (userInfos["name"] as? String)!
+        userProfile.email = (userInfos["email"] as? String)!
+        userProfile.auth_key = (userInfos["auth_key"] as? String)!
+        userProfile.status = (userInfos["status"] as? Int)!
+        userProfile.password_hash = (userInfos["password_hash"] as? String)!
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.locale = Locale.current
+        
+        dateFormatter.calendar = Calendar(identifier: .iso8601)
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        
+//        var date = dateFormatter.date(from: (userInfos["created_at"] as? Int))
+//        userProfile.created_at = date == nil ? Date(timeIntervalSince1970: 0) : Date(timeIntervalSinceReferenceDate: date)!
+//        
+//        date = dateFormatter.date(from: (userInfos["updated_at"] as? Int)!)!
+//        userProfile.updated_at = date == nil ? Date(timeIntervalSince1970: 0) : Date(timeIntervalSinceReferenceDate: date)!
+        
+        
+        guard
+            let passwordResetToken =  userInfos["password_reset_token"] as? String else {
+                return userProfile;
+        }
+        userProfile.password_reset_token = passwordResetToken
+        
+        return userProfile
     }
     
     private func navigationToOtherView() {

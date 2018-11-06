@@ -37,5 +37,18 @@ class UserInfoViewController: UIViewController {
         self.logOutBtn.layer.borderColor = UIColor.white.cgColor
         self.logOutBtn.layer.borderWidth = 2
         self.logOutBtn.layer.cornerRadius = 10
+        
+        var info: UserProfile
+        if let unarchivedObject = UserDefaults.standard.object(forKey: "userProfile") as? Data {
+            info = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? UserProfile)!
+            showUserInfo(infos: info)
+        }
+    }
+    
+    func showUserInfo(infos: UserProfile) {
+        self.userName.text = "Name: " + infos.name
+        self.email.text = "Email: " + infos.email
+        self.phoneNumber.isHidden = true
+        self.address.isHidden = true
     }
 }

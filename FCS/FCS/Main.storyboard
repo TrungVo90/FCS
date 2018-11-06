@@ -418,14 +418,14 @@
                                     <constraint firstAttribute="height" constant="1" id="EMi-bL-Cyp"/>
                                 </constraints>
                             </view>
-                            <view alpha="0.20000000000000001" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="TYN-h5-nZ0">
+                            <view hidden="YES" alpha="0.20000000000000001" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="TYN-h5-nZ0">
                                 <rect key="frame" x="101" y="268.66666666666669" width="253" height="1"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="jOw-UA-zF8"/>
                                 </constraints>
                             </view>
-                            <view alpha="0.20000000000000001" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="J94-U6-ykk">
+                            <view hidden="YES" alpha="0.20000000000000001" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="J94-U6-ykk">
                                 <rect key="frame" x="101" y="300.33333333333331" width="253" height="1"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -1059,7 +1059,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="G3W-JU-ZkZ">
-                                                    <rect key="frame" x="22" y="46.666666666666629" width="51" height="50"/>
+                                                    <rect key="frame" x="22" y="46.666666666666657" width="51" height="50"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_avatar" translatesAutoresizingMaskIntoConstraints="NO" id="19e-5k-f26">
                                                             <rect key="frame" x="0.0" y="0.0" width="51" height="50"/>
