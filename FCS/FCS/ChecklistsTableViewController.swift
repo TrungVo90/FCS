@@ -463,7 +463,16 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             cell.reviewTextView.setContentCompressionResistancePriority(UILayoutPriority.init(1000), for: UILayoutConstraintAxis.horizontal)
             cell.reviewTextView.setContentHuggingPriority(UILayoutPriority.init(1000), for: UILayoutConstraintAxis.horizontal)
             cell.setupLayoutForAddingComment()
+        } else {
+            cell.reviewTextView.text = ""
+            cell.reviewTextView.snp.remakeConstraints { (make) in
+                make.leading.equalToSuperview().offset(10)
+                make.trailing.equalToSuperview().offset(-10)
+                make.top.equalTo(cell.firstChoiceButton.snp.bottom).offset(2)
+                make.height.equalTo(0)
+            }
         }
+        
         
         cell.firstChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
         cell.secondChoiceButton.setImage(UIImage(named:"ic_circle"), for: .normal)
