@@ -846,9 +846,27 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
                 (result: String) in
                 if result == "OK" {
                     DispatchQueue.main.async {
-                    /// Turn off loading indicator
-                        self.pushingDataIndicator.stopAnimating()
-                        self.dismiss(animated: true, completion: nil)
+                        
+                        /// Show pop up or alert view to warn
+                        let alert = UIAlertController(title: "Success", message: "Complete survey successfully", preferredStyle: UIAlertControllerStyle.alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                            switch action.style{
+                            case .default:
+                                DispatchQueue.main.async {
+                                    /// Turn off loading indicator
+                                    self.pushingDataIndicator.stopAnimating()
+                                    
+                                    self.presentingViewController?.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
+                                }
+                                break
+                            case .cancel:
+                                /// Implement later
+                                break
+                            case .destructive:
+                                /// Implement later
+                                break
+                            }}))
+                        self.present(alert, animated: true, completion: nil)
                     }
                 } else {
                     /// Show pop up or alert view to warn
