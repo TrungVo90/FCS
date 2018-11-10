@@ -414,6 +414,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
         return self.categories[section].name
     }
     
@@ -570,12 +571,7 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let unarchivedObject = UserDefaults.standard.object(forKey: "question_categories") as? Data {
-            self.categories = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [Categories])!
-        }
-        
-        
+
         /// Load list of company question
         if let unarchivedObject = UserDefaults.standard.object(forKey: "company_questions") as? Data {
             self.companyQuestions = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [CompanyQuestions])!
@@ -586,6 +582,19 @@ class ChecklistsTableViewController: UIViewController, UITableViewDelegate, UITa
             let questions = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [Questions])!
             self.originalQuestions = questions
 //            self.doneQuestions = questions
+        }
+        
+        if let unarchivedObject = UserDefaults.standard.object(forKey: "question_categories") as? Data {
+            self.categories = (NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? [Categories])!
+            
+            var ct = [Categories]()
+            for c in self.categories {
+                filterListOfCompanyQuestionIds(companyId: self.companyId, categoryId: c.id)
+                if self.listOfQuestionIds.count > 0 {
+                    ct.append(c)
+                }
+            }
+            self.categories = ct
         }
         
         setupView()
