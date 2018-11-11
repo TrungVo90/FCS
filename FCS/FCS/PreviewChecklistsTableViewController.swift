@@ -539,6 +539,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
     
     
     let pushingDataIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+    let indicatorView: UIView = UIView()
     
     fileprivate var _isStatusBarHidden = false
     
@@ -556,6 +557,8 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         
         // If needed, prevent Indicator from hiding when stopAnimating() is called
         pushingDataIndicator.hidesWhenStopped = true
+        
+        self.indicatorView.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -588,6 +591,8 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         self.percentValue.text = (Int(100 * percent)).description + "%"
         
         setUpColorPercent(Int(100.0 * (percent)))
+        
+        self.indicatorView.isHidden = true
     }
     
     func setUpColorPercent(_ percent: Int) {
@@ -607,6 +612,8 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         self.view.addSubview(self.checklistTableView)
         self.view.addSubview(self.submitButton)
         self.view.addSubview(self.customView)
+        self.view.addSubview(self.indicatorView)
+        
         self.customView.addSubview(self.backButton)
         self.customView.backgroundColor = UIColor.init(red: 78/255, green: 181/255, blue: 251/255, alpha: 1.0)
         
@@ -644,6 +651,8 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         self.bottomMiddleHorizontalLine.backgroundColor = UIColor.black
 
         self.bottomHorizontalLine.backgroundColor = UIColor.black
+        
+        self.indicatorView.backgroundColor = UIColor.gray.withAlphaComponent(0.3)
 
         
         self.summarizationView.addSubview(self.finishedPercentLabel)
@@ -667,10 +676,13 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         
         self.view.addSubview(self.summarizationView)
         
-        self.view.addSubview(pushingDataIndicator)
+        self.view.addSubview(self.pushingDataIndicator)
     }
     
     func setupLayout() {
+        self.indicatorView.snp.remakeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
         self.customView.snp.remakeConstraints { (make) in
             make.top.equalToSuperview().offset(31)
             make.leading.equalToSuperview()
@@ -840,6 +852,9 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
         // Start Activity Indicator
         pushingDataIndicator.startAnimating()
         
+        pushingDataIndicator.activityIndicatorViewStyle = .gray
+        indicatorView.isHidden = false
+        
         if Reachability.isConnectedToNetwork() == true {
             
             DataManager.sharedInstance.pushData(doneChecklist: doneChecklist,  completionHandler: {
@@ -855,7 +870,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
                                 DispatchQueue.main.async {
                                     /// Turn off loading indicator
                                     self.pushingDataIndicator.stopAnimating()
-                                    
+                                    self.indicatorView.isHidden = true
                                     self.presentingViewController?.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
                                 }
                                 break
@@ -877,6 +892,7 @@ class PreviewChecklistsTableViewController: UIViewController, UITableViewDelegat
                             DispatchQueue.main.async {
                                 /// Turn off loading indicator
                                 self.pushingDataIndicator.stopAnimating()
+                                self.indicatorView.isHidden = true
                                 self.dismiss(animated: true, completion: nil)
                             }
                             break
