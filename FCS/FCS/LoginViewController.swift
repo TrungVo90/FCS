@@ -55,7 +55,29 @@ class LoginViewController: UIViewController {
             if let error = error {
                 print("error calling POST on /todos")
                 print(error)
-                return
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Error", message: "Failed to login.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                        switch action.style{
+                        case .default:
+                            DispatchQueue.main.async {
+                                /// Turn off loading indicator
+                                self.indicatorIcon.stopAnimating()
+                                self.indicatorIcon.isHidden = true
+                                self.indicatorView.isHidden = true
+                                self.dismiss(animated: true, completion: nil)
+                            }
+                            break
+                        case .cancel:
+                            /// Implement later
+                            break
+                        case .destructive:
+                            /// Implement later
+                            break
+                        }}))
+                    self.present(alert, animated: true, completion: nil)
+                }
+                
             }
             if let dic: [String: Any] = data {
                 let accessToken: String = dic[ACCESS_TOKEN_KEY] as! String
